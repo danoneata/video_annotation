@@ -12,6 +12,7 @@ from functools import wraps
 
 from flask import (
     Flask,
+    render_template,
     request,
     send_file,
     send_from_directory,
@@ -20,12 +21,12 @@ from flask import (
 
 app = Flask(__name__)
 config.fileConfig('logger.conf')
-logger = logging.getLogger('cnn-tagger')
+logger = logging.getLogger('video_annotation')
 
 
 @app.route('/', methods=['GET'])
 def home():
-    return send_from_directory('www', 'index.html')
+    return render_template('login.html')
 
 
 @app.route('/js/<path:path>')
