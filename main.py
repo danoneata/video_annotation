@@ -48,4 +48,4 @@ def _error_as_json(ex, status=500, trace=True):
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5152)
+    app.run('0.0.0.0', port=5152, debug=True)
