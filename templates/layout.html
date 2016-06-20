@@ -5,12 +5,29 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+        <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/app.css">
     </head>
     <body>
+        <div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category == 'message' %}
+                        <div class="alert alert-warning" role="alert">
+                        {% else %}
+                        <div class="alert alert-{{ category }}" role="alert">
+                        {% endif %}
+                        {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
         {% block body %}{% endblock %}
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> <!-- If you'd like to support IE8 -->
         <script src="/js/controllers.js"></script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
