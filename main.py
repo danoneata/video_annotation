@@ -15,6 +15,7 @@ from functools import wraps
 from flask import (
     Flask,
     flash,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -146,6 +147,23 @@ def logout():
 @login_required
 def profile():
     return render_template('profile.html')
+
+
+@app.route('/videos', methods=['GET'])
+@login_required
+def videos():
+    return jsonify([
+        {
+            'name': "Big Buck Bunny",
+            'source/mp4': "http://video.blendertestbuilds.de/download.blender.org/peach/trailer_480p.mov",
+            'source/webm': "http://video.webmfiles.org/big-buck-bunny_trailer.webm",
+        },
+        {
+            'name': "Oceans",
+            'source/mp4': "http://vjs.zencdn.net/v/oceans.mp4",
+            'source/webm': "http://vjs.zencdn.net/v/oceans.webm",
+        },
+    ])
 
 
 @app.route('/js/<path:path>')
