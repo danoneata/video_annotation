@@ -21,6 +21,6 @@ python main.py
 ## TODO
 
 - [x] List videos in index page
-- [ ] On click change video to be displayed
+- [x] On click change video to be displayed
 - [ ] List current annotations
 - [ ] Add new annotations
