@@ -152,20 +152,10 @@ def profile():
 @app.route('/videos', methods=['GET'])
 @login_required
 def videos():
-    return jsonify([
-        {
-            'name': "Big Buck Bunny",
-            'source/mp4': "http://video.blendertestbuilds.de/download.blender.org/peach/trailer_480p.mov",
-            'source/webm': "http://video.webmfiles.org/big-buck-bunny_trailer.webm",
-        },
-        {
-            'name': "Oceans",
-            'source/mp4': "http://vjs.zencdn.net/v/oceans.mp4",
-            'source/webm': "http://vjs.zencdn.net/v/oceans.webm",
-        },
-    ])
-
-
+   json_data = open("videos.json").read()
+   data = json.loads(json_data)
+   return jsonify(data)
+   
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('www/js', path)
