@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Big Buck Bunny",
+    "source/webm": "http://video.webmfiles.org/big-buck-bunny_trailer.webm",
+    "source/mp4": "http://video.blendertestbuilds.de/download.blender.org/peach/trailer_480p.mov"
+  },
+  {
+    "name": "Oceans",
+    "source/webm": "http://vjs.zencdn.net/v/oceans.webm",
+    "source/mp4": "http://vjs.zencdn.net/v/oceans.mp4"
+  }
+]
