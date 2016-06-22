@@ -51,4 +51,8 @@ $(document).ready(function() {
             },
         ]);
     });
+    
+    $('#add-ann').click( function(ev) {
+          alert("miss you")
+        });
 });
