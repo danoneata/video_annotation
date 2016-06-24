@@ -53,6 +53,25 @@ $(document).ready(function() {
     });
     
     $('#add-ann').click( function(ev) {
-          alert("miss you")
-        });
+       
+	 $.post("save_data", {start_value: document.getElementById("start").value})
+	 $.post("get_id", {selected_video: document.getElementById("select-video").value})
+	    
+	 jQuery('<div/>', {
+         id: 'annotation',
+         title: 'Annotation',
+	 class: 'ann-box'
+         }).appendTo('#annotations');
+	 jQuery("<div  >  <input type='radio' class = 'start_line' name = 'rb' id = 1 value = 'start'> Start <input class = 'start_line' type='text' name = 'text_start' id = t1 /> </div>").appendTo("#annotation"); 
+	 //jQuery("<input type='radio' name = 'rb' id = 1 value = 'start'> Start <br>").appendTo("#annotation"); 
+	 //jQuery("<input type='text' name = 'text_start' id = t1 />").appendTo("#annotation");
+	 jQuery("<div id = 'end_line'>  <input type='radio' name = 'rb' id = 2 value = 'end'> End &nbsp<input type='text' name = 'text_end' id = t2 /> </div>").appendTo("#annotation"); 
+	 //jQuery("<input type='radio' name = 'rb' id = 2 value = 'end'> End <br>").appendTo("#annotation");
+	 //jQuery("<input type='text' name = 'text_end' id = t2 />").appendTo("#annotation");
+	 jQuery("<input type='radio' name = 'rb' id = 3 value = 'free'> Free <br>").appendTo("#annotation");
+	 jQuery("<select> id = 's1' <option>word1</option> <option>word2</option> </select> <br>").appendTo("#annotation");
+	 jQuery("<textarea class='scrollabletextbox' name='note'>lala</textarea>").appendTo("#annotation");
+	 
+    });
+    
 });

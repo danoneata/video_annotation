@@ -165,6 +165,21 @@ def send_js(path):
 def send_css(path):
     return send_from_directory('www/css', path)
 
+@app.route('/save_data',  methods=['POST'])
+def save_data():
+   
+    f = open('test_write.txt', 'w+')
+    f.write(request.form["start_value"])
+    f.close()  
+    return 'OK'
+  
+@app.route('/get_id',  methods=['GET','POST'])
+def get_id():
+    #pdb.set_trace()  
+    #print current_user
+    #print request.form["selected_vaue"]
+    
+    return 'OK'
 
 def _error_as_json(ex, status=500, trace=True):
     logger.error(" -- Got exception in the tagger backend!")
