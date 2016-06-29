@@ -54,10 +54,30 @@ $(document).ready(function() {
     
     $('#add-ann').click( function(ev) {
        
-	 $.post("save_data", {start_value: document.getElementById("start").value})
-	 $.post("get_id", {selected_video: document.getElementById("select-video").value})
+	 //$.post("save_data", {start_value: document.getElementById("start").value})
+	 var x = document.getElementById("select_vocab");
+	 var selected_values = [];
+         for (var i = 0; i < x.options.length; i++) 
+	 {
+         if(x.options[i].selected == true)
+	   selected_values[i] = x.options[i].value
+	 }
+	 $.post("save_annotation",  {
+	                             selected_video: document.getElementById("select-video").value,
+	                             time_start: document.getElementById("t_start").value,
+	                             time_end: document.getElementById("t_end").value,
+		                     select_vocab: selected_values.join(" "),
+	                             description: document.getElementById("description").value
+	                            })
+	 //$.post("save_annotation", {})
+	 //$.post("save_annotation", {text_end: document.getElementById("t_end").value})
+	// $.post("save_annotation", {select_vocab: document.getElementById("select_vocab").value})
+	// $.post("save_annotation", {description: document.getElementById("description").value})
+	 
+	 
+	 
 	    
-	 jQuery('<div/>', {
+	 /*jQuery('<div/>', {
          id: 'annotation',
          title: 'Annotation',
 	 class: 'ann-box'
@@ -69,9 +89,10 @@ $(document).ready(function() {
 	 //jQuery("<input type='radio' name = 'rb' id = 2 value = 'end'> End <br>").appendTo("#annotation");
 	 //jQuery("<input type='text' name = 'text_end' id = t2 />").appendTo("#annotation");
 	 jQuery("<input type='radio' name = 'rb' id = 3 value = 'free'> Free <br>").appendTo("#annotation");
-	 jQuery("<select> id = 's1' <option>word1</option> <option>word2</option> </select> <br>").appendTo("#annotation");
+	 jQuery("<select multiple> id = 's1' <option>word1</option> <option>word2</option> </select> <br>").appendTo("#annotation");
+	 jQuery("<p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>").appendTo("#annotation");;
 	 jQuery("<textarea class='scrollabletextbox' name='note'>lala</textarea>").appendTo("#annotation");
-	 
+	 */
     });
     
 });
