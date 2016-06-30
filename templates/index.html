@@ -35,22 +35,39 @@
         </div>
          <div class="row">
             <div class="col-md-8">
-                <button type="button" id="add-ann"> Add Annotation
+                <button type="submit" id="add-ann"> Add Annotation
                 </button>
             </div>
         </div>
         
+       
         <div class="row">
-            <div class="col-md-8">
-                <input type="text" id="start"> Start time
-                </input>
+            <div class="ann-box" id = "annotations">
+               <div>  
+                 <input type = 'radio' class = 'start_line' name = 'rb' id = 'rb1' value = 'start'> 
+                 <label for = 'rb1'> Start</label>
+                 <input class = 'start_line' type ='text' name = 'text_start' id = 't_start' /> 
+               </div>
+               <div id = 'end_line'>  
+                 <input type ='radio' name = 'rb' id = 'rb2' value = 'end'> 
+                 <label for='rb2'>End &nbsp</label>
+                 <input class = 'end_line' type ='text' name = 'text_end' id = 't_end' /> 
+               </div>
+               <div id = 'free_line'>
+                  <input type='radio' name = 'rb' id = 'rb3' value = 'free'> 
+                  <label for='rb3'>Free</label>
+               </div>
+               <select multiple id = 'select_vocab' >
+                  <option>word1</option> 
+                  <option>word2</option> 
+               </select> 
+               <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+               <textarea class='scrollabletextbox' name='note' id = 'description' >lala</textarea>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8" id = "annotations">
-              
-            </div>
-        </div>
+        <div class='ann-box' id = 'annotation'>
+	 
+	 </div>
        
     </div>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

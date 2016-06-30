@@ -4,8 +4,11 @@ $(document).ready(function() {
 
     videojs("video-player").ready(function(){
       videoPlayer = this;
+     
     });
-
+    
+    
+      
     $.get("videos", function(data) {
 
         // Populate list of videos.
@@ -40,7 +43,8 @@ $(document).ready(function() {
 
         // When document ready show the first video in the list.
         datum = data.find(byName(data[0].name));
-        videoPlayer.src([
+	//videoPlayer = videojs("video-player")
+        videojs('#video-player').src([
             {
                 type: "video/mp4",
                 src: datum["source/mp4"],
@@ -50,11 +54,27 @@ $(document).ready(function() {
                 src: datum["source/webm"],
             },
         ]);
+	
+	  
+    });
+    
+    
+    
+    videojs('#video-player').on('timeupdate', function(ev){
+    var isPlaying =  !videojs("video-player").paused();
+     if (document.getElementById("rb1").checked == true){;
+	document.getElementById("t_start").value = videoPlayer.currentTime();
+      }
+      
+      if (document.getElementById("rb2").checked == true){;
+	document.getElementById("t_end").value = videoPlayer.currentTime();
+      }
     });
     
     $('#add-ann').click( function(ev) {
-       
-	 //$.post("save_data", {start_value: document.getElementById("start").value})
+          
+        
+	 //alert(videoPlayer.currentTime())
 	 var x = document.getElementById("select_vocab");
 	 var selected_values = [];
          for (var i = 0; i < x.options.length; i++) 
@@ -62,13 +82,24 @@ $(document).ready(function() {
          if(x.options[i].selected == true)
 	   selected_values[i] = x.options[i].value
 	 }
+	 //current_video = document.getElementById("select-video").value;
 	 $.post("save_annotation",  {
 	                             selected_video: document.getElementById("select-video").value,
 	                             time_start: document.getElementById("t_start").value,
 	                             time_end: document.getElementById("t_end").value,
 		                     select_vocab: selected_values.join(" "),
 	                             description: document.getElementById("description").value
-	                            })
+	                            });
+	 
+	  //document.getElementById("select-video").value = current_video;
+	document.getElementById("t_start").value = '';
+	document.getElementById("t_end").value = '';
+	document.getElementById("description").value = '';
+	for (var i = 0; i < x.options.length; i++) 
+	{
+        if(x.options[i].selected == true)
+	  document.getElementById("select_vocab").options[i].selected = false;
+	}
 	 //$.post("save_annotation", {})
 	 //$.post("save_annotation", {text_end: document.getElementById("t_end").value})
 	// $.post("save_annotation", {select_vocab: document.getElementById("select_vocab").value})

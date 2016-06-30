@@ -166,12 +166,7 @@ def send_js(path):
 def send_css(path):
     return send_from_directory('www/css', path)
 
-@app.route('/save_data',  methods=['POST'])
-def save_data():
-    f = open('test_write.txt', 'w+')
-    f.write(request.form["start_value"])
-    f.close()  
-    return 'OK'
+
   
 @app.route('/save_annotation',  methods=['GET','POST'])
 def save_annotation():
@@ -188,17 +183,17 @@ def save_annotation():
         
     
     
- # x['user'] = current_user.get_id();
-    #f for f in listdir(mypath)
+ 
     current_annotations = os.listdir(path_video)
-    current_annotations_ids = [];
+    current_annotations_ids = []; 
     #pdb.set_trace()
     if len(current_annotations)==0:
       current_ind = 1
     else:
+       
       for k  in range(0,len(current_annotations)):
         current_annotations[k] = int(current_annotations[k][0:-5])
-        current_ind = max(current_annotations)+1
+      current_ind = max(current_annotations)+1
     
     
     x = request.form.to_dict()
