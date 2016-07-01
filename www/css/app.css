@@ -40,3 +40,16 @@ body {
 .ann-box{
   background: #00FFFF
 }
+.ann-list{
+    position: absolute;
+    right: 0px;
+   
+}
+.ann-elem{
+
+    right: 0px;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+    clear:right;
+}

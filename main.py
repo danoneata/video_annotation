@@ -167,6 +167,9 @@ def send_css(path):
     return send_from_directory('www/css', path)
 
 
+@app.route('/VideoData/<path:path>')
+def send_data_videos(path):
+    return send_from_directory('VideoData', path)
   
 @app.route('/save_annotation',  methods=['GET','POST'])
 def save_annotation():
@@ -200,11 +203,11 @@ def save_annotation():
     z = {"email": current_user.email}
     f = open(path_video + "/" + str(current_ind).zfill(3)+'.json', 'w+')
     x.update(z);
-    json.dump(x,f,  indent=4)
+    json.dump(x,f,  indent = 4)
     f.close()
         
-   # with open(path_video + "/1.json", 'w+') as f:
-    # json.dump(x, f)
+    #if request.method == 'POST':
+     #request.form["ann_id"] = current_ind;
        
     return 'OK' 
 

@@ -43,6 +43,9 @@
        
         <div class="row">
             <div class="ann-box" id = "annotations">
+               <div>
+               <label id = "label_id">Annotation Number:</label>
+               </div>
                <div>  
                  <input type = 'radio' class = 'start_line' name = 'rb' id = 'rb1' value = 'start'> 
                  <label for = 'rb1'> Start</label>
@@ -54,7 +57,7 @@
                  <input class = 'end_line' type ='text' name = 'text_end' id = 't_end' /> 
                </div>
                <div id = 'free_line'>
-                  <input type='radio' name = 'rb' id = 'rb3' value = 'free'> 
+                  <input type='radio' name = 'rb' id = 'rb3' value = 'free' checked="checked"> 
                   <label for='rb3'>Free</label>
                </div>
                <select multiple id = 'select_vocab' >
@@ -62,11 +65,12 @@
                   <option>word2</option> 
                </select> 
                <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-               <textarea class='scrollabletextbox' name='note' id = 'description' >lala</textarea>
+               <textarea class='scrollabletextbox' name='note' id = 'description' ></textarea>
             </div>
         </div>
-        <div class='ann-box' id = 'annotation'>
+        <div class='ann-list' id = 'annotation_list'>
 	 
+     
 	 </div>
        
     </div>

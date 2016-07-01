@@ -2,11 +2,14 @@ $(document).ready(function() {
 
     var videoPlayer;
 
+    $.get("anntation_number", function(data){
+      
+    });
+    
     videojs("video-player").ready(function(){
       videoPlayer = this;
      
     });
-    
     
       
     $.get("videos", function(data) {
@@ -100,30 +103,50 @@ $(document).ready(function() {
         if(x.options[i].selected == true)
 	  document.getElementById("select_vocab").options[i].selected = false;
 	}
-	 //$.post("save_annotation", {})
-	 //$.post("save_annotation", {text_end: document.getElementById("t_end").value})
-	// $.post("save_annotation", {select_vocab: document.getElementById("select_vocab").value})
-	// $.post("save_annotation", {description: document.getElementById("description").value})
-	 
-	 
-	 
-	    
-	 /*jQuery('<div/>', {
-         id: 'annotation',
-         title: 'Annotation',
-	 class: 'ann-box'
-         }).appendTo('#annotations');
-	 jQuery("<div  >  <input type='radio' class = 'start_line' name = 'rb' id = 1 value = 'start'> Start <input class = 'start_line' type='text' name = 'text_start' id = t1 /> </div>").appendTo("#annotation"); 
-	 //jQuery("<input type='radio' name = 'rb' id = 1 value = 'start'> Start <br>").appendTo("#annotation"); 
-	 //jQuery("<input type='text' name = 'text_start' id = t1 />").appendTo("#annotation");
-	 jQuery("<div id = 'end_line'>  <input type='radio' name = 'rb' id = 2 value = 'end'> End &nbsp<input type='text' name = 'text_end' id = t2 /> </div>").appendTo("#annotation"); 
-	 //jQuery("<input type='radio' name = 'rb' id = 2 value = 'end'> End <br>").appendTo("#annotation");
-	 //jQuery("<input type='text' name = 'text_end' id = t2 />").appendTo("#annotation");
-	 jQuery("<input type='radio' name = 'rb' id = 3 value = 'free'> Free <br>").appendTo("#annotation");
-	 jQuery("<select multiple> id = 's1' <option>word1</option> <option>word2</option> </select> <br>").appendTo("#annotation");
-	 jQuery("<p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>").appendTo("#annotation");;
-	 jQuery("<textarea class='scrollabletextbox' name='note'>lala</textarea>").appendTo("#annotation");
-	 */
+	
+	 document.getElementById("rb3").checked = true;
+	 videojs("video-player").pause();
+	
+	 //$.get("save_annotation", function(ann_id){
+	 //  alert(ann_id)
+	 jQuery("<div class='ann-elem'><p id >lala</p></div>").appendTo("#annotation_list")
+	 //});
+	
+	
+	
     });
+    
+ document.addEventListener('keydown', function (evt) {
+       var videoPlayer = videojs("video-player");
+       frameTime = 1 / 30; //assume 30 fps
+       videoPlayer.pause()
+       t = videoPlayer.currentTime();
+       if (evt.keyCode === 37) { //left arrows
+          if (t  > 0) {
+          //one frame back
+          videoPlayer.currentTime(t-frameTime);
+          }
+       }   
+       else if (evt.keyCode === 39) { //right arrow
+            if (videoPlayer.currentTime() < videoPlayer.duration()) {
+            //one frame forward
+            //Don't go past the end, otherwise you may get an error
+            videoPlayer.currentTime(Math.min(videoPlayer.duration(), t + frameTime));
+            }
+        
+       }
+ });
+ 
+ 
+ $('input[type="radio"]').keydown(function(e)
+{
+    var arrowKeys = [37, 38, 39, 40];
+    if (arrowKeys.indexOf(e.which) !== -1)
+    {
+        $(this).blur();
+      
+       
+    }
+});
     
 });
