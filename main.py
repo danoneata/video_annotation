@@ -24,7 +24,7 @@ from flask import (
     url_for,
 )
 
-from flask.ext.login import (
+from flask_login import (
     LoginManager,
     login_user,
     logout_user,
@@ -32,7 +32,7 @@ from flask.ext.login import (
     login_required,
 )
 
-from flask.ext.wtf import Form
+from flask_wtf import Form
 
 from wtforms import (
     PasswordField,
@@ -45,43 +45,24 @@ from wtforms.validators import (
     Required,
 )
 
+from config import Config
+
+from models import (
+    db,
+    Annotation,
+    User,
+    Video,
+)
 
 app = Flask(__name__)
-app.secret_key = 'imar'
+app.config.from_object('config.Config')
+db.init_app(app)
 
 config.fileConfig('logger.conf')
 logger = logging.getLogger('video_annotation')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
-class User:
-    def __init__(self, email, password, id):
-        self.email = email
-        self.password = password
-        self.id = id 
-   
-    def get_id(self):
-        return self.id
-
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return True
-
-    def check_password(self, password):
-        return password == self.password
-
-
-# TODO Hash passwords
-users = [
-    User('eli@imar.ro', 'marinoiu', 1),
-    User('alin@imar.ro', 'popa', 2),
-]
 
 
 class LoginForm(Form):
@@ -94,12 +75,8 @@ class LoginForm(Form):
         Form.__init__(self, *args, **kwargs)
 
     def validate(self):
-        # if not Form.validate(self):
-        #     return False
-        for user in users:
-            if user.email == self.email.data:
-                return user.check_password(self.password.data)
-        return False
+        user = User.query.filter_by(email=self.email.data.lower()).first()
+        return user and user.check_password(self.password.data)
 
 
 @app.route('/', methods=['GET'])
@@ -116,9 +93,7 @@ def login():
     form = LoginForm()
     if request.method == 'POST':
         if form.validate():
-            for user in users:
-                if user.email == form.email.data:
-                    break
+            user = User.query.filter_by(email=form.email.data.lower()).first()
             login_user(user)
             flash('Welcome, {}!'.format(user.email), 'success')
             return redirect(url_for('index'))
@@ -130,10 +105,8 @@ def login():
 
 
 @login_manager.user_loader
-def load_user(id):
-    for user in users:
-        if user.get_id() == id:
-            return user
+def load_user(user_id):
+    return User.query.filter(User.id == int(user_id)).first()
 
 
 @app.route('/logout')
@@ -152,10 +125,18 @@ def profile():
 
 @app.route('/videos', methods=['GET'])
 @login_required
-def videos():
-   json_data = open("videos.json").read()
-   data = json.loads(json_data)
-   return jsonify(data)
+def get_videos_json():
+    return jsonify(
+        [
+            {
+                'name': video.name,
+                'source/webm': video.src_webm,
+                'source/mp4': video.src_mp4,
+            }
+            for video in Video.query.all()
+        ]
+    )
+
    
 @app.route('/js/<path:path>')
 def send_js(path):
@@ -170,46 +151,34 @@ def send_css(path):
 @app.route('/VideoData/<path:path>')
 def send_data_videos(path):
     return send_from_directory('VideoData', path)
-  
+
+
+
 @app.route('/save_annotation',  methods=['GET','POST'])
 def save_annotation():
-    path_app =  os.path.realpath('.')
-    path_data = path_app+ "/AnnData/"
-    path_user = path_data + str(current_user.get_id())
-    path_video = path_user + "/" + request.form["selected_video"]
-    if os.path.exists(path_app + '/AnnData') == False:
-      os.mkdir(path_app + '/AnnData')
-    if os.path.exists(path_user) == False:
-       os.mkdir(path_user)
-    if os.path.exists(path_video) == False:
-       os.mkdir(path_video)
-        
+
+    try:
+        start_frame = int(float(request.form['time_start']))
+        end_frame = int(float(request.form['time_end']))
+    except ValueError:
+        start_frame = 0
+        end_frame = 0
+
+    video_name = request.form["selected_video"]
+
+    annotation = Annotation(
+        description=request.form['description'],
+        start_frame=start_frame,
+        end_frame=end_frame,
+        keywords=request.form['select_vocab'],
+        user=current_user,
+        video=Video.query.filter(Video.name == video_name).first(),
+    )
+    db.session.add(annotation)
+    db.session.commit()
     
-    
- 
-    current_annotations = os.listdir(path_video)
-    current_annotations_ids = []; 
-    #pdb.set_trace()
-    if len(current_annotations)==0:
-      current_ind = 1
-    else:
-       
-      for k  in range(0,len(current_annotations)):
-        current_annotations[k] = int(current_annotations[k][0:-5])
-      current_ind = max(current_annotations)+1
-    
-    
-    x = request.form.to_dict()
-    z = {"email": current_user.email}
-    f = open(path_video + "/" + str(current_ind).zfill(3)+'.json', 'w+')
-    x.update(z);
-    json.dump(x,f,  indent = 4)
-    f.close()
-        
-    #if request.method == 'POST':
-     #request.form["ann_id"] = current_ind;
-       
     return 'OK' 
+
 
 def _error_as_json(ex, status=500, trace=True):
     logger.error(" -- Got exception in the tagger backend!")

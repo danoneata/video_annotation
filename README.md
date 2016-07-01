@@ -12,6 +12,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Create the database:
+
+```bash
+# Create a new user
+sudo -u postgres createuser -s annotator
+# Create a new database
+createdb -U annotator annotations_db
+# Set the URL to the database as a system variable
+export DATABASE_URL="postgresql://annotator@localhost/annotations_db"
+# Create the tables
+python models.py --todo create init
+```
+
+You can connect to the database as follows:
+
+```bash
+psql -h localhost -p 5432 -d annotations_db -U annotator
+```
+
 Start the server:
 
 ```bash
