@@ -1,68 +1,16 @@
 $(document).ready(function() {
 
-    var videoPlayer;
-
-    $.get("anntation_number", function(data){
+    $.get("annotation_number", function(data){
       
     });
     
-    videojs("video-player").ready(function(){
-      videoPlayer = this;
+    var videoPlayer = videojs("video-player");
      
-    });
-    
-      
     $.get("videos", function(data) {
-
-        // Populate list of videos.
-        $.each(data, function(i, datum) {
-            $('#select-video').append($('<option>', {
-                value: datum.name,
-                text : datum.name
-            }));
-        });
-
-        $('#select-video').selectpicker();
-
-        function byName(name) {
-            return function (datum) {return datum.name === name;}
-        }
-
-        // Change video on click.
-        $('#select-video').on('changed.bs.select', function(ev, clickedIndex, newValue, oldValue) {
-            name = $(this).val();
-            datum = data.find(byName(name));
-            videoPlayer.src([
-                {
-                    type: "video/mp4",
-                    src: datum["source/mp4"],
-                },
-                {
-                    type: "video/webm",
-                    src: datum["source/webm"],
-                },
-            ]);
-        });
-
-        // When document ready show the first video in the list.
-        datum = data.find(byName(data[0].name));
-	//videoPlayer = videojs("video-player")
-        videojs('#video-player').src([
-            {
-                type: "video/mp4",
-                src: datum["source/mp4"],
-            },
-            {
-                type: "video/webm",
-                src: datum["source/webm"],
-            },
-        ]);
-	
-	  
+        videoPlayer.playlist(data);
+        videoPlayer.playlistUi();
     });
-    
-    
-    
+
     videojs('#video-player').on('timeupdate', function(ev){
     var isPlaying =  !videojs("video-player").paused();
      if (document.getElementById("rb1").checked == true){;

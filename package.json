@@ -1,0 +1,25 @@
+{
+  "name": "video_annotation",
+  "version": "1.0.0",
+  "description": "Annotation tool for videos",
+  "main": "index.js",
+  "dependencies": {
+    "videojs-playlist": "^2.4.1",
+    "videojs-playlist-ui": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danoneata/video_annotation"
+  },
+  "keywords": [],
+  "author": "Dan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danoneata/video_annotation/issues"
+  },
+  "homepage": "https://github.com/danoneata/video_annotation"
+}

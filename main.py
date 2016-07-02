@@ -130,8 +130,16 @@ def get_videos_json():
         [
             {
                 'name': video.name,
-                'source/webm': video.src_webm,
-                'source/mp4': video.src_mp4,
+                'sources': [
+                    {
+                        'src': video.src_mp4,
+                        'type': 'video/mp4',
+                    },
+                    {
+                        'src': video.src_webm,
+                        'type': 'video/webm',
+                    },
+                ],
             }
             for video in Video.query.all()
         ]
@@ -141,6 +149,11 @@ def get_videos_json():
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('www/js', path)
+
+
+@app.route('/node_modules/<path:path>')
+def send_js_2(path):
+    return send_from_directory('node_modules', path)
 
 
 @app.route('/css/<path:path>')
