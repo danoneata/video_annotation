@@ -12,6 +12,14 @@ You'll need the following installed on your system:
 * `npm`
 * PostgreSQL
 
+On Ubuntu you can install them as follows:
+
+```bash
+sudo apt-get install python-virtualenv
+sudo apt-get install npm
+sudo apt-get install postgresql-client
+```
+
 Install the Python dependencies:
 
 ```bash
