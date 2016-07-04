@@ -15,9 +15,11 @@ You'll need the following installed on your system:
 On Ubuntu you can install them as follows:
 
 ```bash
+sudo apt-get install python3-dev
 sudo apt-get install python-virtualenv
 sudo apt-get install npm
-sudo apt-get install postgresql-client
+sudo apt-get install postgresql postgresql-client postgresql-contrib
+sudo apt-get install libpq-dev
 ```
 
 Install the Python dependencies:
