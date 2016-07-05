@@ -1,8 +1,6 @@
 $(document).ready(function() {
 
-    $.get("annotation_number", function(data){
-      
-    });
+    
     
     var videoPlayer = videojs("video-player");
      
@@ -34,13 +32,28 @@ $(document).ready(function() {
 	   selected_values[i] = x.options[i].value
 	 }
 	 //current_video = document.getElementById("select-video").value;
+	 video_list = videojs("video-player").playlist();
 	 $.post("save_annotation",  {
-	                             selected_video: document.getElementById("select-video").value,
+	                             selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
 	                             time_start: document.getElementById("t_start").value,
 	                             time_end: document.getElementById("t_end").value,
 		                     select_vocab: selected_values.join(" "),
 	                             description: document.getElementById("description").value
-	                            });
+	                            },  
+	                           function(result){
+				     
+				   jQuery('<div/>', {
+                                                   id: 'id_'+result[0].id,
+                                                   text: result[0].description,
+                                                   class: 'ann-elem'
+                                                }).appendTo("#annotation_list");
+						
+			           var newInputEdit = '<input type="submit" name="Button" value = "Edit" id="edit-'+result[0].id+'">'
+				   $("#id_"+result[0].id).append(newInputEdit);
+				   var newInputDelete = '<input type="submit" name="Button" value = "Delete" id="delete-'+result[0].id+'">'
+				   $("#id_"+result[0].id).append(newInputDelete);
+				   
+	    });
 	 
 	  //document.getElementById("select-video").value = current_video;
 	document.getElementById("t_start").value = '';
@@ -57,7 +70,8 @@ $(document).ready(function() {
 	
 	 //$.get("save_annotation", function(ann_id){
 	 //  alert(ann_id)
-	 jQuery("<div class='ann-elem'><p id >lala</p></div>").appendTo("#annotation_list")
+	 
+	 
 	 //});
 	
 	

@@ -1,6 +1,8 @@
 
 import argparse
 import datetime
+import os
+import pdb
 
 from flask import Flask
 
@@ -62,13 +64,13 @@ class Video(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    src_webm = db.Column(db.String())
     src_mp4 = db.Column(db.String())
+    src_webm = db.Column(db.String())
 
-    def __init__(self, name, src_webm, src_mp4):
+    def __init__(self, name, src_mp4, src_webm):
         self.name = name
-        self.src_webm = src_webm
         self.src_mp4 = src_mp4
+        self.src_webm = src_webm
 
     def __repr__(self):
         return '<Video %s>' % self.name
@@ -133,11 +135,20 @@ def main():
             admin = User('Elisabeta', 'eli@imar.ro', '1988')
             db.session.add(admin)
             db.session.commit()
+            
+            path_app =  os.path.realpath('.')
+            path_video_mp4 = path_app + "/VideoData/MP4/"
+            path_video_webm = path_app + "/VideoData/WEBM/"
+            videos_for_anotate = os.listdir(path_video_webm)
+            
+            for k in videos_for_anotate:
+               video = Video( name = k[0:-5], src_mp4 = "VideoData/MP4/"+ k,  src_webm = "VideoData/WEBM/"+ k[0:-4]+'webm')
+               db.session.add(video)
 
             video = Video(
                 name='Oceans',
-                src_webm="http://vjs.zencdn.net/v/oceans.webm",
                 src_mp4="http://vjs.zencdn.net/v/oceans.mp4",
+                src_webm="http://vjs.zencdn.net/v/oceans.webm",
             )
             db.session.add(video)
             db.session.commit()

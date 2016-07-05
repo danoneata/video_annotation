@@ -5,6 +5,9 @@ import logging
 import os
 import pdb
 import traceback
+import sqlalchemy
+from flask_sqlalchemy import SQLAlchemy
+
 
 from collections import namedtuple
 
@@ -135,10 +138,7 @@ def get_videos_json():
                         'src': video.src_mp4,
                         'type': 'video/mp4',
                     },
-                    {
-                        'src': video.src_webm,
-                        'type': 'video/webm',
-                    },
+                    
                 ],
             }
             for video in Video.query.all()
@@ -169,28 +169,38 @@ def send_data_videos(path):
 
 @app.route('/save_annotation',  methods=['GET','POST'])
 def save_annotation():
-
+   
+   #if request.method == 'POST':
+   # pdb.set_trace()
     try:
         start_frame = int(float(request.form['time_start']))
         end_frame = int(float(request.form['time_end']))
     except ValueError:
         start_frame = 0
         end_frame = 0
-
+   
     video_name = request.form["selected_video"]
 
     annotation = Annotation(
-        description=request.form['description'],
-        start_frame=start_frame,
-        end_frame=end_frame,
-        keywords=request.form['select_vocab'],
-        user=current_user,
-        video=Video.query.filter(Video.name == video_name).first(),
+        description = request.form['description'],
+        start_frame = start_frame,
+        end_frame = end_frame,
+        keywords = request.form['select_vocab'],
+        user = current_user,
+        video = Video.query.filter(Video.name == video_name).first(),
     )
+    
     db.session.add(annotation)
     db.session.commit()
+    #return 'ok'
+    #elif request.method == 'GET':
+    last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
     
-    return 'OK' 
+    return jsonify([ {
+       "id": last_annotation.id ,
+        "description": last_annotation.description,
+       }
+    ])
 
 
 def _error_as_json(ex, status=500, trace=True):
