@@ -48,10 +48,13 @@ $(document).ready(function() {
                                                    class: 'ann-elem'
                                                 }).appendTo("#annotation_list");
 						
-			           var newInputEdit = '<input type="submit" name="Button" value = "Edit" id="edit-'+result[0].id+'">'
+			           var newInputEdit = '<input type = "submit" class = "edit_button" name = "Button" value = "Edit" id = "edit-'+result[0].id+'">'
 				   $("#id_"+result[0].id).append(newInputEdit);
-				   var newInputDelete = '<input type="submit" name="Button" value = "Delete" id="delete-'+result[0].id+'">'
+				   var newInputDelete = '<input type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-'+result[0].id+'">'
 				   $("#id_"+result[0].id).append(newInputDelete);
+				   //$("#id_"+result[0].id).click(function() {
+					      //alert(result[0].id);
+					//      });
 				   
 	    });
 	 
@@ -68,16 +71,35 @@ $(document).ready(function() {
 	 document.getElementById("rb3").checked = true;
 	 videojs("video-player").pause();
 	
-	 //$.get("save_annotation", function(ann_id){
-	 //  alert(ann_id)
-	 
-	 
-	 //});
-	
-	
-	
     });
+  
+  
+  $('#annotation_list').on("click", ".edit_button", function(ev) {
+            id = ev.target.id;
+	    id_annotation = id.substring(5,id.length);
+	    $.post("get_annotation", {
+	                             annotation_id: id_annotation,
+	                             },  
+	                           function(result){
+				     
+				 document.getElementById("t_start").value = result[0].t_start;
+	                         document.getElementById("t_end").value = result[0].t_end;
+	                         document.getElementById("description").value = result[0].description;
+				 selected_vocab = [];
+				 selected_vocab = result[0].selected_vocab;
+				 selected_words = selected_vocab.split(" ");
+				 //var x = document.getElementById("select_vocab");
+				 for (var i = 0; i < selected_words.length; i++) 
+	                                  {
+                                               
+	                                        $("#select_vocab  option[value= '"+selected_words[i]+"']").prop("selected" , true);
+	                                   }
+				   
+	    });
+	});
+       
     
+      
  document.addEventListener('keydown', function (evt) {
        var videoPlayer = videojs("video-player");
        frameTime = 1 / 30; //assume 30 fps

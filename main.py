@@ -201,7 +201,17 @@ def save_annotation():
         "description": last_annotation.description,
        }
     ])
-
+@app.route('/get_annotation',  methods=['GET','POST'])
+def get_annotation():
+   annotation_id = request.form["annotation_id"]
+   annotation = Annotation.query.filter(Annotation.id==annotation_id).first();
+   return jsonify([{
+     "t_start": annotation.start_frame,
+     "t_end": annotation.end_frame,
+     "description": annotation.description,
+     "selected_vocab": annotation.keywords,
+     }
+ ])
 
 def _error_as_json(ex, status=500, trace=True):
     logger.error(" -- Got exception in the tagger backend!")
