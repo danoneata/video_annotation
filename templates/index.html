@@ -16,17 +16,27 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <video id="video-player" class="video-js" controls preload="auto" width="720" height="360" data-setup="{}">
+         <div class="col-md-3">
+            <div class='ann-list' id = 'annotation_list'>
+               </div>
+               <nav>
+	         <ul id = 'ann-menu-id' class="ann-menu"></ul>
+	       </nav>
+         </div>
+       
+            <div class="col-md-6">
+            
+                <video id="video-player" class="video-js" controls preload="auto" width="580" height="300" data-setup="{}">
                 <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser that
                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                 </p>
                 </video>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <ol class="vjs-playlist">
             </div>
+           
         </div>
          <div class="row">
             <div class="col-md-8">
@@ -61,11 +71,11 @@
                <textarea class='scrollabletextbox' name='note' id = 'description' ></textarea>
             </div>
         </div>
-        <div class='ann-list' id = 'annotation_list'>
-	</div>
-	<nav>
-	<ul id = 'ann-menu-id' class="ann-menu"></ul>
-	</nav>
+      
+              
+          
+	
+	
     </div>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>

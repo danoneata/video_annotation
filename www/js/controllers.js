@@ -18,7 +18,9 @@ $(document).ready(function() {
 				   $('.li_class').remove();
 				   for (var i = 0; i<result.length;i++)
 				   {
-				      $('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('ul.ann-menu');
+				     //$('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('ul.ann-menu');
+				     $('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('ul.ann-menu');
+				     //$('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('div.col-md-3.ul.nav.ann-menu');
 				      jQuery('<div/>', {
                                                    id: 'id_' + result[i].id,
                                                    text: result[i].description,
