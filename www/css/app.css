@@ -38,7 +38,8 @@ body {
 }
 
 .ann-box{
-  background: #00FFFF
+  background: #00FFFF;
+  width: 750px;
 }
 .ann-list{
     position: absolute;
@@ -47,9 +48,14 @@ body {
 }
 .ann-elem{
 
-    right: 0px;
-    width: 300px;
-    border: 3px solid #73AD21;
+   left: 0px;
+    width: 200px;
+    border: 3px solid #00FFFF;
     padding: 10px;
     clear:right;
+}
+nav ul{height:200px; width:25%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+#ann-menu-id li {
+    list-style-type: none;
 }

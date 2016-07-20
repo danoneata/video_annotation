@@ -7,7 +7,7 @@ import pdb
 import traceback
 import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy import update
 
 from collections import namedtuple
 
@@ -180,7 +180,7 @@ def save_annotation():
         end_frame = 0
    
     video_name = request.form["selected_video"]
-
+    
     annotation = Annotation(
         description = request.form['description'],
         start_frame = start_frame,
@@ -190,10 +190,15 @@ def save_annotation():
         video = Video.query.filter(Video.name == video_name).first(),
     )
     
-    db.session.add(annotation)
-    db.session.commit()
-    #return 'ok'
-    #elif request.method == 'GET':
+    ann_number = int(request.form["ann_number"])
+    if ann_number==0:   
+       db.session.add(annotation)
+       db.session.commit()
+    else:
+      upd = (db.session.query(Annotation).filter(Annotation.id==ann_number).update({"description": annotation.description, "start_frame" : annotation.start_frame,"end_frame" : annotation.end_frame, "keywords" : annotation.keywords}))
+      print("# of updated rows = {}".format(upd))
+      db.session.commit()
+     
     last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
     
     return jsonify([ {
@@ -211,7 +216,35 @@ def get_annotation():
      "description": annotation.description,
      "selected_vocab": annotation.keywords,
      }
- ])
+   ])
+ 
+@app.route('/delete_annotation',  methods=['GET','POST'])
+def delete_annotation():
+   annotation_id = request.form["annotation_id"]
+   upd = (db.session.query(Annotation).filter(Annotation.id==annotation_id).delete())
+   print("# of deleted rows = {}".format(upd))
+   db.session.commit()
+  
+   return "OK"
+
+
+def row2dict(row):
+    return {
+        column.name: getattr(row, column.name)
+        for column in row.__table__.columns
+    }
+
+
+@app.route('/get_all_annotations',  methods=['GET','POST'])
+def get_all_annotations():
+   video_name = request.form["selected_video"]
+   video = Video.query.filter(Video.name == video_name).first()
+   user = current_user
+   annotation_list = Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == video.id)).order_by(sqlalchemy.asc(Annotation.id)).all();
+   #pdb.set_trace()
+   ann_json =  jsonify([row2dict(row) for row in annotation_list])
+   return ann_json
+
 
 def _error_as_json(ex, status=500, trace=True):
     logger.error(" -- Got exception in the tagger backend!")
