@@ -194,16 +194,17 @@ def save_annotation():
     if ann_number==0:   
        db.session.add(annotation)
        db.session.commit()
+       return_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
     else:
       upd = (db.session.query(Annotation).filter(Annotation.id==ann_number).update({"description": annotation.description, "start_frame" : annotation.start_frame,"end_frame" : annotation.end_frame, "keywords" : annotation.keywords}))
       print("# of updated rows = {}".format(upd))
       db.session.commit()
-     
-    last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
+      #last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
+      return_annotation =  Annotation.query.filter((Annotation.id==ann_number) & (Annotation.video_id == annotation.video.id)).first()
     
     return jsonify([ {
-       "id": last_annotation.id ,
-        "description": last_annotation.description,
+       "id": return_annotation.id ,
+        "description": return_annotation.description,
        }
     ])
 @app.route('/get_annotation',  methods=['GET','POST'])
