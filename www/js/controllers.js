@@ -18,12 +18,26 @@ $(document).ready(function() {
 				   $('.li_class').remove();
 				   for (var i = 0; i<result.length;i++)
 				   {
-				     //$('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('ul.ann-menu');
+				     //text_to_display = '';
 				     $('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('ul.ann-menu');
-				     //$('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('div.col-md-3.ul.nav.ann-menu');
+				     text_length = 15;
+				      text_to_display = result[i].description;
+				    if (result[i].description.length>=text_length)
+				       text_to_display = result[i].description.substring(1,text_length)
+				      // else
+				     //  {
+					 //text_extra = Array.from('\x20'.repeat(text_length-result[i].description.length+1 ));
+					// text_to_display = result[i].description
+					 //for (i = 1; i<( text_length-result[i].description.length);i++)
+					 //text_to_display = text_to_display + ' ';
+					// difference =  text_length-result[i].description.length;
+					// text_to_display = text_to_display + new Array(difference).join(' . ')
+				    //   }
+				     
+				     //text_to_display[1][Math.min(20, result[i].description.length)] = result[i].description;
 				      jQuery('<div/>', {
                                                    id: 'id_' + result[i].id,
-                                                   text: result[i].description,
+                                                   text: text_to_display,
                                                    class: 'ann-elem'
                                                 }).appendTo('#li_'+result[i].id);
 						

@@ -39,7 +39,7 @@ body {
 
 .ann-box{
   background: #00FFFF;
-  width: 750px;
+  width: 850px;
 }
 .ann-list{
     position: absolute;
@@ -49,13 +49,17 @@ body {
 .ann-elem{
 
    left: 0px;
-    width: 200px;
+    width: 320px;
     border: 3px solid #00FFFF;
     padding: 10px;
     clear:right;
 }
-nav ul{height:200px; width:25%;}
+nav ul{height:448px;}
 nav ul{overflow:hidden; overflow-y:scroll;}
 #ann-menu-id li {
     list-style-type: none;
+}
+#description {
+width: 850px;
+height: 100px
 }
