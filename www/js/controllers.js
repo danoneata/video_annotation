@@ -55,11 +55,11 @@ $(document).ready(function() {
     videojs('#video-player').on('timeupdate', function(ev){
     var isPlaying =  !videojs("video-player").paused();
     if (document.getElementById("rb1").checked == true){;
-	document.getElementById("t_start").value = videoPlayer.currentTime();
+	document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
       }
       
       if (document.getElementById("rb2").checked == true){;
-	document.getElementById("t_end").value = videoPlayer.currentTime();
+	document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
       }
     });
     
@@ -162,7 +162,11 @@ $(document).ready(function() {
 	 videojs("video-player").pause();
 	
     });
-  
+   
+    $('input[type = "radio"]').on('click', function(e)
+    {
+      videojs("video-player").pause();
+    });
   
   $('#ann-menu-id').on("click", ".edit_button", function(ev) {
             id = ev.target.id;

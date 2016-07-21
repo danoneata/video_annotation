@@ -54,7 +54,7 @@ body {
     padding: 10px;
     clear:right;
 }
-nav ul{height:448px;}
+nav ul{height:460px;}
 nav ul{overflow:hidden; overflow-y:scroll;}
 #ann-menu-id li {
     list-style-type: none;
@@ -63,3 +63,11 @@ nav ul{overflow:hidden; overflow-y:scroll;}
 width: 850px;
 height: 100px
 }
+
+.delete_button
+{ float: right;
+  }
+  
+.edit_button
+{ float: right;
+  }
