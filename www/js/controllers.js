@@ -41,9 +41,9 @@ $(document).ready(function() {
                                                    class: 'ann-elem'
                                                 }).appendTo('#li_'+result[i].id);
 						
-                                   var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[i] + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
+                                   var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[i].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
 				   $("#id_" + result[i].id).append(newInputEdit);
-				   var newInputDelete = '<input type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[i].id+'">'
+				   var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[i].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
 				   $("#id_"+ result[i].id).append(newInputDelete);
 				   }
 				   
@@ -87,9 +87,9 @@ $(document).ready(function() {
                                                    class: 'ann-elem'
                                                 }).appendTo('#li_'+result[i].id);
 						
-			           var newInputEdit = '<input type = "submit" class = "edit_button" name = "Button" value = "Edit" id = "edit-' + result[i].id+'">'
+			           var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[i].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
 				   $("#id_" + result[i].id).append(newInputEdit);
-				   var newInputDelete = '<input type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[i].id+'">'
+				   var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[i].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
 				   $("#id_"+ result[i].id).append(newInputDelete);
 				   }
 				   
@@ -127,18 +127,18 @@ $(document).ready(function() {
                                                    class: 'ann-elem'
                                                 }).appendTo('#li_'+result[0].id);
 						
-			           var newInputEdit = '<input type = "submit" class = "edit_button" name = "Button" value = "Edit" id = "edit-'+result[0].id+'">'
+			           var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[0].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
 				   $("#id_"+result[0].id).append(newInputEdit);
-				   var newInputDelete = '<input type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-'+result[0].id+'">'
+				   var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[0].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
 				   $("#id_"+result[0].id).append(newInputDelete);
 				   }
 				   else
 				   {
 				     document.getElementById("ann_number").innerText = 0;
 				     document.getElementById("id_" + ann_number).innerText = result[0].description;
-				     var newInputEdit = '<input type = "submit" class = "edit_button" name = "Button" value = "Edit" id = "edit-'+result[0].id+'">'
+				     var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[0].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
 				     $("#id_"+result[0].id).append(newInputEdit);
-				     var newInputDelete = '<input type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-'+result[0].id+'">'
+				     var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[0].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
 				     $("#id_"+result[0].id).append(newInputDelete);
 				   }
 				   
