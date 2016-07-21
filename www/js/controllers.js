@@ -41,7 +41,7 @@ $(document).ready(function() {
                                                    class: 'ann-elem'
                                                 }).appendTo('#li_'+result[i].id);
 						
-			           var newInputEdit = '<input type = "submit" class = "edit_button" name = "Button" value = "Edit" id = "edit-' + result[i].id+'">'
+                                   var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[i] + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
 				   $("#id_" + result[i].id).append(newInputEdit);
 				   var newInputDelete = '<input type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[i].id+'">'
 				   $("#id_"+ result[i].id).append(newInputDelete);
