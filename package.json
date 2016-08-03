@@ -4,6 +4,7 @@
   "description": "Annotation tool for videos",
   "main": "index.js",
   "dependencies": {
+    "nouislider": "^8.5.1",
     "videojs-playlist": "^2.4.1",
     "videojs-playlist-ui": "^2.2.0"
   },
