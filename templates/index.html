@@ -46,26 +46,36 @@
            
         </div>
             <div class="col-md-6">
-                <button type="submit" id="add-ann"> Add Annotation
-                </button>
+               
                  <div class="ann-box" id = "annotations">
+                  <button type="submit" id="add-ann"> Add Annotation
+                </button>
+                 
+              
                <div>
                 <label id = "ann_number">0</label>
                </div>
                <div>  
-                 <input type = 'radio' class = 'start_line' name = 'rb' id = 'rb1' value = 'start'> 
-                 <label for = 'rb1'> Start</label>
+                 <!--<input type = 'radio' class = 'start_line' name = 'rb' id = 'rb1' value = 'start'> 
+                 <label for = 'rb1'> Start</label> -->
+                 <button type="submit" id="start_btn"> Pick Start
+                </button>
                  <input class = 'start_line' type ='text' name = 'text_start' id = 't_start' /> 
                </div>
                <div id = 'end_line'>  
-                 <input type ='radio' name = 'rb' id = 'rb2' value = 'end'> 
-                 <label for='rb2'>End &nbsp</label>
+                <button type="submit" id="end_btn"> Pick End
+                </button>
+                 <!--<input type ='radio' name = 'rb' id = 'rb2' value = 'end'> 
+                 <label for='rb2'>End &nbsp</label> -->
                  <input class = 'end_line' type ='text' name = 'text_end' id = 't_end' /> 
                </div>
-               <div id = 'free_line'>
+               <!-- <div id = 'free_line'>
+              
                   <input type='radio' name = 'rb' id = 'rb3' value = 'free' checked="checked"> 
-                  <label for='rb3'>Free</label>
-               </div>
+                  <label for='rb3'>Free</label> 
+               </div> -->
+                <p>Adjust anottation start/end.</p>
+                 <div id="slider"></div>
                <select multiple id = 'select_vocab' >
                   <option>word1</option> 
                   <option>word2</option> 
@@ -78,8 +88,7 @@
         <div class="row">
            <div id = 'connect'>
            </div>
-        </div>
-        <div id="slider"></div>
+      
     </div>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>

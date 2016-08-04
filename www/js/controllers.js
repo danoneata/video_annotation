@@ -8,29 +8,37 @@ $(document).ready(function() {
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 	
-	
-	//var connectSlider = document.getElementById('connect');
+var slider = document.getElementById('slider');
 
-        //noUiSlider.create(connectSlider, {
-	//start: [20, 80],
-	//connect: false,
-	//range: {
-	//	'min': 0,
-	//	'max': 100
-	//}
-        //});
-	
-	$(function() {
-    $("#connect").noUiSlider({
-        start: 5,
-        range: {
-            'min': 1,
-            'max': 80
-        }
-    });
+noUiSlider.create(slider, {
+    start: [1, 100],
+    connect: true,
+    range: {
+        'min': 1,
+    'max': 100
+    }
 });
 
+ 
 
+   slider.noUiSlider.on('update', function(values, handle){
+      videoPlayer = videojs("video-player");
+        t = videoPlayer.currentTime();
+	duration = videoPlayer.duration();
+        slider_values = slider.noUiSlider.get();
+	
+	if (handle == 0){
+	  newt = slider_values[0]/100*duration;
+          videoPlayer.currentTime(newt);
+	  document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+	}
+	else
+	  if (handle==1){
+	    newt = slider_values[1]/100*duration;
+            videoPlayer.currentTime(newt);
+	    document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+	  }
+    });
 	
     video_list = videojs("video-player").playlist();
     $.post("get_all_annotations",  {
@@ -76,7 +84,11 @@ $(document).ready(function() {
     });
     
     
-    videojs('#video-player').on('timeupdate', function(ev){
+
+
+
+
+    /*videojs('#video-player').on('timeupdate', function(ev){
     var isPlaying =  !videojs("video-player").paused();
     if (document.getElementById("rb1").checked == true){;
 	document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
@@ -85,8 +97,10 @@ $(document).ready(function() {
       if (document.getElementById("rb2").checked == true){;
 	document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
       }
+      
+      
     });
-    
+    */
     
    
     
@@ -164,7 +178,7 @@ $(document).ready(function() {
 				     $("#id_"+result[0].id).append(newInputEdit);
 				     var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[0].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
 				     $("#id_"+result[0].id).append(newInputDelete);
-				   }
+				Start   }
 				   
 				   //$("#id_"+result[0].id).click(function() {
 					      //alert(result[0].id);
@@ -182,7 +196,7 @@ $(document).ready(function() {
 	  document.getElementById("select_vocab").options[i].selected = false;
 	}
 	
-	 document.getElementById("rb3").checked = true;
+	// document.getElementById("rb3").checked = true;
 	 videojs("video-player").pause();
 	
     });
@@ -273,15 +287,11 @@ $(document).ready(function() {
     }
 });
 
-var slider = document.getElementById('slider');
-
-noUiSlider.create(slider, {
-    start: [20, 80],
-    connect: true,
-    range: {
-        'min': 0,
-    'max': 100
-    }
+  $('#start_btn').click( function(ev) {
+ document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
 });
-
+  
+  $('#end_btn').click( function(ev) {
+ document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+});
 });
