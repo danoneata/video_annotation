@@ -8,6 +8,30 @@ $(document).ready(function() {
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 	
+	
+	//var connectSlider = document.getElementById('connect');
+
+        //noUiSlider.create(connectSlider, {
+	//start: [20, 80],
+	//connect: false,
+	//range: {
+	//	'min': 0,
+	//	'max': 100
+	//}
+        //});
+	
+	$(function() {
+    $("#connect").noUiSlider({
+        start: 5,
+        range: {
+            'min': 1,
+            'max': 80
+        }
+    });
+});
+
+
+	
     video_list = videojs("video-player").playlist();
     $.post("get_all_annotations",  {
 	                             selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
