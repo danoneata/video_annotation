@@ -15,82 +15,77 @@
     </nav>
 
     <div class="container-fluid">
+
         <div class="row">
-         <div class="col-md-3">
+
+            <div class="col-md-3">
                 <ol class="vjs-playlist">
+                </ol>
             </div>
-            
-       
+
             <div class="col-md-6">
-            
                 <video id="video-player" class="video-js" controls preload="auto" width="850" height="450" data-setup="{}">
-                <p class="vjs-no-js">
-                To view this video please enable JavaScript, and consider upgrading to a web browser that
-                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                </p>
+                    <p class="vjs-no-js">
+                        To view this video please enable JavaScript, and consider upgrading to a web browser that
+                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                    </p>
                 </video>
             </div>
-            
-           
-             <div class="col-md-3">
-            <div class='ann-list' id = 'annotation_list'>
+
+            <div class="col-md-3">
+                <div class='ann-list' id='annotation_list'>
+                </div>
+                <nav>
+                    <ul id='ann-menu-id' class="ann-menu"></ul>
+                </nav>
             </div>
-               <nav>
-	         <ul id = 'ann-menu-id' class="ann-menu"></ul>
-	       </nav>
-          </div>
-           
+
         </div>
-         <div class="row">
-          <div class="col-md-3">
-           
-        </div>
-            <div class="col-md-6">
-               
-                 <div class="ann-box" id = "annotations">
-                
-                 
-              
-               <div>
-                <label id = "ann_number">0</label>
-               </div>
-               <div>  
-                 <!--<input type = 'radio' class = 'start_line' name = 'rb' id = 'rb1' value = 'start'> 
-                 <label for = 'rb1'> Start</label> -->
-                 <button type="submit" id="start_btn"> Pick Start
-                </button>
-                 <input class = 'start_line' type ='text' name = 'text_start' id = 't_start' /> 
-              <!-- </div>
-               <div id = 'end_line'>  -->
-                <button type="submit" id="end_btn"> Pick End
-                </button>
-                 <!--<input type ='radio' name = 'rb' id = 'rb2' value = 'end'> 
-                 <label for='rb2'>End &nbsp</label> -->
-                 <input class = 'end_line' type ='text' name = 'text_end' id = 't_end' /> 
-               </div>
-               <!-- <div id = 'free_line'>
-              
-                  <input type='radio' name = 'rb' id = 'rb3' value = 'free' checked="checked"> 
-                  <label for='rb3'>Free</label> 
-               </div> -->
-                <p>Adjust anottation start/end.</p>
-                 <div id="slider"></div>
-               <select multiple id = 'select_vocab' >
-                  <option>word1</option> 
-                  <option>word2</option> 
-               </select> 
-               <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-               <textarea class='scrollabletextbox' name='note' id = 'description' >Please enter textual description here.</textarea>
-                <button class = "ann_button" type="submit" id="add-ann"> Add Annotation</button>
-            </div>
-             
-            </div>
-        </div>
+
         <div class="row">
-           <div id = 'connect'>
-           </div>
-      
+
+            <div class="col-md-3">
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="ann-box" id="annotations">
+
+                    <div>
+                        <label id="ann_number">0</label>
+                    </div>
+
+                    <div>
+                        <button type="submit" id="start_btn">Pick Start</button>
+                        <input class='start_line' type='text' name='text_start' id='t_start'/>
+                        <button type="submit" id="end_btn">Pick End</button>
+                        <input class='end_line' type='text' name='text_end' id='t_end'/>
+                    </div>
+
+                    <p>Adjust anottation start/end.</p>
+
+                    <div id="slider"></div>
+
+                    <select multiple id='select_vocab' >
+                        <option>word1</option>
+                        <option>word2</option>
+                    </select>
+
+                    <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+
+                    <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
+                    <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id='connect'></div>
+        </div>
+
     </div>
+
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
     <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> <!-- If you'd like to support IE8 -->
