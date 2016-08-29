@@ -7,13 +7,17 @@ body {
   padding: 15px;
   margin: 0 auto;
 }
+
 .form-signin .form-signin-heading,
+
 .form-signin .checkbox {
   margin-bottom: 10px;
 }
+
 .form-signin .checkbox {
   font-weight: normal;
 }
+
 .form-signin .form-control {
   position: relative;
   height: auto;
@@ -23,14 +27,17 @@ body {
   padding: 10px;
   font-size: 16px;
 }
+
 .form-signin .form-control:focus {
   z-index: 2;
 }
+
 .form-signin input[type="email"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
 .form-signin input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
@@ -41,48 +48,56 @@ body {
   background: #00FFFF;
   width: 850px;
 }
+
 .ann-list{
     position: absolute;
     right: 0px;
    
 }
-.ann-elem{
 
-   left: 0px;
+.ann-elem{
+    left: 0px;
     width: 320px;
     border: 3px solid #00FFFF;
     padding: 10px;
     clear:right;
 }
-nav ul{height:460px;}
-nav ul{overflow:hidden; overflow-y:scroll;}
+
+nav ul {
+    height:460px;
+}
+
+nav ul {
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
 #ann-menu-id li {
     list-style-type: none;
 }
+
 #description {
-width: 850px;
-height: 100px
+    width: 850px;
+    height: 100px
 }
 
-.delete_button
-{ float: right;
-  }
+.delete_button {
+    float: right;
+}
   
-.edit_button
-{ float: right;
-  }
+.edit_button {
+    float: right;
+}
   
 .ann_button{
- 
     border: none;
     color: black;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-   margin: 0 auto;
-   display:block;
-   border-radius: 8px;
-   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-
+    margin: 0 auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
