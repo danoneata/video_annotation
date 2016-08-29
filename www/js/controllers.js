@@ -55,7 +55,7 @@ noUiSlider.create(slider, {
 				     text_length = 15;
 				      text_to_display = result[i].description;
 				    if (result[i].description.length>=text_length)
-				       text_to_display = result[i].description.substring(1,text_length)
+				       text_to_display = result[i].description.substring(0, text_length)
 				      // else
 				     //  {
 					 //text_extra = Array.from('\x20'.repeat(text_length-result[i].description.length+1 ));
