@@ -69,3 +69,4 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] On click change video to be displayed
 - [x] List current annotations
 - [x] Add new annotations
+- [ ] When adding a new annotation, automatically trim length of description
