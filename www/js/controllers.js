@@ -206,8 +206,8 @@ noUiSlider.create(slider, {
       videojs("video-player").pause();
     });
   
-  $('#ann-menu-id').on("click", ".edit_button", function(ev) {
-            id = ev.target.id;
+  $('#ann-menu-id').on("click", ".edit_button", function() {
+            id = this.id;
 	    id_annotation = id.substring(5,id.length);
 	    $.post("get_annotation", {
 	                             annotation_id: id_annotation,
@@ -240,8 +240,8 @@ noUiSlider.create(slider, {
 	    });
 	});
        
-  $('#ann-menu-id').on("click", ".delete_button", function(ev) {
-            id = ev.target.id;
+  $('#ann-menu-id').on("click", ".delete_button", function() {
+            id = this.id;
 	    id_annotation = id.substring(7,id.length);
 	    x =  window.confirm("Are you sure you want to delete the annotation?");
 	    if (x ==true){
