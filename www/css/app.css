@@ -52,7 +52,6 @@ body {
 .ann-list{
     position: absolute;
     right: 0px;
-   
 }
 
 .ann-elem{
@@ -60,7 +59,7 @@ body {
     width: 320px;
     border: 3px solid #00FFFF;
     padding: 10px;
-    clear:right;
+    clear: right;
 }
 
 nav ul {
