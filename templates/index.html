@@ -24,12 +24,48 @@
             </div>
 
             <div class="col-md-6">
-                <video id="video-player" class="video-js vjs-fluid" controls preload="auto" data-setup="{}">
-                    <p class="vjs-no-js">
-                        To view this video please enable JavaScript, and consider upgrading to a web browser that
-                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                    </p>
-                </video>
+                <div class="row">
+                    <video id="video-player" class="video-js vjs-fluid" controls preload="auto" data-setup="{}">
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a web browser that
+                            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                        </p>
+                    </video>
+                </div>
+
+                <div class="row">
+
+                    <div class="ann-box" id="annotations">
+
+                        <div>
+                            <label id="ann_number">0</label>
+                        </div>
+
+                        <div>
+                            <button type="submit" id="start_btn">Pick Start</button>
+                            <input class='start_line' type='text' name='text_start' id='t_start'/>
+                            <button type="submit" id="end_btn">Pick End</button>
+                            <input class='end_line' type='text' name='text_end' id='t_end'/>
+                        </div>
+
+                        <p>Adjust anottation start/end.</p>
+
+                        <div id="slider"></div>
+
+                        <select multiple id='select_vocab' >
+                            <option>word1</option>
+                            <option>word2</option>
+                        </select>
+
+                        <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+
+                        <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
+                        <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
+
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="col-md-3">
@@ -40,44 +76,6 @@
                 </nav>
             </div>
 
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-3">
-            </div>
-
-            <div class="col-md-6">
-
-                <div class="ann-box" id="annotations">
-
-                    <div>
-                        <label id="ann_number">0</label>
-                    </div>
-
-                    <div>
-                        <button type="submit" id="start_btn">Pick Start</button>
-                        <input class='start_line' type='text' name='text_start' id='t_start'/>
-                        <button type="submit" id="end_btn">Pick End</button>
-                        <input class='end_line' type='text' name='text_end' id='t_end'/>
-                    </div>
-
-                    <p>Adjust anottation start/end.</p>
-
-                    <div id="slider"></div>
-
-                    <select multiple id='select_vocab' >
-                        <option>word1</option>
-                        <option>word2</option>
-                    </select>
-
-                    <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-
-                    <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
-                    <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
-
-                </div>
-            </div>
         </div>
 
         <div class="row">

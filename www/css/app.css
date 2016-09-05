@@ -46,7 +46,6 @@ body {
 
 .ann-box{
   background: #00FFFF;
-  width: 850px;
 }
 
 .ann-list{
@@ -61,21 +60,11 @@ body {
     clear: right;
 }
 
-nav ul {
-    height:460px;
-}
-
-nav ul {
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
 #ann-menu-id li {
     list-style-type: none;
 }
 
 #description {
-    width: 850px;
     height: 100px
 }
 
