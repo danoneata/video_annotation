@@ -277,10 +277,22 @@ noUiSlider.create(slider, {
 });
 
   $('#start_btn').click( function(ev) {
- document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+   
+    videoPlayer = videojs("video-player");
+     x =  parseFloat(videoPlayer.currentTime()).toFixed(2);
+         t = videoPlayer.currentTime();
+	duration = videoPlayer.duration();
+ document.getElementById("t_start").value = x;
+ slider.noUiSlider.set([(x/duration)*100, null]);
 });
   
   $('#end_btn').click( function(ev) {
+    videoPlayer = videojs("video-player");
+     x =  parseFloat(videoPlayer.currentTime()).toFixed(2);
+         t = videoPlayer.currentTime();
+	duration = videoPlayer.duration();
  document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+  videojs("video-player").pause();
+  slider.noUiSlider.set([null, (x/duration)*100]);
 });
 });
