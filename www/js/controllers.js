@@ -19,7 +19,20 @@ noUiSlider.create(slider, {
     }
 });
 
- 
+    $("#select-vocab select").select2({
+        ajax: {
+            url: "/vocabulary",
+            dataType: 'json',
+            delay: 250,
+            data: {},
+            processResults: function (data) {
+                return {
+                    results: data,
+                };
+            },
+            cache: true
+        }
+    });
 
    slider.noUiSlider.on('update', function(values, handle){
       videoPlayer = videojs("video-player");

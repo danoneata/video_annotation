@@ -52,12 +52,12 @@
 
                         <div id="slider"></div>
 
-                        <select multiple id='select_vocab' >
-                            <option>word1</option>
-                            <option>word2</option>
-                        </select>
-
-                        <p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+                        <div id='select-vocab'>
+                            <div>Select:</div>
+                            <div>
+                                <select multiple="multiple"></select>
+                            </div>
+                        </div>
 
                         <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
                         <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
@@ -92,6 +92,7 @@
     <script src="/node_modules/nouislider/distribute/nouislider.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="/js/controllers.js"></script>
 
 {% endblock %}

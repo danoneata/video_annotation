@@ -145,6 +145,14 @@ def get_videos_json():
         ]
     )
 
+
+@app.route('/vocabulary', methods=['GET'])
+def get_vocabulary():
+    with open('vocabulary.txt', 'r') as f:
+        vocabulary = f.readlines()
+        data = [{'id': i, 'text': v} for i, v in enumerate(vocabulary)]
+    return jsonify(data)
+
    
 @app.route('/js/<path:path>')
 def send_js(path):
