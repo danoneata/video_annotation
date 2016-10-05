@@ -151,20 +151,15 @@ noUiSlider.create(slider, {
           
         
 	 //alert(videoPlayer.currentTime())
-	 var x = document.getElementById("select_vocab");
-	 var selected_values = [];
-         for (var i = 0; i < x.options.length; i++) 
-	 {
-         if(x.options[i].selected == true)
-	   selected_values[i] = x.options[i].value
-	 }
+         var selected_data = $("#select-vocab select").select2("data");
+         var selected_text = selected_data.map(function(x) {return x.text});
 	 //current_video = document.getElementById("select-video").value;
 	 video_list = videojs("video-player").playlist();
 	 $.post("save_annotation",  {
 	                             selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
 	                             time_start: document.getElementById("t_start").value,
 	                             time_end: document.getElementById("t_end").value,
-		                     select_vocab: selected_values.join(" "),
+		                     select_vocab: selected_text.join(" "),
 	                             description: document.getElementById("description").value,
 	                             ann_number: document.getElementById("ann_number").innerText
 	                            },  
@@ -199,18 +194,12 @@ noUiSlider.create(slider, {
 				   
 	    });
 	 
-	  //document.getElementById("select-video").value = current_video;
+	// document.getElementById("select-video").value = current_video;
 	document.getElementById("t_start").value = '';
 	document.getElementById("t_end").value = '';
 	document.getElementById("description").value = '';
-	for (var i = 0; i < x.options.length; i++) 
-	{
-        if(x.options[i].selected == true)
-	  document.getElementById("select_vocab").options[i].selected = false;
-	}
-	
-	// document.getElementById("rb3").checked = true;
-	 videojs("video-player").pause();
+        $("#select-vocab select").val(null).trigger("change");
+        videojs("video-player").pause();
 	
     });
    
@@ -230,26 +219,13 @@ noUiSlider.create(slider, {
 				 document.getElementById("t_start").value = result[0].t_start;
 	                         document.getElementById("t_end").value = result[0].t_end;
 	                         document.getElementById("description").value = result[0].description;
-				 selected_vocab = [];
+
 				 selected_vocab = result[0].selected_vocab;
 				 selected_words = selected_vocab.split(" ");
+                                 $("#select-vocab select").val(selected_words).trigger("change");
 				 
-				 var values=selected_vocab;
-                                 $.each(values.split(" "), function(i,e){
-                                         $("#select_vocab option[value='" + e + "']").prop("selected", true);
-                                   });
-
-				 //var x = document.getElementById("select_vocab");
-				 //for (var i = 0; i < selected_words.l  ength; i++) 
-	                                //  {
-                                               
-	                           //             $("#select_vocab  option[value= '"+selected_words[i]+"']").prop("selected" , true);
-						
-
- //$("#select_vocab").val(["a", "c"]);
-	                                  // }
-				  document.getElementById("ann_number").innerText =  id_annotation;
-				   
+                                 document.getElementById("ann_number").innerText =  id_annotation;
+	   
 	    });
 	});
        
