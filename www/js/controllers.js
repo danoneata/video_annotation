@@ -8,17 +8,26 @@ $(document).ready(function() {
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 	
-var slider = document.getElementById('slider');
+var slider_start = document.getElementById('slider_start');
+var slider_end = document.getElementById('slider_end');
 
-noUiSlider.create(slider, {
-    start: [1, 100],
-    connect: true,
+noUiSlider.create(slider_start, {
+    start: 1,
+    //connect: true,
     range: {
         'min': 1,
     'max': 100
     }
 });
 
+noUiSlider.create(slider_end, {
+    start: 1,
+    //connect: true,
+    range: {
+        'min': 1,
+    'max': 100
+    }
+});
     $("#select-vocab select").select2({
         ajax: {
             url: "/vocabulary",
@@ -34,23 +43,42 @@ noUiSlider.create(slider, {
         }
     });
 
-   slider.noUiSlider.on('update', function(values, handle){
+   slider_start.noUiSlider.on('update', function(values, handle){
       videoPlayer = videojs("video-player");
         t = videoPlayer.currentTime();
 	duration = videoPlayer.duration();
-        slider_values = slider.noUiSlider.get();
+        slider_values = slider_start.noUiSlider.get();
 	
 	if (handle == 0){
 	  newt = slider_values[0]/100*duration;
           videoPlayer.currentTime(newt);
 	  document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
 	}
-	else
-	  if (handle==1){
-	    newt = slider_values[1]/100*duration;
-            videoPlayer.currentTime(newt);
-	    document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
-	  }
+	//else
+	  //if (handle==1){
+	    //newt = slider_values[1]/100*duration;
+            //videoPlayer.currentTime(newt);
+	    //document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+	  //}
+    });
+   
+     slider_end.noUiSlider.on('update', function(values, handle){
+      videoPlayer = videojs("video-player");
+        t = videoPlayer.currentTime();
+	duration = videoPlayer.duration();
+        slider_values = slider_end.noUiSlider.get();
+	
+	if (handle == 0){
+	  newt = slider_values[0]/100*duration;
+          videoPlayer.currentTime(newt);
+	  document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+	}
+	//else
+	  //if (handle==1){
+	    //newt = slider_values[1]/100*duration;
+            //videoPlayer.currentTime(newt);
+	    //document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
+	  //}
     });
 	
     video_list = videojs("video-player").playlist();
@@ -283,7 +311,7 @@ noUiSlider.create(slider, {
          t = videoPlayer.currentTime();
 	duration = videoPlayer.duration();
  document.getElementById("t_start").value = x;
- slider.noUiSlider.set([(x/duration)*100, null]);
+ slider_start.noUiSlider.set([(x/duration)*100, null]);
 });
   
   $('#end_btn').click( function(ev) {
@@ -293,6 +321,6 @@ noUiSlider.create(slider, {
 	duration = videoPlayer.duration();
  document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
   videojs("video-player").pause();
-  slider.noUiSlider.set([null, (x/duration)*100]);
+  slider_end.noUiSlider.set([null, (x/duration)*100]);
 });
 });
