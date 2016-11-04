@@ -3,7 +3,8 @@ $(document).ready(function() {
   
     
     var videoPlayer = videojs("video-player");
-     
+     document.getElementById('start_btn').disabled = false;
+	document.getElementById('end_btn').disabled = false;
     $.get("videos", function(data) {
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
@@ -226,6 +227,8 @@ noUiSlider.create(slider_end, {
 	document.getElementById("t_start").value = '';
 	document.getElementById("t_end").value = '';
 	document.getElementById("description").value = '';
+	document.getElementById('start_btn').disabled = false;
+	document.getElementById('end_btn').disabled = false;
         $("#select-vocab select").val(null).trigger("change");
         videojs("video-player").pause();
 	
@@ -312,6 +315,7 @@ noUiSlider.create(slider_end, {
 	duration = videoPlayer.duration();
  document.getElementById("t_start").value = x;
  slider_start.noUiSlider.set([(x/duration)*100, null]);
+document.getElementById('start_btn').disabled = true;
 });
   
   $('#end_btn').click( function(ev) {
@@ -321,6 +325,7 @@ noUiSlider.create(slider_end, {
 	duration = videoPlayer.duration();
  document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
   videojs("video-player").pause();
-  slider_end.noUiSlider.set([null, (x/duration)*100]);
+  slider_end.noUiSlider.set([(x/duration)*100, null]);
+  document.getElementById('end_btn').disabled = true;
 });
 });
