@@ -50,7 +50,7 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
-                 
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
@@ -135,15 +135,18 @@ def main():
             admin = User('Elisabeta', 'eli@imar.ro', '1988')
             db.session.add(admin)
             db.session.commit()
-            
-            path_app =  os.path.realpath('.')
-            path_video_mp4 = path_app + "/VideoData/MP4/"
-            path_video_webm = path_app + "/VideoData/WEBM/"
-            videos_for_anotate = os.listdir(path_video_webm)
-            
-            for k in videos_for_anotate:
-               video = Video( name = k[0:-5], src_mp4 = "VideoData/MP4/"+ k,  src_webm = "VideoData/WEBM/"+ k[0:-4]+'webm')
-               db.session.add(video)
+
+            path_app = os.path.realpath('.')
+            path_video_mp4 = os.path.join(path_app, "VideoData", "MP4")
+            path_video_webm = os.path.join(path_app, "VideoData", "WEBM")
+            videos_for_annotation = os.listdir(path_video_webm)
+
+            for k in videos_for_annotation:
+                video = Video(
+                    name=k[0: -5],
+                    src_mp4="VideoData/MP4/" + k,
+                    src_webm="VideoData/WEBM/" + k[0:-4] + 'webm')
+                db.session.add(video)
 
             video = Video(
                 name='Oceans',
@@ -163,4 +166,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
