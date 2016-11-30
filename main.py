@@ -266,6 +266,14 @@ def get_all_annotations():
 
 @app.route('/annotations_list',  methods=['GET'])
 def get_annotations_list():
+
+    def shorten(description):
+        MAX_LEN_DESCRIPTION = 20
+        if len(description) > MAX_LEN_DESCRIPTION:
+            return description[:MAX_LEN_DESCRIPTION] + ' [...]'
+        else:
+            return description
+
     video_id = int(request.args.get("video_id"))
 
     query = Annotation.query.filter(
@@ -277,7 +285,7 @@ def get_annotations_list():
     return jsonify([
         {
             'id': row.id,
-            'short_description': row.description[:10],
+            'short_description': shorten(row.description),
         }
         for row in annotations_list
     ])

@@ -45,7 +45,6 @@ body {
 }
 
 .ann-box{
-    background: #00FFFF;
 }
 
 .ann-list{
@@ -57,26 +56,11 @@ body {
 #ann-menu-id li {
 }
 
-#annotations-list-outer {
+#annotations-list {
     max-height: 400px;
     overflow-y: scroll;
 }
 
 #description {
     height: 100px;
-}
-
-.delete_button {
-}
-  
-.edit_button {
-}
-  
-.ann_button{
-}
-
-#select-vocab {
-}
-
-#select-vocab select {
 }

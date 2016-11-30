@@ -3,8 +3,8 @@
 {% block body %}
     {% raw %}
         <script type="text/html" id="template-annotations-row">
-            <div class="row" data-id="{{id}}">
-	                {{short_description}}	
+            <li class="list-group-item clearfix" data-id="{{id}}">
+                {{short_description}}	
                 <div class="pull-right">
                     <button type="submit" class="edit" data-id="{{id}}">
                         <span class="glyphicon glyphicon glyphicon-pencil"></span>
@@ -13,7 +13,7 @@
                         <span class="glyphicon glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
-            </div>
+            </li>
         </script>
 
         <script type="text/html" id="template-annotations">
@@ -57,49 +57,57 @@
 
                 <div class="row">
 
-                    <div class="ann-box" id="annotations">
-
-                        <div>
-                            <label id="ann_number">0</label>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Current annotation</h3>
                         </div>
 
-                        <div>
-                            <button type="submit" id="start_btn">Pick Start</button>
-                            <input class='start_line' type='text' name='text_start' id='t_start'/>
-                            
-                        </div>
-                        <p>Adjust anottation starting time.</p>
-                         <div id="slider_start"></div>
-                        <div>
-                            <button type="submit" id="end_btn">Pick End</button>
-                            <input class='end_line' type='text' name='text_end' id='t_end'/>
-                        </div>
-                        
-                        <p>Adjust anottation ending time.</p>
+                        <div class="panel-body ann-box" id="annotations">
 
-                       
-                        <div id="slider_end"></div>
-
-                        <div id='select-vocab'>
-                            <div>Select:</div>
                             <div>
-                                <select multiple="multiple"></select>
+                                <label id="ann_number">0</label>
                             </div>
-                        </div>
 
-                        <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
-                        <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
+                            <div>
+                                <button type="submit" id="start_btn">Pick Start</button>
+                                <input class='start_line' type='text' name='text_start' id='t_start'/>
+
+                            </div>
+                            <p>Adjust anottation starting time.</p>
+                            <div id="slider_start"></div>
+                            <div>
+                                <button type="submit" id="end_btn">Pick End</button>
+                                <input class='end_line' type='text' name='text_end' id='t_end'/>
+                            </div>
+
+                            <p>Adjust anottation ending time.</p>
+
+
+                            <div id="slider_end"></div>
+
+                            <div id='select-vocab'>
+                                <div>Select:</div>
+                                <div>
+                                    <select multiple="multiple"></select>
+                                </div>
+                            </div>
+
+                            <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
+                            <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
+
+                        </div>
 
                     </div>
-
                 </div>
 
             </div>
 
-            <div id="annotations-list-outer" class="col-md-3">
-                <div id="annotations-list"></div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Your annotations</div>
+                    <ul id="annotations-list" class="list-group"></ul>
+                </div>
             </div>
-
         </div>
     </div>
 
