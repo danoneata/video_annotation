@@ -4,7 +4,9 @@
     {% raw %}
         <script type="text/html" id="template-annotations-row">
             <li class="list-group-item clearfix" data-id="{{id}}">
-                {{short_description}}	
+                <span class="short-description">
+                    {{short_description}}
+                </span>
                 <div class="pull-right">
                     <button type="submit" class="edit" data-id="{{id}}">
                         <span class="glyphicon glyphicon glyphicon-pencil"></span>

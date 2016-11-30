@@ -81,12 +81,10 @@ $(document).ready(function() {
             //}
         });
 
-        curr_video_id = videojs("video-player").playlist.currentItem();
-
         $.ajax({
             url: "annotations_list",
             data: {
-                video_id: curr_video_id,
+                video_id: videojs("video-player").playlist.currentItem(),
             },
             method: "GET",
             dataType: "json",
@@ -101,13 +99,14 @@ $(document).ready(function() {
             }
         });
 
+
         $('.vjs-playlist').on('click', function() {
             video_list = videojs("video-player").playlist();
             $.post("get_all_annotations",  {
                 selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
-            },  
+            },
             function(result){
-                $('.ann-elem').remove(); 
+                $('.ann-elem').remove();
                 $('.li_class').remove();
                 // jQuery('</nav>', {id:'ann_nav_id', class:'ann_nav'}).appendTo("#annotation_list");
                 //jQuery('</ul>', {id:'list_id', class:'list'}).appendTo("#annotation_list");
@@ -128,56 +127,38 @@ $(document).ready(function() {
                 }
 
             });
-        }); 
+        });
 
         $('#add-ann').click( function(ev) {
 
-
-            //alert(videoPlayer.currentTime())
             var selected_data = $("#select-vocab select").select2("data");
             var selected_text = selected_data.map(function(x) {return x.text});
-            //current_video = document.getElementById("select-video").value;
+
             video_list = videojs("video-player").playlist();
-            $.post("save_annotation",  {
-                selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
-                time_start: document.getElementById("t_start").value,
-                time_end: document.getElementById("t_end").value,
-                select_vocab: selected_text.join(" "),
-                description: document.getElementById("description").value,
-                ann_number: document.getElementById("ann_number").innerText
-            },  
-            function(result){
-                ann_number = document.getElementById("ann_number").innerText; 
-                if  (ann_number == 0){
-                    $('<li />', {id: 'li_'+result[0].id, class: 'li_class'}).appendTo('ul.ann-menu');
-                    jQuery('<div/>', {
-                        id: 'id_'+result[0].id,
-                        text: result[0].description,
-                        class: 'ann-elem'
-                    }).appendTo('#li_'+result[0].id);
-
-                    var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[0].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
-                    $("#id_"+result[0].id).append(newInputEdit);
-                    var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[0].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
-                    $("#id_"+result[0].id).append(newInputDelete);
-                }
-                else
+            $.post(
+                "save_annotation",
                 {
-                    document.getElementById("ann_number").innerText = 0;
-                    document.getElementById("id_" + ann_number).innerText = result[0].description;
-                    var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[0].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
-                    $("#id_"+result[0].id).append(newInputEdit);
-                    var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[0].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
-                    $("#id_"+result[0].id).append(newInputDelete);
-                    Start   }
-
-                //$("#id_"+result[0].id).click(function() {
-                //alert(result[0].id);
-                //      });
+                    selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
+                    time_start: document.getElementById("t_start").value,
+                    time_end: document.getElementById("t_end").value,
+                    select_vocab: selected_text.join(" "),
+                    description: document.getElementById("description").value,
+                    ann_number: document.getElementById("ann_number").innerText
+                },
+                function(result){
+                    ann_number = document.getElementById("ann_number").innerText;
+                    if (ann_number == 0) {
+                        $("#annotations-list").append(Mustache.render(
+                            $("#template-annotations-row").html(),
+                            result
+                        ));
+                    } else {
+                        document.getElementById("ann_number").innerText = 0;
+                        $("#annotations-list").find('[data-id="' + result.id + '"] .short-description').html(result.short_description);
+                    }
 
             });
 
-            // document.getElementById("select-video").value = current_video;
             document.getElementById("t_start").value = '';
             document.getElementById("t_end").value = '';
             document.getElementById("description").value = '';
@@ -202,7 +183,7 @@ $(document).ready(function() {
                     "get_annotation",
                     {
                         annotation_id: annotation_id
-                    },  
+                    },
                     function(result){
                         $("#t_start").val(result[0].t_start);
                         $("#t_end").val(result[0].t_end);
@@ -227,7 +208,7 @@ $(document).ready(function() {
                 if (x == true) {
                     $.post("delete_annotation", {
                         annotation_id: annotation_id,
-                    }); 
+                    });
                     $("#annotations-list").find('[data-id="' + annotation_id + '"]').remove();
             }
         });
@@ -242,7 +223,7 @@ $(document).ready(function() {
                     //one frame back
                     videoPlayer.currentTime(t-frameTime);
                 }
-            }   
+            }
             else if (evt.keyCode === 39) { //right arrow
                 if (videoPlayer.currentTime() < videoPlayer.duration()) {
                     //one frame forward
@@ -266,7 +247,6 @@ $(document).ready(function() {
                 });
 
         $('#start_btn').click( function(ev) {
-
             videoPlayer = videojs("video-player");
             x =  parseFloat(videoPlayer.currentTime()).toFixed(2);
             t = videoPlayer.currentTime();

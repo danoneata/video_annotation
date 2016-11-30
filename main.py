@@ -176,6 +176,14 @@ def send_data_videos(path):
     return send_from_directory('VideoData', path)
 
 
+def shorten(description):
+    MAX_LEN_DESCRIPTION = 20
+    if len(description) > MAX_LEN_DESCRIPTION:
+        return description[:MAX_LEN_DESCRIPTION] + ' [...]'
+    else:
+        return description
+
+
 @app.route('/save_annotation',  methods=['GET', 'POST'])
 def save_annotation():
 
@@ -214,11 +222,10 @@ def save_annotation():
         return_annotation = Annotation.query.filter((Annotation.id == ann_number) & (
             Annotation.video_id == annotation.video.id)).first()
 
-    return jsonify([{
+    return jsonify({
         "id": return_annotation.id,
-        "description": return_annotation.description,
-    }
-    ])
+        "short_description": shorten(return_annotation.description),
+    })
 
 
 @app.route('/get_annotation',  methods=['GET', 'POST'])
@@ -266,13 +273,6 @@ def get_all_annotations():
 
 @app.route('/annotations_list',  methods=['GET'])
 def get_annotations_list():
-
-    def shorten(description):
-        MAX_LEN_DESCRIPTION = 20
-        if len(description) > MAX_LEN_DESCRIPTION:
-            return description[:MAX_LEN_DESCRIPTION] + ' [...]'
-        else:
-            return description
 
     video_id = int(request.args.get("video_id"))
 
