@@ -45,54 +45,36 @@ body {
 }
 
 .ann-box{
-  background: #00FFFF;
+    background: #00FFFF;
 }
 
 .ann-list{
-    position: absolute;
-    right: 0px;
 }
 
 .ann-elem{
-    left: 0px;
-    border: 3px solid #00FFFF;
-    padding: 10px;
-    clear: right;
 }
 
 #ann-menu-id li {
-    list-style-type: none;
+}
+
+#annotations-list {
 }
 
 #description {
-    height: 100px
+    height: 100px;
 }
 
 .delete_button {
-    float: right;
 }
   
 .edit_button {
-    float: right;
 }
   
 .ann_button{
-    border: none;
-    color: black;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 0 auto;
-    display: block;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 #select-vocab {
 }
 
 #select-vocab select {
-    width: 50%;
-    display: inline;
 }

@@ -1,6 +1,28 @@
 {% extends "layout.html" %}
 {% block title %}Let's annotate{% endblock %}
 {% block body %}
+    {% raw %}
+        <script type="text/html" id="template-annotations-row">
+            <div class="row" data-id="{{id}}">
+	                {{short_description}}	
+                <div class="pull-right">
+                    <button type="submit" class="edit" data-id="{{id}}">
+                        <span class="glyphicon glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button type="submit" class="delete" data-id="{{id}}">
+                        <span class="glyphicon glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="template-annotations">
+            {{#.}}
+              {{>row}}
+            {{/.}}
+        </script>
+    {% endraw %}
+
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -14,7 +36,7 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="container-fluid">
+    <div class="container">
 
         <div class="row">
 
@@ -75,19 +97,10 @@
             </div>
 
             <div class="col-md-3">
-                <div class='ann-list' id='annotation_list'>
-                </div>
-                <nav>
-                    <ul id='ann-menu-id' class="ann-menu"></ul>
-                </nav>
+                <div id="annotations-list"></div>
             </div>
 
         </div>
-
-        <div class="row">
-            <div id='connect'></div>
-        </div>
-
     </div>
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -99,6 +112,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
     <script src="/js/controllers.js"></script>
 
 {% endblock %}
