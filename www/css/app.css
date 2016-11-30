@@ -57,7 +57,9 @@ body {
 #ann-menu-id li {
 }
 
-#annotations-list {
+#annotations-list-outer {
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 #description {
