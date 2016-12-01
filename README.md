@@ -72,7 +72,7 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] When adding a new annotation, automatically trim length of description
 - [x] Add scroll to annotations
 - [x] Reset controls when selecting another video
-- [ ] Check Chrome
+- [x] Check Chrome
 - [ ] Check why first option does not work in the select form
 - [ ] Initialize select form with existing tags
 - [ ] After adjusting start time, gray out the slider and the pick start button + text input (Maybe add a button - 'Done'?!)
