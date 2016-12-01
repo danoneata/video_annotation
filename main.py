@@ -152,7 +152,7 @@ def get_videos_json():
 def get_vocabulary():
     with open('vocabulary.txt', 'r') as f:
         vocabulary = f.readlines()
-        data = [{'id': i, 'text': v} for i, v in enumerate(vocabulary)]
+        data = [{'id': i, 'text': v} for i, v in enumerate(vocabulary, 1)]
     return jsonify(data)
 
 
