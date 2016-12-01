@@ -30,7 +30,6 @@ $(document).ready(function() {
 
         noUiSlider.create(slider_start, {
             start: 1,
-            // connect: true,
             range: {
                 'min': 1,
                 'max': 100
@@ -39,7 +38,6 @@ $(document).ready(function() {
 
         noUiSlider.create(slider_end, {
             start: 1,
-            // connect: true,
             range: {
                 'min': 1,
                 'max': 100
