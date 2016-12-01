@@ -65,23 +65,19 @@
 
                         <div class="panel-body ann-box" id="annotations">
                             <div class="form-group">
-                                <label>Start time</label>
+                                <label>Adjust time limits</label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio-time-limits" id="radio-start" value="start" checked> start time
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio-time-limits" id="radio-end" value="end"> end  time
+                                </label>
+                                <div id="slider"></div>
                                 <div>
-                                    <button type="submit" id="start_btn">Pick Start</button>
-                                    <input class='start_line' type='text' name='text_start' id='t_start'/>
+                                    Current time limits: 
+                                    <span id='start-time'></span> s –
+                                    <span id='end-time'></span> s
                                 </div>
-                                <div id="slider_start"></div>
-                                <p class="help-block">Adjust annotation start time.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label>End time</label>
-                                <div>
-                                    <button type="submit" id="end_btn">Pick End</button>
-                                    <input class='end_line' type='text' name='text_end' id='t_end'/>
-                                </div>
-                                <div id="slider_end"></div>
-                                <p class="help-block">Adjust annotation end time.</p>
                             </div>
 
                             <div id='select-vocab' class="form-group">

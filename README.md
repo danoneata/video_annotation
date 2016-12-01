@@ -76,7 +76,9 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] Check why first option does not work in the select form
 - [x] Initialize select form with existing tags
 - [x] Fix time limits to either seconds or frames
-- [ ] After adjusting start time, gray out the slider and the pick start button + text input (Maybe add a button - 'Done'?!)
+- [x] After adjusting start time, gray out the slider and the pick start button + text input (Maybe add a button - 'Done'?!)
+- [x] Select temporal limits in stages
+- [ ] Are we storing frames or seconds as temporal limits? Python / MySQL expect frames; Javascript returns seconds
+- [ ] Put a constraint on the time limits to ensure that the end limit is always after the start one
 - [ ] Don't delete anything from database, add an extra entry in the table that specify it should be ignored
-- [ ] Select temporal limits in stages
 - [ ] Replace videojs-playlist-ui with our own implementation

@@ -1,34 +1,33 @@
-function getCurrentVideoName (videoPlayer) {
-    var videoList = videoPlayer.playlist();
-    var currentItem = videoPlayer.playlist.currentItem();
-    return videoList[currentItem].name;
-}
-
 $(document).ready(function() {
 
-    document.getElementById('start_btn').disabled = false;
-    document.getElementById('end_btn').disabled = false;
-
-    function resetForm () {
-        document.getElementById("t_start").value = '';
-        document.getElementById("t_end").value = '';
-        document.getElementById("description").value = '';
-        document.getElementById('start_btn').disabled = false;
-        document.getElementById('end_btn').disabled = false;
+    function resetForm (videoPlayer) {
+        $("#start-time").html("0.00");
+        $("#end-time").html(videoPlayer.duration().toFixed(2));
+        $("#description").val("");
         $("#select-vocab select").val(null).trigger("change");
+        $("input[name='radio-time-limits'][value='start']").prop("checked", true);
+        videoPlayer.currentTime(0);
+    }
+
+    function getCurrentVideoName (videoPlayer) {
+        var videoList = videoPlayer.playlist();
+        var currentItem = videoPlayer.playlist.currentItem();
+        return videoList[currentItem].name;
     }
 
     $.get("videos", function(data) {
 
 	var videoPlayer = videojs("video-player");
 
+        function setTime (t) {
+            $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
+            videoPlayer.currentTime(t);
+        }
+
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 
-        var slider_start = document.getElementById('slider_start');
-        var slider_end = document.getElementById('slider_end');
-
-        noUiSlider.create(slider_start, {
+        noUiSlider.create($("#slider")[0], {
             start: 1,
             range: {
                 'min': 1,
@@ -36,15 +35,10 @@ $(document).ready(function() {
             }
         });
 
-        noUiSlider.create(slider_end, {
-            start: 1,
-            range: {
-                'min': 1,
-                'max': 100
-            }
-        });
+        $("#start-time").html("0.00");
+        $("#end-time").html(videoPlayer.duration().toFixed(2));
 
-        $.ajax({
+       $.ajax({
             url: "vocabulary",
             method: "GET",
             success: function (data) {
@@ -52,16 +46,11 @@ $(document).ready(function() {
             }
         });
 
-        slider_start.noUiSlider.on('update', function(values, handle){
+        $("#slider")[0].noUiSlider.on('update', function(values, handle){
             var t = parseFloat(values[handle]) / 100 * videoPlayer.duration();
             videoPlayer.currentTime(t);
-            $("#t_start").val(t.toFixed(2));
-        });
-
-        slider_end.noUiSlider.on('update', function(values, handle){
-            var t = parseFloat(values[handle]) / 100 * videoPlayer.duration();
-            videoPlayer.currentTime(t);
-            $("#t_end").val(t.toFixed(2));
+            var selected = $("input[name='radio-time-limits']:checked").val();
+            $("#" + selected + "-time").html(t.toFixed(2));
         });
 
         function updateAnnotationsList () {
@@ -88,7 +77,7 @@ $(document).ready(function() {
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
-            resetForm();
+            resetForm(videoPlayer);
         });
 
         $('#add-ann').click( function(ev) {
@@ -101,8 +90,8 @@ $(document).ready(function() {
                 "save_annotation",
                 {
                     selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
-                    time_start: document.getElementById("t_start").value,
-                    time_end: document.getElementById("t_end").value,
+                    time_start: parseFloat($("#start-time").html()),
+                    time_end: parseFloat($("#end-time").html()),
                     select_vocab: selected_text.join(" "),
                     description: document.getElementById("description").value,
                     ann_number: document.getElementById("ann_number").innerText
@@ -121,8 +110,8 @@ $(document).ready(function() {
 
             });
 
-            resetForm();
-            videojs("video-player").pause();
+            resetForm(videoPlayer);
+            videoPlayer.pause();
         });
 
         $('#annotations-list').on(
@@ -136,11 +125,13 @@ $(document).ready(function() {
                         annotation_id: annotation_id
                     },
                     function (result){
-                        $("#t_start").val(result.t_start);
-                        $("#t_end").val(result.t_end);
+                        $("#start-time").html(result.t_start);
+                        $("#end-time").html(result.t_end);
                         $("#description").val(result.description);
                         $("#select-vocab select").val(result.selected_vocab).trigger("change");
-                        document.getElementById("ann_number").innerText = annotation_id;
+                        $("#ann_number").html(annotation_id);
+                        $("input[name='radio-time-limits'][value='start']").prop("checked", true);
+                        setTime(result.t_start);
                     }
                 );
             }
@@ -160,46 +151,32 @@ $(document).ready(function() {
             }
         });
 
+        $('input[name="radio-time-limits"]:radio').change(
+            function () {
+                t = parseFloat($("#" + $(this).val() + "-time").html());
+                setTime(t);
+            }
+        );
+
         document.addEventListener('keydown', function (evt) {
             var videoPlayer = videojs("video-player");
-            frameTime = 1 / 30; // assume 30 fps
+            var frameTime = 1 / 30; // assume 30 fps
+            var duration = videoPlayer.duration();
+            var t = videoPlayer.currentTime();
             videoPlayer.pause()
-                t = videoPlayer.currentTime();
             if (evt.keyCode === 37) { // left arrows
-                if (t  > 0) {
+                if (t > 0) {
                     // one frame back
-                    videoPlayer.currentTime(t-frameTime);
+                    t = t - frameTime;
                 }
-            }
-            else if (evt.keyCode === 39) { //right arrow
-                if (videoPlayer.currentTime() < videoPlayer.duration()) {
+            } else if (evt.keyCode === 39) { // right arrow
+                // Don't go past the end, otherwise you may get an error
+                if (videoPlayer.currentTime() < duration) {
                     // one frame forward
-                    // Don't go past the end, otherwise you may get an error
-                    videoPlayer.currentTime(Math.min(videoPlayer.duration(), t + frameTime));
+                    t = Math.min(duration, t + frameTime);
                 }
-
             }
-        });
-
-        $('#start_btn').click( function(ev) {
-            videoPlayer = videojs("video-player");
-            x = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            t = videoPlayer.currentTime();
-            duration = videoPlayer.duration();
-            document.getElementById("t_start").value = x;
-            slider_start.noUiSlider.set((x / duration) * 100);
-            document.getElementById('start_btn').disabled = true;
-        });
-
-        $('#end_btn').click( function(ev) {
-            videoPlayer = videojs("video-player");
-            x = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            t = videoPlayer.currentTime();
-            duration = videoPlayer.duration();
-            document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            videojs("video-player").pause();
-            slider_end.noUiSlider.set((x / duration) * 100);
-            document.getElementById('end_btn').disabled = true;
+            setTime(t);
         });
     });
 });
