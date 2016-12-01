@@ -1,20 +1,5 @@
 $(document).ready(function() {
 
-    function resetForm (videoPlayer) {
-        $("#start-time").html("0.00");
-        $("#end-time").html(videoPlayer.duration().toFixed(2));
-        $("#description").val("");
-        $("#select-vocab select").val(null).trigger("change");
-        $("input[name='radio-time-limits'][value='start']").prop("checked", true);
-        videoPlayer.currentTime(0);
-    }
-
-    function getCurrentVideoName (videoPlayer) {
-        var videoList = videoPlayer.playlist();
-        var currentItem = videoPlayer.playlist.currentItem();
-        return videoList[currentItem].name;
-    }
-
     $.get("videos", function(data) {
 
 	var videoPlayer = videojs("video-player");
@@ -22,6 +7,21 @@ $(document).ready(function() {
         function setTime (t) {
             $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
             videoPlayer.currentTime(t);
+        }
+
+        function resetForm () {
+            $("#start-time").html("0.00");
+            $("#end-time").html(videoPlayer.duration().toFixed(2));
+            $("#description").val("");
+            $("#select-vocab select").val(null).trigger("change");
+            $("input[name='radio-time-limits'][value='start']").prop("checked", true);
+            setTime(0);
+        }
+
+        function getCurrentVideoName () {
+            var videoList = videoPlayer.playlist();
+            var currentItem = videoPlayer.playlist.currentItem();
+            return videoList[currentItem].name;
         }
 
         videoPlayer.playlist(data);
@@ -57,7 +57,7 @@ $(document).ready(function() {
             $.ajax({
                 url: "annotations_list",
                 data: {
-                    selected_video: getCurrentVideoName(videoPlayer),
+                    selected_video: getCurrentVideoName(),
                 },
                 method: "GET",
                 dataType: "json",
@@ -77,7 +77,7 @@ $(document).ready(function() {
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
-            resetForm(videoPlayer);
+            resetForm();
         });
 
         $('#add-ann').click( function(ev) {
@@ -110,7 +110,7 @@ $(document).ready(function() {
 
             });
 
-            resetForm(videoPlayer);
+            resetForm();
             videoPlayer.pause();
         });
 
