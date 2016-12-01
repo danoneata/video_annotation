@@ -9,6 +9,15 @@ $(document).ready(function() {
     document.getElementById('start_btn').disabled = false;
     document.getElementById('end_btn').disabled = false;
 
+    function resetForm () {
+        document.getElementById("t_start").value = '';
+        document.getElementById("t_end").value = '';
+        document.getElementById("description").value = '';
+        document.getElementById('start_btn').disabled = false;
+        document.getElementById('end_btn').disabled = false;
+        $("#select-vocab select").val(null).trigger("change");
+    }
+
     $.get("videos", function(data) {
 
 	var videoPlayer = videojs("video-player");
@@ -104,6 +113,7 @@ $(document).ready(function() {
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
+            resetForm();
         });
 
         $('#add-ann').click( function(ev) {
@@ -136,14 +146,8 @@ $(document).ready(function() {
 
             });
 
-            document.getElementById("t_start").value = '';
-            document.getElementById("t_end").value = '';
-            document.getElementById("description").value = '';
-            document.getElementById('start_btn').disabled = false;
-            document.getElementById('end_btn').disabled = false;
-            $("#select-vocab select").val(null).trigger("change");
+            resetForm();
             videojs("video-player").pause();
-
         });
 
         $('input[type = "radio"]').on('click', function(e)
