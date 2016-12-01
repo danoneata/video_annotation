@@ -1,5 +1,6 @@
 
 import argparse
+import getpass
 import datetime
 import os
 import pdb
@@ -108,7 +109,8 @@ class Annotation(db.Model):
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Script to handle the creation and deletion of the tables.')
+    parser = argparse.ArgumentParser(
+        description='Script to handle the creation and deletion of the tables.')
     parser.add_argument(
         '-t', '--todo',
         default=[],
@@ -133,27 +135,40 @@ def main():
         with app.app_context():
 
             admin = User('Elisabeta', 'eli@imar.ro', '1988')
+
             db.session.add(admin)
             db.session.commit()
 
-            path_app = os.path.realpath('.')
-            path_video_mp4 = os.path.join(path_app, "VideoData", "MP4")
-            path_video_webm = os.path.join(path_app, "VideoData", "WEBM")
-            videos_for_annotation = os.listdir(path_video_webm)
+            videos = [
+                Video(
+                    name='Oceans',
+                    src_mp4="http://vjs.zencdn.net/v/oceans.mp4",
+                    src_webm="http://vjs.zencdn.net/v/oceans.webm",
+                ),
+                Video(
+                    name='Sintel',
+                    src_mp4='http://media.w3.org/2010/05/sintel/trailer.mp4',
+                    src_webm='http://media.w3.org/2010/05/sintel/trailer.webm',
+                ),
+            ]
 
-            for k in videos_for_annotation:
-                video = Video(
-                    name=k[0: -5],
-                    src_mp4="VideoData/MP4/" + k,
-                    src_webm="VideoData/WEBM/" + k[0:-4] + 'webm')
+            if getpass.getuser() != 'eurus':
+                path_app = os.path.realpath('.')
+                path_video_mp4 = os.path.join(path_app, "VideoData", "MP4")
+                path_video_webm = os.path.join(path_app, "VideoData", "WEBM")
+                videos_for_annotation = os.listdir(path_video_webm)
+
+                for k in videos_for_annotation:
+                    videos.append(
+                        Video(
+                            name=k[0: -5],
+                            src_mp4="VideoData/MP4/" + k,
+                            src_webm="VideoData/WEBM/" + k[0:-4] + 'webm',
+                        )
+                    )
+
+            for video in videos:
                 db.session.add(video)
-
-            video = Video(
-                name='Oceans',
-                src_mp4="http://vjs.zencdn.net/v/oceans.mp4",
-                src_webm="http://vjs.zencdn.net/v/oceans.webm",
-            )
-            db.session.add(video)
             db.session.commit()
 
     if 'drop' in args.todo:

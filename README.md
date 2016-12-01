@@ -69,9 +69,9 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] On click change video to be displayed
 - [x] List current annotations
 - [x] Add new annotations
-- [ ] When adding a new annotation, automatically trim length of description
+- [x] When adding a new annotation, automatically trim length of description
+- [x] Add scroll to annotations
 - [ ] After adjusting start time, gray out the slider and the pick start button + text input (Maybe add a button - 'Done'?!)
 - [ ] Don't delete anything from database, add an extra entry in the table that specify it should be ignored
-- [x] Add scroll to annotations
 - [ ] Reset controls when selecting another video
 - [ ] Check Chrome

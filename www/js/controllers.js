@@ -1,10 +1,20 @@
+function getCurrentVideoName (videoPlayer) {
+    var videoList = videoPlayer.playlist();
+    var currentItem = videoPlayer.playlist.currentItem();
+    return videoList[currentItem].name;
+}
+
 $(document).ready(function() {
 
-    var videoPlayer = videojs("video-player");
     document.getElementById('start_btn').disabled = false;
     document.getElementById('end_btn').disabled = false;
 
     $.get("videos", function(data) {
+
+	var videoPlayer = videojs("video-player");
+
+	console.log(data);
+
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 
@@ -13,7 +23,7 @@ $(document).ready(function() {
 
         noUiSlider.create(slider_start, {
             start: 1,
-            //connect: true,
+            // connect: true,
             range: {
                 'min': 1,
                 'max': 100
@@ -22,12 +32,13 @@ $(document).ready(function() {
 
         noUiSlider.create(slider_end, {
             start: 1,
-            //connect: true,
+            // connect: true,
             range: {
                 'min': 1,
                 'max': 100
             }
         });
+
         $("#select-vocab select").select2({
             ajax: {
                 url: "/vocabulary",
@@ -44,89 +55,55 @@ $(document).ready(function() {
         });
 
         slider_start.noUiSlider.on('update', function(values, handle){
-            videoPlayer = videojs("video-player");
-            t = videoPlayer.currentTime();
-            duration = videoPlayer.duration();
-            slider_values = slider_start.noUiSlider.get();
+            var videoPlayer = videojs("video-player");
+            var t = videoPlayer.currentTime();
+            var duration = videoPlayer.duration();
+            var slider_values = slider_start.noUiSlider.get();
 
-            if (handle == 0){
-                newt = slider_values[0]/100*duration;
+            if (handle == 0) {
+                var newt = slider_values[0] / 100 * duration;
                 videoPlayer.currentTime(newt);
                 document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
             }
-            //else
-            //if (handle==1){
-            //newt = slider_values[1]/100*duration;
-            //videoPlayer.currentTime(newt);
-            //document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            //}
         });
 
         slider_end.noUiSlider.on('update', function(values, handle){
-            videoPlayer = videojs("video-player");
-            t = videoPlayer.currentTime();
-            duration = videoPlayer.duration();
-            slider_values = slider_end.noUiSlider.get();
+            var videoPlayer = videojs("video-player");
+            var t = videoPlayer.currentTime();
+            var duration = videoPlayer.duration();
+            var slider_values = slider_end.noUiSlider.get();
 
-            if (handle == 0){
-                newt = slider_values[0]/100*duration;
+            if (handle == 0) {
+                var newt = slider_values[0] / 100 * duration;
                 videoPlayer.currentTime(newt);
                 document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
             }
-            //else
-            //if (handle==1){
-            //newt = slider_values[1]/100*duration;
-            //videoPlayer.currentTime(newt);
-            //document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            //}
         });
 
-        $.ajax({
-            url: "annotations_list",
-            data: {
-                video_id: videojs("video-player").playlist.currentItem(),
-            },
-            method: "GET",
-            dataType: "json",
-            success: function (data) {
-                $("#annotations-list").html(Mustache.render(
-                    $("#template-annotations").html(),
-                    data,
-                    {
-                        "row": $("#template-annotations-row").html(),
-                    }
-                ));
-            }
-        });
+        function updateAnnotationsList () {
+            $.ajax({
+                url: "annotations_list",
+                data: {
+                    selected_video: getCurrentVideoName(videoPlayer),
+                },
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $("#annotations-list").html(Mustache.render(
+                        $("#template-annotations").html(),
+                        data,
+                        {
+                            "row": $("#template-annotations-row").html(),
+                        }
+                    ));
+                }
+            });
+        }
 
+        updateAnnotationsList();
 
         $('.vjs-playlist').on('click', function() {
-            video_list = videojs("video-player").playlist();
-            $.post("get_all_annotations",  {
-                selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
-            },
-            function(result){
-                $('.ann-elem').remove();
-                $('.li_class').remove();
-                // jQuery('</nav>', {id:'ann_nav_id', class:'ann_nav'}).appendTo("#annotation_list");
-                //jQuery('</ul>', {id:'list_id', class:'list'}).appendTo("#annotation_list");
-
-                for (var i = 0; i<result.length;i++)
-                {
-                    $('<li />', {id: 'li_'+result[i].id, class: 'li_class'}).appendTo('ul.ann-menu');
-                    jQuery('<div/>', {
-                        id: 'id_' + result[i].id,
-                        text: result[i].description,
-                        class: 'ann-elem'
-                    }).appendTo('#li_'+result[i].id);
-
-                    var newInputEdit = '<button type="submit" class="edit_button" name="Button" value="Edit" id="edit-' + result[i].id + '"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>';
-                    $("#id_" + result[i].id).append(newInputEdit);
-                    var newInputDelete = '<button type = "submit" class = "delete_button" name = "Button" value = "Delete" id = "delete-' + result[i].id+'"><span class="glyphicon glyphicon glyphicon-trash"></span></button>';
-                    $("#id_"+ result[i].id).append(newInputDelete);
-                }
-
-            });
+            updateAnnotationsList();
         });
 
         $('#add-ann').click( function(ev) {
@@ -234,21 +211,18 @@ $(document).ready(function() {
             }
         });
 
-
-        $('input[type="radio"]').keydown(function(e)
-                {
-                    var arrowKeys = [37, 38, 39, 40];
-                    if (arrowKeys.indexOf(e.which) !== -1)
-                    {
-                        $(this).blur();
-
-
-                    }
-                });
+	$('input[type="radio"]').keydown(
+	    function (e) {
+		var arrowKeys = [37, 38, 39, 40];
+		if (arrowKeys.indexOf(e.which) !== -1) {
+		    $(this).blur();
+		}
+	    }
+	);
 
         $('#start_btn').click( function(ev) {
             videoPlayer = videojs("video-player");
-            x =  parseFloat(videoPlayer.currentTime()).toFixed(2);
+            x = parseFloat(videoPlayer.currentTime()).toFixed(2);
             t = videoPlayer.currentTime();
             duration = videoPlayer.duration();
             document.getElementById("t_start").value = x;
@@ -258,7 +232,7 @@ $(document).ready(function() {
 
         $('#end_btn').click( function(ev) {
             videoPlayer = videojs("video-player");
-            x =  parseFloat(videoPlayer.currentTime()).toFixed(2);
+            x = parseFloat(videoPlayer.currentTime()).toFixed(2);
             t = videoPlayer.currentTime();
             duration = videoPlayer.duration();
             document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);

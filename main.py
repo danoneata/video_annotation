@@ -274,12 +274,13 @@ def get_all_annotations():
 @app.route('/annotations_list',  methods=['GET'])
 def get_annotations_list():
 
-    video_id = int(request.args.get("video_id"))
+    video_name = request.args.get("selected_video")
+    video = Video.query.filter(Video.name == video_name).first()
 
-    query = Annotation.query.filter(
-        Annotation.user_id == current_user.id and
-        Annotation.video_id == video_id)
+    query = Annotation.query.filter(Annotation.user_id == current_user.id)
+    query = query.filter(Annotation.video_id == video.id)
     query = query.order_by(sqlalchemy.asc(Annotation.id))
+
     annotations_list = query.all()
 
     return jsonify([

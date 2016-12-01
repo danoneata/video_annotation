@@ -64,3 +64,8 @@ body {
 #description {
     height: 100px;
 }
+
+.vjs-playlist {
+    width: 50%;
+}
+

@@ -43,8 +43,11 @@
         <div class="row">
 
             <div class="col-md-3">
-                <ol class="vjs-playlist">
-                </ol>
+                <div class="row">
+                    <div class="col-md-9">
+                        <ol class="vjs-playlist"></ol>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-6">
@@ -61,47 +64,47 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Current annotation</h3>
+                            <h3 class="panel-title">Current annotation — <span id="ann_number">0</span></h3>
                         </div>
 
                         <div class="panel-body ann-box" id="annotations">
-
-                            <div>
-                                <label id="ann_number">0</label>
-                            </div>
-
-                            <div>
-                                <button type="submit" id="start_btn">Pick Start</button>
-                                <input class='start_line' type='text' name='text_start' id='t_start'/>
-
-                            </div>
-                            <p>Adjust anottation starting time.</p>
-                            <div id="slider_start"></div>
-                            <div>
-                                <button type="submit" id="end_btn">Pick End</button>
-                                <input class='end_line' type='text' name='text_end' id='t_end'/>
-                            </div>
-
-                            <p>Adjust anottation ending time.</p>
-
-
-                            <div id="slider_end"></div>
-
-                            <div id='select-vocab'>
-                                <div>Select:</div>
+                            <div class="form-group">
+                                <label>Start time</label>
                                 <div>
-                                    <select multiple="multiple"></select>
+                                    <button type="submit" id="start_btn">Pick Start</button>
+                                    <input class='start_line' type='text' name='text_start' id='t_start'/>
+                                </div>
+                                <div id="slider_start"></div>
+                                <p class="help-block">Adjust annotation start time.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label>End time</label>
+                                <div>
+                                    <button type="submit" id="end_btn">Pick End</button>
+                                    <input class='end_line' type='text' name='text_end' id='t_end'/>
+                                </div>
+                                <div id="slider_end"></div>
+                                <p class="help-block">Adjust annotation end time.</p>
+                            </div>
+
+                            <div id='select-vocab' class="form-group">
+                                <label>Select tags</label>
+                                <div>
+                                    <select style="width:100%" multiple="multiple"></select>
                                 </div>
                             </div>
 
-                            <textarea class='scrollabletextbox' name='note' id='description' >Please enter textual description here.</textarea>
-                            <button class="ann_button" type="submit" id="add-ann"> Add Annotation</button>
+                            <div class="form-group">
+                                <label for="description">Video description</label>
+                                <textarea class='form-control' rows="3" id='description' placeholder="Please enter textual description here."></textarea>
+                            </div>
+
+                            <button class="btn btn-default" type="submit" id="add-ann">Add Annotation</button>
 
                         </div>
-
                     </div>
                 </div>
-
             </div>
 
             <div class="col-md-3">
