@@ -150,11 +150,6 @@ $(document).ready(function() {
             videojs("video-player").pause();
         });
 
-        $('input[type = "radio"]').on('click', function(e)
-                {
-                    videojs("video-player").pause();
-                });
-
         $('#annotations-list').on(
             "click",
             "button.edit",
