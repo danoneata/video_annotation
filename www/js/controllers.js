@@ -55,29 +55,15 @@ $(document).ready(function() {
         });
 
         slider_start.noUiSlider.on('update', function(values, handle){
-            var videoPlayer = videojs("video-player");
-            var t = videoPlayer.currentTime();
-            var duration = videoPlayer.duration();
-            var slider_values = slider_start.noUiSlider.get();
-
-            if (handle == 0) {
-                var newt = slider_values[0] / 100 * duration;
-                videoPlayer.currentTime(newt);
-                document.getElementById("t_start").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            }
+            var t = parseFloat(values[handle]) / 100 * videoPlayer.duration();
+            videoPlayer.currentTime(t);
+            $("#t_start").val(t.toFixed(2));
         });
 
         slider_end.noUiSlider.on('update', function(values, handle){
-            var videoPlayer = videojs("video-player");
-            var t = videoPlayer.currentTime();
-            var duration = videoPlayer.duration();
-            var slider_values = slider_end.noUiSlider.get();
-
-            if (handle == 0) {
-                var newt = slider_values[0] / 100 * duration;
-                videoPlayer.currentTime(newt);
-                document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
-            }
+            var t = parseFloat(values[handle]) / 100 * videoPlayer.duration();
+            videoPlayer.currentTime(t);
+            $("#t_end").val(t.toFixed(2));
         });
 
         function updateAnnotationsList () {
@@ -203,7 +189,7 @@ $(document).ready(function() {
             t = videoPlayer.currentTime();
             duration = videoPlayer.duration();
             document.getElementById("t_start").value = x;
-            slider_start.noUiSlider.set([(x/duration)*100, null]);
+            slider_start.noUiSlider.set((x / duration) * 100);
             document.getElementById('start_btn').disabled = true;
         });
 
@@ -214,7 +200,7 @@ $(document).ready(function() {
             duration = videoPlayer.duration();
             document.getElementById("t_end").value = parseFloat(videoPlayer.currentTime()).toFixed(2);
             videojs("video-player").pause();
-            slider_end.noUiSlider.set([(x/duration)*100, null]);
+            slider_end.noUiSlider.set((x / duration) * 100);
             document.getElementById('end_btn').disabled = true;
         });
     });
