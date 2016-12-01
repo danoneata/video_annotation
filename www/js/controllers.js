@@ -22,8 +22,6 @@ $(document).ready(function() {
 
 	var videoPlayer = videojs("video-player");
 
-	console.log(data);
-
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 
@@ -180,33 +178,24 @@ $(document).ready(function() {
 
         document.addEventListener('keydown', function (evt) {
             var videoPlayer = videojs("video-player");
-            frameTime = 1 / 30; //assume 30 fps
+            frameTime = 1 / 30; // assume 30 fps
             videoPlayer.pause()
                 t = videoPlayer.currentTime();
-            if (evt.keyCode === 37) { //left arrows
+            if (evt.keyCode === 37) { // left arrows
                 if (t  > 0) {
-                    //one frame back
+                    // one frame back
                     videoPlayer.currentTime(t-frameTime);
                 }
             }
             else if (evt.keyCode === 39) { //right arrow
                 if (videoPlayer.currentTime() < videoPlayer.duration()) {
-                    //one frame forward
-                    //Don't go past the end, otherwise you may get an error
+                    // one frame forward
+                    // Don't go past the end, otherwise you may get an error
                     videoPlayer.currentTime(Math.min(videoPlayer.duration(), t + frameTime));
                 }
 
             }
         });
-
-	$('input[type="radio"]').keydown(
-	    function (e) {
-		var arrowKeys = [37, 38, 39, 40];
-		if (arrowKeys.indexOf(e.which) !== -1) {
-		    $(this).blur();
-		}
-	    }
-	);
 
         $('#start_btn').click( function(ev) {
             videoPlayer = videojs("video-player");
