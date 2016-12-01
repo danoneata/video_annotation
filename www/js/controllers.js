@@ -48,18 +48,11 @@ $(document).ready(function() {
             }
         });
 
-        $("#select-vocab select").select2({
-            ajax: {
-                url: "/vocabulary",
-                dataType: 'json',
-                delay: 250,
-                data: {},
-                processResults: function (data) {
-                    return {
-                        results: data,
-                    };
-                },
-                cache: true
+        $.ajax({
+            url: "vocabulary",
+            method: "GET",
+            success: function (data) {
+                $("#select-vocab select").select2({data: data});
             }
         });
 
@@ -160,15 +153,11 @@ $(document).ready(function() {
                     {
                         annotation_id: annotation_id
                     },
-                    function(result){
-                        $("#t_start").val(result[0].t_start);
-                        $("#t_end").val(result[0].t_end);
-                        $("#description").val(result[0].description);
-
-                        selected_vocab = result[0].selected_vocab;
-                        selected_words = selected_vocab.split(" ");
-                        $("#select-vocab select").val(selected_words).trigger("change");
-
+                    function (result){
+                        $("#t_start").val(result.t_start);
+                        $("#t_end").val(result.t_end);
+                        $("#description").val(result.description);
+                        $("#select-vocab select").val(result.selected_vocab).trigger("change");
                         document.getElementById("ann_number").innerText = annotation_id;
                     }
                 );

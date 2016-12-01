@@ -148,11 +148,16 @@ def get_videos_json():
     )
 
 
+with open('vocabulary.txt', 'r') as f:
+    VOCABULARY = f.readlines()
+
+ID_TO_WORD = {i: word.strip() for i, word in enumerate(VOCABULARY, 1)}
+WORD_TO_ID = {word: i for i, word in ID_TO_WORD.items()}
+
+
 @app.route('/vocabulary', methods=['GET'])
 def get_vocabulary():
-    with open('vocabulary.txt', 'r') as f:
-        vocabulary = f.readlines()
-        data = [{'id': i, 'text': v} for i, v in enumerate(vocabulary, 1)]
+    data = [{'id': i, 'text': w} for i, w in ID_TO_WORD.items()]
     return jsonify(data)
 
 
@@ -231,15 +236,13 @@ def save_annotation():
 @app.route('/get_annotation',  methods=['GET', 'POST'])
 def get_annotation():
     annotation_id = request.form["annotation_id"]
-    annotation = Annotation.query.filter(
-        Annotation.id == annotation_id).first()
-    return jsonify([{
+    annotation = Annotation.query.filter(Annotation.id == annotation_id).first()
+    return jsonify({
         "t_start": annotation.start_frame,
         "t_end": annotation.end_frame,
         "description": annotation.description,
-        "selected_vocab": annotation.keywords,
-    }
-    ])
+        "selected_vocab": [str(WORD_TO_ID[k]) for k in annotation.keywords.split()],
+    })
 
 
 @app.route('/delete_annotation',  methods=['GET', 'POST'])

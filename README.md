@@ -74,7 +74,8 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] Reset controls when selecting another video
 - [x] Check Chrome
 - [x] Check why first option does not work in the select form
-- [ ] Initialize select form with existing tags
+- [x] Initialize select form with existing tags
+- [ ] Fix time limits to either seconds or frames
 - [ ] After adjusting start time, gray out the slider and the pick start button + text input (Maybe add a button - 'Done'?!)
 - [ ] Don't delete anything from database, add an extra entry in the table that specify it should be ignored
 - [ ] Select temporal limits in stages
