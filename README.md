@@ -79,6 +79,9 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] After adjusting start time, gray out the slider and the pick start button + text input (Maybe add a button - 'Done'?!)
 - [x] Select temporal limits in stages
 - [ ] Are we storing frames or seconds as temporal limits? Python / MySQL expect frames; Javascript returns seconds
+- [ ] Add a button to pick the current time
+- [ ] Add a button to play the current selection
+- [ ] Write "update annotation" on button when updatting
 - [ ] Put a constraint on the time limits to ensure that the end limit is always after the start one
 - [ ] Don't delete anything from database, add an extra entry in the table that specify it should be ignored
 - [ ] Replace videojs-playlist-ui with our own implementation
