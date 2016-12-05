@@ -152,10 +152,11 @@ def main():
                 ),
             ]
 
-            if getpass.getuser() != 'eurus':
-                path_app = os.path.realpath('.')
-                path_video_mp4 = os.path.join(path_app, "VideoData", "MP4")
-                path_video_webm = os.path.join(path_app, "VideoData", "WEBM")
+            path_app = os.path.realpath('.')
+            path_video_mp4 = os.path.join(path_app, "VideoData", "MP4")
+            path_video_webm = os.path.join(path_app, "VideoData", "WEBM")
+
+            if os.path.exists(path_video_mp4) and os.path.exists(path_video_webm):
                 videos_for_annotation = os.listdir(path_video_webm)
 
                 for k in videos_for_annotation:
