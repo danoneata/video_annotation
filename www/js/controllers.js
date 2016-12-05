@@ -127,8 +127,8 @@ $(document).ready(function() {
                         annotation_id: annotation_id
                     },
                     function (result){
-                        $("#start-time").html(result.t_start);
-                        $("#end-time").html(result.t_end);
+                        $("#start-time").html(result.t_start.toFixed(2));
+                        $("#end-time").html(result.t_end.toFixed(2));
                         $("#description").val(result.description);
                         $("#select-vocab select").val(result.selected_vocab).trigger("change");
                         $("#ann_number").html(annotation_id);

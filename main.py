@@ -68,6 +68,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+FPS = 30
+
+
 class LoginForm(Form):
 
     email = TextField("Email",  [Required(
@@ -195,8 +198,8 @@ def save_annotation():
    # if request.method == 'POST':
    # pdb.set_trace()
     try:
-        start_frame = int(float(request.form['time_start']))
-        end_frame = int(float(request.form['time_end']))
+        start_frame = int(float(request.form['time_start']) * FPS)
+        end_frame = int(float(request.form['time_end']) * FPS)
     except ValueError:
         start_frame = 0
         end_frame = 0
@@ -238,8 +241,8 @@ def get_annotation():
     annotation_id = request.form["annotation_id"]
     annotation = Annotation.query.filter(Annotation.id == annotation_id).first()
     return jsonify({
-        "t_start": annotation.start_frame,
-        "t_end": annotation.end_frame,
+        "t_start": annotation.start_frame / FPS,
+        "t_end": annotation.end_frame / FPS,
         "description": annotation.description,
         "selected_vocab": [str(WORD_TO_ID[k]) for k in annotation.keywords.split()],
     })
