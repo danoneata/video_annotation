@@ -39,6 +39,8 @@
 
     <div class="container">
 
+        <div id="ann_number">0</div>
+
         <div class="row">
 
             <div class="col-md-3">
@@ -59,25 +61,26 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Current annotation — ID <span id="ann_number">0</span></h3>
+                            Current time limits:
+                            <span id='start-time'></span> s –
+                            <span id='end-time'></span> s
                         </div>
 
                         <div class="panel-body ann-box" id="annotations">
+                            <label>Select time interval</label>
                             <div class="form-group">
-                                <label>Adjust time limits</label>
                                 <label class="radio-inline">
                                     <input type="radio" name="radio-time-limits" id="radio-start" value="start" checked> start time
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="radio-time-limits" id="radio-end" value="end"> end  time
                                 </label>
-                                <div id="slider"></div>
-                                <div>
-                                    Current time limits: 
-                                    <span id='start-time'></span> s –
-                                    <span id='end-time'></span> s
-                                </div>
                             </div>
+
+                            <button class="btn btn-default btn-xs" id="pick-time"></button>
+                            <div id="slider"></div>
+
+                            <hr>
 
                             <div id='select-vocab' class="form-group">
                                 <label>Select tags</label>
@@ -86,12 +89,14 @@
                                 </div>
                             </div>
 
+                            <hr>
+
                             <div class="form-group">
                                 <label for="description">Video description</label>
                                 <textarea class='form-control' rows="3" id='description' placeholder="Please enter textual description here."></textarea>
                             </div>
 
-                            <button class="btn btn-default" type="submit" id="add-ann">Add Annotation</button>
+                            <button class="btn btn-default" type="submit" id="add-ann">Add annotation</button>
 
                         </div>
                     </div>

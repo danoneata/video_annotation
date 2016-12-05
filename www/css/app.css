@@ -65,7 +65,10 @@ body {
     height: 100px;
 }
 
-.vjs-playlist {
-    width: 50%;
+#pick-time {
+    margin-bottom: 12px;
 }
 
+#ann_number {
+    display: none;
+}

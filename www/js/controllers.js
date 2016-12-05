@@ -14,6 +14,7 @@ $(document).ready(function() {
             $("#end-time").html(videoPlayer.duration().toFixed(2));
             $("#description").val("");
             $("#select-vocab select").val(null).trigger("change");
+            $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
             setTime(0);
         }
@@ -37,6 +38,7 @@ $(document).ready(function() {
 
         $("#start-time").html("0.00");
         $("#end-time").html(videoPlayer.duration().toFixed(2));
+        $("#pick-time").html("Pick start time");
 
        $.ajax({
             url: "vocabulary",
@@ -151,8 +153,19 @@ $(document).ready(function() {
             }
         });
 
+        $('#pick-time').on(
+            'click',
+            function () {
+                var t = videoPlayer.currentTime();
+                var selected = $("input[name='radio-time-limits']:checked").val();
+                $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
+                $("#" + selected + "-time").html(t.toFixed(2));
+            }
+        );
+
         $('input[name="radio-time-limits"]:radio').change(
             function () {
+                $("#pick-time").html("Pick " + $(this).val() + " time");
                 t = parseFloat($("#" + $(this).val() + "-time").html());
                 setTime(t);
             }
