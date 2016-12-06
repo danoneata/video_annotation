@@ -5,8 +5,12 @@ import logging
 import os
 import pdb
 import traceback
-import sqlalchemy
+import sys
+
 from flask_sqlalchemy import SQLAlchemy
+
+import sqlalchemy
+
 from sqlalchemy import update
 
 from collections import namedtuple
@@ -307,4 +311,8 @@ def _error_as_json(ex, status=500, trace=True):
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5152, debug=True)
+    if len(sys.argv) > 1:
+        port = int(sys.argv[1])
+    else:
+        port = 5152
+    app.run('0.0.0.0', port=port, debug=True)
