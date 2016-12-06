@@ -1,5 +1,9 @@
 $(document).ready(function() {
-
+  Number.prototype.zeroPad = Number.prototype.zeroPad ||
+	function(base){
+	     var nr = this, len = (String(base).length - String(nr).length)+1;
+	     return len > 0? new Array(len).join('0')+nr : nr;
+             };
     $.get("videos", function(data) {
 
 	var videoPlayer = videojs("video-player");
@@ -10,14 +14,17 @@ $(document).ready(function() {
         }
 
         function resetForm () {
-            $("#start-time").html("0.00");
-            $("#end-time").html(videoPlayer.duration().toFixed(2));
+           
             $("#description").val("");
             $("#select-vocab select").val(null).trigger("change");
             $("#add-ann").html("Add annotation");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
             setTime(0);
+	    $("#start-time").html("00m:00s");
+	    $("#end-time").html("00m:00s");
+	    //$("#end-time").html(videoPlayer.duration().toFixed(2));
+	    
         }
 
         function getCurrentVideoName () {
@@ -37,8 +44,9 @@ $(document).ready(function() {
             }
         });
 
-        $("#start-time").html("0.00");
-        $("#end-time").html(videoPlayer.duration().toFixed(2));
+        $("#start-time").html("00m:00s");
+	$("#end-time").text("00m:00s");
+       //("#end-time").html(videoPlayer.duration().toFixed(2));
         $("#add-ann").html("Add annotation");
         $("#pick-time").html("Pick start time");
 
@@ -54,7 +62,12 @@ $(document).ready(function() {
             var t = parseFloat(values[handle]) / 100 * videoPlayer.duration();
             videoPlayer.currentTime(t);
             var selected = $("input[name='radio-time-limits']:checked").val();
-            $("#" + selected + "-time").html(t.toFixed(2));
+            //$("#" + selected + "-time").html(t.toFixed(2));
+	    m = t/60;
+	    s = t % 60;
+	    res = (Math.floor(m)).zeroPad(10) +'m:'+(Math.floor(s)).zeroPad(10)+'s';
+	    $("#" + selected + "-time").html(res);
+            $("#" + selected + "-time").data("frame-nr", t.toFixed(2));
         });
 
         function updateAnnotationsList () {
@@ -94,8 +107,8 @@ $(document).ready(function() {
                 "save_annotation",
                 {
                     selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
-                    time_start: parseFloat($("#start-time").html()),
-                    time_end: parseFloat($("#end-time").html()),
+                    time_start: parseFloat($("#start-time").data("frame-nr")),
+                    time_end: parseFloat($("#end-time").data("frame-nr")),
                     select_vocab: selected_text.join(" "),
                     description: document.getElementById("description").value,
                     ann_number: document.getElementById("ann_number").innerText
@@ -129,8 +142,16 @@ $(document).ready(function() {
                         annotation_id: annotation_id
                     },
                     function (result){
-                        $("#start-time").html(result.t_start.toFixed(2));
-                        $("#end-time").html(result.t_end.toFixed(2));
+		        m_s = result.t_start/60;
+			m_e = result.t_end/60;
+			s_s = result.t_start % 60;
+			s_e = result.t_end % 60;
+			res_start = m_s.toFixed(2) +'m:'+s_s.toFixed(2)+'s';
+			res_end = m_e.toFixed(2) +'m:'+s_e.toFixed(2)+'s';
+                        $("#start-time").html(res_start);
+                        $("#end-time").html(res_end);
+			$("#start-time").data("frame-nr", result.t_start.toFixed(2));
+			$("#end-time").data("frame-nr", result.t_end.toFixed(2));
                         $("#description").val(result.description);
                         $("#select-vocab select").val(result.selected_vocab).trigger("change");
                         $("#ann_number").html(annotation_id);
@@ -157,20 +178,27 @@ $(document).ready(function() {
             }
         });
 
+	     
         $('#pick-time').on(
             'click',
             function () {
                 var t = videoPlayer.currentTime();
                 var selected = $("input[name='radio-time-limits']:checked").val();
                 $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
-                $("#" + selected + "-time").html(t.toFixed(2));
+                $("#" + selected + "-time").data("frame-nr", t.toFixed(2));
+		m = t/60;
+		s = t % 60;
+		res = (Math.floor(m)).zeroPad(10) +'m:'+(Math.floor(s)).zeroPad(10)+'s';
+		$("#" + selected + "-time").html(res)
+		videoPlayer.pause()
             }
         );
 
         $('input[name="radio-time-limits"]:radio').change(
             function () {
                 $("#pick-time").html("Pick " + $(this).val() + " time");
-                t = parseFloat($("#" + $(this).val() + "-time").html());
+                //t = parseFloat($("#" + $(this).val() + "-time").html());
+		t = videoPlayer.currentTime();
                 setTime(t);
             }
         );

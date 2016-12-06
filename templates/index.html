@@ -62,12 +62,12 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Current time limits:
-                            <span id='start-time'></span> s –
-                            <span id='end-time'></span> s
+                            <span id='start-time'  data-frame-nr="0"></span> –
+                            <span id='end-time'  data-frame-nr="0"></span>
                         </div>
 
                         <div class="panel-body ann-box" id="annotations">
-                            <label>Select time interval</label>
+                            <label>1. Select time interval</label>
                             <div class="form-group">
                                 <label class="radio-inline">
                                     <input type="radio" name="radio-time-limits" id="radio-start" value="start" checked> start time
@@ -77,13 +77,14 @@
                                 </label>
                             </div>
 
-                            <button class="btn btn-default btn-xs" id="pick-time"></button>
+                            
                             <div id="slider"></div>
+                            
 
+			    <button class="btn btn-default btn-xs" id="pick-time"></button>
                             <hr>
-
                             <div id='select-vocab' class="form-group">
-                                <label>Select tags</label>
+                                <label>2. Select characteristics</label>
                                 <div>
                                     <select style="width:100%" multiple="multiple"></select>
                                 </div>
@@ -92,7 +93,7 @@
                             <hr>
 
                             <div class="form-group">
-                                <label for="description">Video description</label>
+                                <label for="description">3. Enter textual description</label>
                                 <textarea class='form-control' rows="3" id='description' placeholder="Please enter textual description here."></textarea>
                             </div>
 
