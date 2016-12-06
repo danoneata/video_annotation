@@ -189,7 +189,7 @@ def send_data_videos(path):
 
 
 def shorten(description):
-    MAX_LEN_DESCRIPTION = 20
+    MAX_LEN_DESCRIPTION = 15
     if len(description) > MAX_LEN_DESCRIPTION:
         return description[:MAX_LEN_DESCRIPTION] + ' [...]'
     else:

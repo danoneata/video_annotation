@@ -141,14 +141,14 @@ def main():
 
             videos = [
                 Video(
-                    name='Oceans',
+                    name='session_1',
                     src_mp4="http://vjs.zencdn.net/v/oceans.mp4",
                     src_webm="http://vjs.zencdn.net/v/oceans.webm",
                 ),
                 Video(
-                    name='Sintel',
+                    name='session_2',
                     src_mp4='http://media.w3.org/2010/05/sintel/trailer.mp4',
-                    src_webm='http://media.w3.org/2010/05/sintel/trailer.webm',
+                   src_webm='http://media.w3.org/2010/05/sintel/trailer.webm',
                 ),
             ]
 
