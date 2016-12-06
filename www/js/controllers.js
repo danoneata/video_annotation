@@ -14,6 +14,7 @@ $(document).ready(function() {
             $("#end-time").html(videoPlayer.duration().toFixed(2));
             $("#description").val("");
             $("#select-vocab select").val(null).trigger("change");
+            $("#add-ann").html("Add annotation");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
             setTime(0);
@@ -38,6 +39,7 @@ $(document).ready(function() {
 
         $("#start-time").html("0.00");
         $("#end-time").html(videoPlayer.duration().toFixed(2));
+        $("#add-ann").html("Add annotation");
         $("#pick-time").html("Pick start time");
 
        $.ajax({
@@ -133,6 +135,8 @@ $(document).ready(function() {
                         $("#select-vocab select").val(result.selected_vocab).trigger("change");
                         $("#ann_number").html(annotation_id);
                         $("input[name='radio-time-limits'][value='start']").prop("checked", true);
+                        $("#add-ann").html("Update annotation");
+                        $("#pick-time").html("Pick start time");
                         setTime(result.t_start);
                     }
                 );
