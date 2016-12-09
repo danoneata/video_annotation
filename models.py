@@ -64,9 +64,9 @@ class Video(db.Model):
     __tablename__ = 'videos'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    src_mp4 = db.Column(db.String())
-    src_webm = db.Column(db.String())
+    name = db.Column(db.String(30))
+    src_mp4 = db.Column(db.String(100))
+    src_webm = db.Column(db.String(100))
 
     def __init__(self, name, src_mp4, src_webm):
         self.name = name
@@ -86,8 +86,8 @@ class Annotation(db.Model):
     start_frame = db.Column(db.Integer())
     end_frame = db.Column(db.Integer())
 
-    description = db.Column(db.String())
-    keywords = db.Column(db.String())
+    description = db.Column(db.String(512))
+    keywords = db.Column(db.String(512))
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User')

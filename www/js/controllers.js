@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var videoPlayer = videojs("video-player");
 
         function setTime (t) {
-            $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
+           // $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
             videoPlayer.currentTime(t);
         }
 
@@ -36,13 +36,13 @@ $(document).ready(function() {
         videoPlayer.playlist(data);
         videoPlayer.playlistUi();
 
-        noUiSlider.create($("#slider")[0], {
-            start: 1,
-            range: {
-                'min': 1,
-                'max': 100
-            }
-        });
+       // noUiSlider.create($("#slider")[0], {
+        //    start: 1,
+         //   range: {
+        //        'min': 1,
+        //        'max': 100
+        //    }
+       // });
 
         $("#start-time").html("00m:00s");
 	$("#end-time").text("00m:00s");
@@ -184,7 +184,7 @@ $(document).ready(function() {
             function () {
                 var t = videoPlayer.currentTime();
                 var selected = $("input[name='radio-time-limits']:checked").val();
-                $("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
+                //$("#slider")[0].noUiSlider.set(t / videoPlayer.duration() * 100);
                 $("#" + selected + "-time").data("frame-nr", t.toFixed(2));
 		m = t/60;
 		s = t % 60;
@@ -197,8 +197,9 @@ $(document).ready(function() {
         $('input[name="radio-time-limits"]:radio').change(
             function () {
                 $("#pick-time").html("Pick " + $(this).val() + " time");
+		alert('aaaa')
                 //t = parseFloat($("#" + $(this).val() + "-time").html());
-		t = videoPlayer.currentTime();
+		//t = videoPlayer.currentTime();
                 setTime(t);
             }
         );
