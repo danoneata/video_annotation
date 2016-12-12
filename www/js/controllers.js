@@ -58,17 +58,7 @@ $(document).ready(function() {
             }
         });
 
-        $("#slider")[0].noUiSlider.on('update', function(values, handle){
-            var t = parseFloat(values[handle]) / 100 * videoPlayer.duration();
-            videoPlayer.currentTime(t);
-            var selected = $("input[name='radio-time-limits']:checked").val();
-            //$("#" + selected + "-time").html(t.toFixed(2));
-	    m = t/60;
-	    s = t % 60;
-	    res = (Math.floor(m)).zeroPad(10) +'m:'+(Math.floor(s)).zeroPad(10)+'s';
-	    $("#" + selected + "-time").html(res);
-            $("#" + selected + "-time").data("frame-nr", t.toFixed(2));
-        });
+        
 
         function updateAnnotationsList () {
             $.ajax({
@@ -98,35 +88,44 @@ $(document).ready(function() {
         });
 
         $('#add-ann').click( function(ev) {
+	    var t_start = parseFloat($("#start-time").data("frame-nr"));
+	    var t_end = parseFloat($("#end-time").data("frame-nr"));
+	 
+	    if (t_end < t_start){
+	      alert('Incorrect time limits!')
+	      return false;
+	    } else {
+	      var selected_data = $("#select-vocab select").select2("data");
+	      var selected_text = selected_data.map(function(x) {return x.text});
 
-            var selected_data = $("#select-vocab select").select2("data");
-            var selected_text = selected_data.map(function(x) {return x.text});
+	      video_list = videojs("video-player").playlist();
+	      $.post(
+		  "save_annotation",
+		  {
+		      selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
+		      time_start: parseFloat($("#start-time").data("frame-nr")),
+		      time_end: parseFloat($("#end-time").data("frame-nr")),
+		      select_vocab: selected_text.join(" "),
+		      description: document.getElementById("description").value,
+		      ann_number: document.getElementById("ann_number").innerText
+		  },
+		  function(result){
+		      ann_number = document.getElementById("ann_number").innerText;
+		      if (ann_number == 0) {
+			  $("#annotations-list").append(Mustache.render(
+			      $("#template-annotations-row").html(),
+			      result
+			  ));
+		      } else {
+			  document.getElementById("ann_number").innerText = 0;
+			  $("#annotations-list").find('[data-id="' + result.id + '"] .short-description').html(result.short_description);
+		      }
+	    
+	   
 
-            video_list = videojs("video-player").playlist();
-            $.post(
-                "save_annotation",
-                {
-                    selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
-                    time_start: parseFloat($("#start-time").data("frame-nr")),
-                    time_end: parseFloat($("#end-time").data("frame-nr")),
-                    select_vocab: selected_text.join(" "),
-                    description: document.getElementById("description").value,
-                    ann_number: document.getElementById("ann_number").innerText
-                },
-                function(result){
-                    ann_number = document.getElementById("ann_number").innerText;
-                    if (ann_number == 0) {
-                        $("#annotations-list").append(Mustache.render(
-                            $("#template-annotations-row").html(),
-                            result
-                        ));
-                    } else {
-                        document.getElementById("ann_number").innerText = 0;
-                        $("#annotations-list").find('[data-id="' + result.id + '"] .short-description').html(result.short_description);
-                    }
-
-            });
-
+	      });
+	       
+	    }
             resetForm();
             videoPlayer.pause();
         });
@@ -191,13 +190,26 @@ $(document).ready(function() {
 		res = (Math.floor(m)).zeroPad(10) +'m:'+(Math.floor(s)).zeroPad(10)+'s';
 		$("#" + selected + "-time").html(res)
 		videoPlayer.pause()
+		
+		var t_start = parseFloat($("#start-time").data("frame-nr"));
+	    var t_end = parseFloat($("#end-time").data("frame-nr"));
+	    if (t_start >t_end){
+	      $('#curr-ann').css('color','red');
+	    }
+	      else
+	      {
+		$('#curr-ann').css('color','black');
+	      }
+	   
+	      
             }
         );
 
         $('input[name="radio-time-limits"]:radio').change(
             function () {
+	      
                 $("#pick-time").html("Pick " + $(this).val() + " time");
-		alert('aaaa')
+		
                 //t = parseFloat($("#" + $(this).val() + "-time").html());
 		//t = videoPlayer.currentTime();
                 setTime(t);

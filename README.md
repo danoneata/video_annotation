@@ -11,6 +11,8 @@ You'll need the following installed on your system:
 * `virtualenv`
 * `npm`
 * PostgreSQL
+* MySQL
+
 
 On Ubuntu you can install them as follows:
 
@@ -48,6 +50,17 @@ export DATABASE_URL="postgresql://annotator@localhost/annotations_db"
 # Create the tables
 python models.py --todo create init
 ```
+Create the database (mysql):
+
+# Create a new user
+CREATE USER 'elisabeta'@'localhost' IDENTIFIED BY 'ann123'
+# Create a new database
+ CREATE DATABASE annotations_db;
+# Set the URL to the database as a system variable
+export DATABASE_URL="mysql+pymysql://elisabeta:ann123@localhost/annotations_db";
+# Create the tables
+python models.py --todo create init
+```
 
 You can connect to the database as follows:
 
@@ -81,7 +94,7 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] Add a button to pick the current time
 - [x] Are we storing frames or seconds as temporal limits? Python / MySQL expect frames; Javascript returns seconds
 - [ ] Add a button to play the current selection
-- [ ] Write "update annotation" on button when updatting
-- [ ] Put a constraint on the time limits to ensure that the end limit is always after the start one
+- [X] Write "update annotation" on button when updatting
+- [x] Put a constraint on the time limits to ensure that the end limit is always after the start one
 - [ ] Don't delete anything from database, add an extra entry in the table that specify it should be ignored
 - [ ] Replace videojs-playlist-ui with our own implementation
