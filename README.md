@@ -93,7 +93,7 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [x] Select temporal limits in stages
 - [x] Add a button to pick the current time
 - [x] Are we storing frames or seconds as temporal limits? Python / MySQL expect frames; Javascript returns seconds
-- [ ] Add a button to play the current selection
+- [x] Add a button to play the current selection
 - [X] Write "update annotation" on button when updatting
 - [x] Put a constraint on the time limits to ensure that the end limit is always after the start one
 - [ ] Don't delete anything from database, add an extra entry in the table that specify it should be ignored

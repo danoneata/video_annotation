@@ -204,6 +204,41 @@ $(document).ready(function() {
 	      
             }
         );
+	
+	function stop_video(t) {
+	 videoPlayer.on('timeupdate', function(e) {
+          if (videoPlayer.currentTime() >= t) {
+           videoPlayer.pause();
+          }
+          });
+	 }
+	
+	 $('#play-curr').on(
+            'click',
+            function () {
+                var t = videoPlayer.currentTime();
+              
+		
+	   var t_start = parseFloat($("#start-time").data("frame-nr"));
+	    var t_end = parseFloat($("#end-time").data("frame-nr"));
+	    if (t_start >t_end || t_start == t_end){
+	      alert("Select a valid time interval!");
+	      return false;
+	    }
+	    else{
+	      videoPlayer.currentTime(t_start);
+	      videoPlayer.play();
+	      stop_video(t_end);
+	    
+	      
+	    }
+		
+	    }
+	
+        );
+	 
+	 
+	
 
         $('input[name="radio-time-limits"]:radio').change(
             function () {
