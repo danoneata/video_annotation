@@ -8,7 +8,6 @@ Annotation tool for videos
 You'll need the following installed on your system:
 
 * Python 3
-* `virtualenv`
 * `npm`
 * PostgreSQL or MySQL
 
@@ -17,7 +16,6 @@ On Ubuntu you can install them as follows:
 
 ```bash
 sudo apt-get install python3-dev
-sudo apt-get install python-virtualenv
 sudo apt-get install npm
 sudo apt-get install postgresql postgresql-client postgresql-contrib
 sudo apt-get install libpq-dev
@@ -26,7 +24,7 @@ sudo apt-get install libpq-dev
 Install the Python dependencies:
 
 ```bash
-virtualenv -p python3 venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
