@@ -10,8 +10,7 @@ You'll need the following installed on your system:
 * Python 3
 * `virtualenv`
 * `npm`
-* PostgreSQL
-* MySQL
+* PostgreSQL or MySQL
 
 
 On Ubuntu you can install them as follows:
@@ -38,7 +37,7 @@ Install the JavaScript dependencies:
 npm install
 ```
 
-Create the database:
+Create the database (Postegres):
 
 ```bash
 # Create a new user
@@ -47,18 +46,22 @@ sudo -u postgres createuser -s annotator
 createdb -U annotator annotations_db
 # Set the URL to the database as a system variable
 export DATABASE_URL="postgresql://annotator@localhost/annotations_db"
-# Create the tables
-python models.py --todo create init
 ```
-Create the database (mysql):
 
+Create the database (MySQL):
+
+```bash
 # Create a new user
 CREATE USER 'elisabeta'@'localhost' IDENTIFIED BY 'ann123'
 # Create a new database
- CREATE DATABASE annotations_db;
+CREATE DATABASE annotations_db;
 # Set the URL to the database as a system variable
 export DATABASE_URL="mysql+pymysql://elisabeta:ann123@localhost/annotations_db";
-# Create the tables
+```
+
+Create the tables from Python:
+
+```bash
 python models.py --todo create init
 ```
 
