@@ -48,11 +48,18 @@ export DATABASE_URL="postgresql://annotator@localhost/annotations_db"
 
 Create the database (MySQL):
 
-```bash
+From MySQL console:
+
+```sql
 # Create a new user
 CREATE USER 'elisabeta'@'localhost' IDENTIFIED BY 'ann123'
 # Create a new database
 CREATE DATABASE annotations_db;
+```
+
+From command line:
+
+```bash
 # Set the URL to the database as a system variable
 export DATABASE_URL="mysql+pymysql://elisabeta:ann123@localhost/annotations_db";
 ```
