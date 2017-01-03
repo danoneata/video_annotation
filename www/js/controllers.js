@@ -193,12 +193,22 @@ $(document).ready(function() {
 		
 		var t_start = parseFloat($("#start-time").data("frame-nr"));
 	    var t_end = parseFloat($("#end-time").data("frame-nr"));
+	   
 	    if (t_start >t_end){
 	      $('#curr-ann').css('color','red');
+	       if (t_end ==0){
+	            $('#limits-text').text('Please select end time:')
+	       }
+	       else
+	       {
+		 $('#limits-text').text('Current time limits are not valid!')
+	       }
+	       
 	    }
 	      else
 	      {
 		$('#curr-ann').css('color','black');
+		$('#limits-text').text('Current time limits:')
 	      }
 	   
 	      
@@ -245,8 +255,8 @@ $(document).ready(function() {
 	      
                 $("#pick-time").html("Pick " + $(this).val() + " time");
 		
-                //t = parseFloat($("#" + $(this).val() + "-time").html());
-		//t = videoPlayer.currentTime();
+                t = parseFloat($("#" + $(this).val() + "-time").html());
+		t = videoPlayer.currentTime();
                 setTime(t);
             }
         );
