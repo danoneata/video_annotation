@@ -139,6 +139,10 @@ def main():
             db.session.add(admin)
             db.session.commit()
 
+            user1 =User('Mihai', 'mihai@imar.ro', '123')
+            db.session.add(admin)
+            db.session.commit()
+
             videos = [
                 Video(
                     name='session_1',
