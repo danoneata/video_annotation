@@ -75,7 +75,9 @@ You can connect to the database as follows:
 ```bash
 psql -h localhost -p 5432 -d annotations_db -U annotator
 ```
+mysql -h localhost -u elisabeta -p annotations_db
 
+````````
 Start the server:
 
 ```bash

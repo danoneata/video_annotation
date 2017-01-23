@@ -107,17 +107,17 @@ $(document).ready(function() {
 		      time_end: parseFloat($("#end-time").data("frame-nr")),
 		      select_vocab: selected_text.join(" "),
 		      description: document.getElementById("description").value,
-		      ann_number: document.getElementById("ann_number").innerText
+		      ann_number: $("#ann_number").text()
 		  },
 		  function(result){
-		      ann_number = document.getElementById("ann_number").innerText;
+		      ann_number = $("#ann_number").text();
 		      if (ann_number == 0) {
 			  $("#annotations-list").append(Mustache.render(
 			      $("#template-annotations-row").html(),
 			      result
 			  ));
 		      } else {
-			  document.getElementById("ann_number").innerText = 0;
+			  $("#ann_number").text(0);
 			  $("#annotations-list").find('[data-id="' + result.id + '"] .short-description').html(result.short_description);
 		      }
 	    
