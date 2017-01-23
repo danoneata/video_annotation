@@ -35,7 +35,7 @@ def main():
     app.config.from_object('config.Config')
     db.init_app(app)
 
-    pdb.set_trace()
+    
 
     with app.app_context():
         admin = User(args.name, args.email, args.password)
