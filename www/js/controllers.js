@@ -13,14 +13,17 @@ $(document).ready(function() {
             videoPlayer.currentTime(t);
         }
 
-        function resetForm () {
+        function resetForm (p) {
            
             $("#description").val("");
             $("#select-vocab select").val(null).trigger("change");
             $("#add-ann").html("Add annotation");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
-            setTime(0);
+	    if (p==0) {
+             setTime(0);
+	    }
+	    
 	    $("#start-time").html("00m:00s");
 	    $("#end-time").html("00m:00s");
 	    //$("#end-time").html(videoPlayer.duration().toFixed(2));
@@ -84,7 +87,7 @@ $(document).ready(function() {
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
-            resetForm();
+            resetForm(0);
         });
 
         $('#add-ann').click( function(ev) {
@@ -126,7 +129,7 @@ $(document).ready(function() {
 	      });
 	       
 	    }
-            resetForm();
+            resetForm(1);
             videoPlayer.pause();
         });
 
