@@ -134,35 +134,34 @@ def main():
 
         with app.app_context():
 
-            admin = User('Elisabeta', 'eli@imar.ro', '1988')
+            #admin = User('Elisabeta', 'eli@imar.ro', '1988')
 
-            db.session.add(admin)
-            db.session.commit()
+            #db.session.add(admin)
+            #db.session.commit()
 
-            user1 =User('Mihai', 'mihai@imar.ro', '123')
-            db.session.add(admin)
-            db.session.commit()
+            videos = [];
 
             videos = [
-                Video(
-                    name='session_1',
+               Video(
+                   name='session_1',
                     src_mp4="http://vjs.zencdn.net/v/oceans.mp4",
                     src_webm="http://vjs.zencdn.net/v/oceans.webm",
-                ),
+               ),
                 Video(
                     name='session_2',
-                    src_mp4='http://media.w3.org/2010/05/sintel/trailer.mp4',
+                   src_mp4='http://media.w3.org/2010/05/sintel/trailer.mp4',
                    src_webm='http://media.w3.org/2010/05/sintel/trailer.webm',
-                ),
+               ),
             ]
 
             path_app = os.path.realpath('.')
             path_video_mp4 = os.path.join(path_app, "VideoData", "MP4")
             path_video_webm = os.path.join(path_app, "VideoData", "WEBM")
-
-            if os.path.exists(path_video_mp4) and os.path.exists(path_video_webm):
+            #pdb.set_trace()
+            if os.path.exists(path_video_mp4) & os.path.exists(path_video_webm):
                 videos_for_annotation = os.listdir(path_video_webm)
-
+                
+                #print(videos_for_annotation)
                 for k in videos_for_annotation:
                     videos.append(
                         Video(
@@ -171,7 +170,7 @@ def main():
                             src_webm="VideoData/WEBM/" + k[0:-4] + 'webm',
                         )
                     )
-
+            #pdb.set_trace()
             for video in videos:
                 db.session.add(video)
             db.session.commit()
