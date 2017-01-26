@@ -94,7 +94,7 @@ class LoginForm(Form):
 @app.route('/', methods=['GET'])
 def index():
     if current_user.is_authenticated:
-        return render_template("index.html")
+        return render_template("index.html", current_user = current_user.name)
     else:
         return redirect(url_for('login'))
 
