@@ -18,6 +18,7 @@ $(document).ready(function() {
             $("#description").val("");
             $("#select-vocab select").val(null).trigger("change");
             $("#add-ann").html("Add annotation");
+	    $("#view_all-ann").html("View all annotations");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
 	    if (p==0) {
@@ -51,6 +52,7 @@ $(document).ready(function() {
 	$("#end-time").text("00m:00s");
        //("#end-time").html(videoPlayer.duration().toFixed(2));
         $("#add-ann").html("Add annotation");
+	$("#view_all-ann").html("View all annotations");
         $("#pick-time").html("Pick start time");
 
        $.ajax({
