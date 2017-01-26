@@ -23,16 +23,17 @@
                     <a class="navbar-brand" href="/">Video annotation</a>
                 </div>
                 {% if current_user.is_authenticated %}
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <p class="navbar-text">Signed in as {{ current_user.name }}</p>
-                    <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse">
+                    <div class="nav navbar-nav navbar-right">
+                        <p class="navbar-text">Signed in as {{ current_user.name }}</p>
                         <a role="button" class="btn btn-default navbar-btn" href="{{ url_for('logout') }}">Log out</a>
-                    </div><!-- /.navbar-collapse -->
+                    </div>
+                </div>
                 {% endif %}
-            </div><!-- /.container-fluid -->
+            </div>
         </nav>
 
-        <div class="container">
+        <div class="container-fluid">
             {% with messages = get_flashed_messages(with_categories=true) %}
             <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
                 {% if messages %}
