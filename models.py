@@ -160,14 +160,19 @@ def main():
             #pdb.set_trace()
             if os.path.exists(path_video_mp4) & os.path.exists(path_video_webm):
                 videos_for_annotation = os.listdir(path_video_webm)
-                
+               
                 #print(videos_for_annotation)
                 for k in videos_for_annotation:
+                    name_and_extension = os.path.splitext(k)
+                    video_name = name_and_extension[0]
+                    #pdb.set_trace()
+                    #print(video_name)
                     videos.append(
                         Video(
-                            name=k[0: -5],
-                            src_mp4="VideoData/MP4/" + k,
-                            src_webm="VideoData/WEBM/" + k[0:-4] + 'webm',
+                            #name=k[0: -5],
+                            name = video_name,
+                            src_mp4="VideoData/MP4/" + video_name + ".mp4",
+                            src_webm="VideoData/WEBM/" + video_name + ".webm",
                         )
                     )
             #pdb.set_trace()
