@@ -12,7 +12,48 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
         <link rel="stylesheet" href="/css/app.css">
     </head>
+
     <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Video annotation</a>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <p class="navbar-text">Signed in as {{ current_user.name }}</p>
+                    <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                        <a role="button" class="btn btn-default navbar-btn" href="{{ url_for('logout') }}">Log out</a>
+                    </div><!-- /.navbar-collapse -->
+                {% endif %}
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
         {% block body %}{% endblock %}
     </body>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> <!-- If you'd like to support IE8 -->
+    <script src="/node_modules/videojs-playlist/dist/videojs-playlist.js"></script>
+    <script src="/node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.js"></script>
+    <script src="/node_modules/nouislider/distribute/nouislider.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="/js/controllers.js"></script>
 </html>

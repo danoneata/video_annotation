@@ -94,7 +94,7 @@ class LoginForm(Form):
 @app.route('/', methods=['GET'])
 def index():
     if current_user.is_authenticated:
-        return render_template("index.html", current_user = current_user.name)
+        return render_template("index.html", current_user=current_user)
     else:
         return redirect(url_for('login'))
 
@@ -107,7 +107,7 @@ def login():
         if form.validate():
             user = User.query.filter_by(email=form.email.data.lower()).first()
             login_user(user)
-            flash('Welcome, {}!'.format(user.email), 'success')
+            flash('Welcome, {}!'.format(user.name), 'success')
             return redirect(url_for('index'))
         else:
             flash('Invalid email and/or password.', 'danger')
@@ -147,7 +147,6 @@ def get_videos_json():
                         'src': video.src_mp4,
                         'type': 'video/mp4',
                     },
-
                 ],
             }
             for video in Video.query.all()
