@@ -33,6 +33,3 @@ Bird-like pose (hands stretched towards the back)
 Walking
 Default pose
 Grabbing card from therapist's hand
-
-
-
