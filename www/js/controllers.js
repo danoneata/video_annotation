@@ -110,7 +110,7 @@ $(document).ready(function() {
 		      selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
 		      time_start: parseFloat($("#start-time").data("frame-nr")),
 		      time_end: parseFloat($("#end-time").data("frame-nr")),
-		      select_vocab: selected_text.join(" "),
+		      select_vocab: selected_text.join(","),
 		      description: document.getElementById("description").value,
 		      ann_number: $("#ann_number").text()
 		  },

@@ -247,7 +247,7 @@ def get_annotation():
         "t_start": annotation.start_frame / FPS,
         "t_end": annotation.end_frame / FPS,
         "description": annotation.description,
-        "selected_vocab": [str(WORD_TO_ID[k]) for k in annotation.keywords.split()],
+        "selected_vocab": [str(WORD_TO_ID[k]) for k in annotation.keywords.split(",")],
     })
 
 
