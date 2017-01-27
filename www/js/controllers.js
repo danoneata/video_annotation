@@ -252,6 +252,27 @@ $(document).ready(function() {
 	
         );
 	 
+	 $('#view_all-ann').click( function(ev) {
+	
+                
+                $.post(
+                    "get_all_annotations",
+                    {
+                        selected_video: getCurrentVideoName()
+                    },
+                    function (result){
+		          var t = videoPlayer.currentTime();
+			  var current_frame = Math.floor(t*30);
+			  //for i = 0:result.length-1
+			    
+			    
+		        
+                    }
+                );
+          
+	  
+			    });
+
 	 
 	
 
