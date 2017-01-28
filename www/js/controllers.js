@@ -220,67 +220,48 @@ $(document).ready(function() {
             }
         );
 	
-	function stop_video(t) {
-	 videoPlayer.on('timeupdate', function(e) {
-          if (videoPlayer.currentTime() >= t) {
-           videoPlayer.pause();
-          }
-          });
-	 }
+        function stop_video(t) {
+            videoPlayer.on('timeupdate', function(e) {
+                if (videoPlayer.currentTime() >= t) {
+                    videoPlayer.pause();
+                }
+            });
+        }
 	
-	 $('#play-curr').on(
+        $('#play-curr').on(
             'click',
             function () {
                 var t = videoPlayer.currentTime();
-              
-		
-	   var t_start = parseFloat($("#start-time").data("frame-nr"));
-	    var t_end = parseFloat($("#end-time").data("frame-nr"));
-	    if (t_start >t_end || t_start == t_end){
-	      alert("Select a valid time interval!");
-	      return false;
-	    }
-	    else{
-	      videoPlayer.currentTime(t_start);
-	      videoPlayer.play();
-	      stop_video(t_end);
-	    
-	      
-	    }
-		
-	    }
-	
+                var t_start = parseFloat($("#start-time").data("frame-nr"));
+                var t_end = parseFloat($("#end-time").data("frame-nr"));
+                if (t_start > t_end || t_start == t_end){
+                    alert("Select a valid time interval!");
+                    return false;
+                }
+                else{
+                    videoPlayer.currentTime(t_start);
+                    videoPlayer.play();
+                    stop_video(t_end);
+                }
+            }
         );
-	 
-	 $('#view_all-ann').click( function(ev) {
-	
-                
-                $.post(
-                    "get_all_annotations",
-                    {
-                        selected_video: getCurrentVideoName()
-                    },
-                    function (result){
-		          var t = videoPlayer.currentTime();
-			  var current_frame = Math.floor(t*30);
-			  //for i = 0:result.length-1
-			    
-			    
-		        
-                    }
-                );
-          
-	  
-			    });
 
-	 
-	
+        $('#view_all-ann').click( function(ev) {
+            $.post(
+                "get_all_annotations",
+                {
+                    selected_video: getCurrentVideoName()
+                },
+                function (result) {
+                    var t = videoPlayer.currentTime();
+                    var current_frame = Math.floor(t * 30);
+                }
+            );
+        });
 
         $('input[name="radio-time-limits"]:radio').change(
             function () {
-	      
                 $("#pick-time").html("Pick " + $(this).val() + " time");
-		
                 t = parseFloat($("#" + $(this).val() + "-time").html());
 		t = videoPlayer.currentTime();
                 setTime(t);
