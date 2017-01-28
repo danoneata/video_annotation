@@ -271,13 +271,23 @@ def row2dict(row):
 
 @app.route('/get_all_annotations',  methods=['GET', 'POST'])
 def get_all_annotations():
-    video_name = request.form["selected_video"]
+    video_name = request.args["selected_video"]
     video = Video.query.filter(Video.name == video_name).first()
     user = current_user
-    annotation_list = Annotation.query.filter((Annotation.user_id == current_user.id) & (
-        Annotation.video_id == video.id)).order_by(sqlalchemy.asc(Annotation.id)).all()
-    ann_json = jsonify([row2dict(row) for row in annotation_list])
-    return ann_json
+    annotation_list = Annotation.query.filter(
+        (Annotation.user_id == current_user.id) and
+        (Annotation.video_id == video.id)).order_by(sqlalchemy.asc(Annotation.id)).all()
+    return jsonify([
+        {
+            'selected_video': video.name,
+            'time_start': row.start_frame,
+            'time_end': row.end_frame,
+            'select_vocab': row.keywords,
+            'description': row.description,
+            'ann_number': row.id,
+        }
+        for row in annotation_list
+    ])
 
 
 @app.route('/annotations_list',  methods=['GET'])

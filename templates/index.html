@@ -23,6 +23,18 @@
               {{>row}}
             {{/.}}
         </script>
+
+        <script type="text/html" id="template-view-annotations-row">
+            <li class="list-group-item clearfix">
+                {{select_vocab}}
+            </li>
+        </script>
+
+        <script type="text/html" id="template-view-annotations">
+            {{#.}}
+              {{>row}}
+            {{/.}}
+        </script>
     {% endraw %}
 
     <div class="container-fluid">
@@ -46,7 +58,6 @@
                 </div>
 
                 <div class="row">
-
                     <div  class="panel panel-default">
                         <div id = "curr-ann" class="panel-heading">
                             <span id = 'limits-text'> Current time limits: </span>
@@ -66,7 +77,7 @@
                                 </label>
                             </div>
 
-			    <button class="btn btn-default btn-xs" id="pick-time"></button>
+                            <button class="btn btn-default btn-xs" id="pick-time"></button>
                             <hr>
                             <div id='select-vocab' class="form-group">
                                 <label>2. Select characteristics</label>
@@ -93,8 +104,12 @@
 
             <div class="col-md-3">
                 <div class="panel panel-default">
+                    <div class="panel-heading">Current annotations</div>
+                    <ul id="view-annotations" class="list-group"></ul>
+                </div>
+
+                <div class="panel panel-default">
                     <div class="panel-heading">Your annotations</div>
-                   
                     <ul id="annotations-list" class="list-group"></ul>
                 </div>
             </div>
