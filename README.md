@@ -73,11 +73,12 @@ python models.py --todo create init
 You can connect to the database as follows:
 
 ```bash
+# Postgres
 psql -h localhost -p 5432 -d annotations_db -U annotator
-```
+# MySQL
 mysql -h localhost -u elisabeta -p annotations_db
+```
 
-````````
 Start the server:
 
 ```bash
@@ -107,6 +108,6 @@ The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5
 - [X] Write "update annotation" on button when updatting
 - [x] Put a constraint on the time limits to ensure that the end limit is always after the start one
 - [x] Don't delete anything from database, add an extra entry in the table that specify it should be ignored
+- [x] Make the video larger
+- [x] Add a "Visualize All Annotations" button
 - [ ] Replace videojs-playlist-ui with our own implementation
-- [ ] Add a Visualize All Annotations button
-- [ ] Make the video larger
