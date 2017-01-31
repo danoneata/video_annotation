@@ -218,10 +218,11 @@ $(document).ready(function() {
        
 
         function stop_video(t) {
-            videoPlayer.on('timeupdate', function(e) {
+            videoPlayer.on('timeupdate', function handler(e) {
                 if (videoPlayer.currentTime() >= t) {
                     videoPlayer.pause();
-		    t = Infinity;
+		    //t = Infinity;
+		    videoPlayer.off('timeupdate', handler);
                 }
             });
         }
