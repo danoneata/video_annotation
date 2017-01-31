@@ -104,7 +104,7 @@ class Annotation(db.Model):
         self.video = video
 
     def __repr__(self):
-        return '<Annotation %d for "%s" by %s>' % (self.value, self.title, self.user.name)
+        return '<Annotation %d from user "%d" for video %d with keywords %s>' % (self.id, self.user.id, self.video.id, self.keywords)
 
 
 def main():
