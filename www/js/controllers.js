@@ -8,7 +8,8 @@ $(document).ready(function() {
     $.get("videos", function(data) {
 
         var videoPlayer = videojs("video-player");
-
+	//var videoPlayer = videojs('videojs-overlay-player');
+         
         var ANNOTATIONS = [];
         var FPS = 30.0;
 
@@ -77,10 +78,27 @@ $(document).ready(function() {
         }
 
         updateAnnotationsList();
-
+	
+	 function get_current_annotations () {
+          $.get(
+            "get_all_annotations",
+            {
+                selected_video: getCurrentVideoName()
+            },
+            function (result) {
+                // var t = videoPlayer.currentTime();
+                // var current_frame = Math.floor(t * 30);
+                ANNOTATIONS = result;
+            }
+        );
+	}
+        
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
+	    get_current_annotations();
             resetForm(0);
+	    overlayAnnotations(ANNOTATIONS);
+	    
         });
 
         $('#add-ann').click( function(ev) {
@@ -124,6 +142,7 @@ $(document).ready(function() {
             }
             resetForm(1);
             videoPlayer.pause();
+	    overlayAnnotations(ANNOTATIONS);
         });
 
         $('#annotations-list').on(
@@ -221,22 +240,44 @@ $(document).ready(function() {
         }
 
         function overlayAnnotations(annotations) {
-            $("#view-annotations").html(Mustache.render(
+           /* $("#view-annotations").html(Mustache.render(
                 $("#template-view-annotations").html(),
                 annotations,
                 {
                     "row": $("#template-view-annotations-row").html(),
                 }
-            ));
+            ));*/
+	   var overlays = [];
+	    for (var m = 0; m< annotations.length; m++){
+	      var singleObj = {}
+          singleObj['start'] = annotations[m].time_start / FPS;
+          singleObj['end'] =  annotations[m].time_end / FPS;
+      singleObj['content'] =annotations[m].select_vocab;
+      singleObj['align'] = 'bottom';
+    
+    overlays.push(singleObj);
+	      
+	      
+	    }
+	    
+        var videoPlayer =videojs("video-player");
+	var lala = {};
+	lala['overlays'] = overlays;
+	    videoPlayer.overlay(lala);
+	      
+	
+	    
         }
-
-        videoPlayer.on('timeupdate', function(e) {
+        
+       
+       /* videoPlayer.on('timeupdate', function(e) {
             var currFrame = videoPlayer.currentTime() * FPS;
-            var annots =  ANNOTATIONS.filter(function (elem) {
-                return (elem.time_start <= currFrame) && (currFrame < elem.time_end);
-            });
+	    var annots =  ANNOTATIONS;
+            //var annots =  ANNOTATIONS.filter(function (elem) {
+              //  return (elem.time_start <= currFrame) && (currFrame < elem.time_end);
+            //});
             overlayAnnotations(annots);
-        });
+        });*/
         
         $('#play-curr').on(
             'click',
@@ -255,19 +296,9 @@ $(document).ready(function() {
                 }
             }
         );
-
-        $.get(
-            "get_all_annotations",
-            {
-                selected_video: getCurrentVideoName()
-            },
-            function (result) {
-                // var t = videoPlayer.currentTime();
-                // var current_frame = Math.floor(t * 30);
-                ANNOTATIONS = result;
-            }
-        );
-
+  
+        get_current_annotations();
+	
         $('input[name="radio-time-limits"]:radio').change(
             function () {
                 $("#pick-time").html("Pick " + $(this).val() + " time");
