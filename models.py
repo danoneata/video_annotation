@@ -87,7 +87,8 @@ class Annotation(db.Model):
     end_frame = db.Column(db.Integer())
 
     description = db.Column(db.String(512))
-    keywords = db.Column(db.String(512))
+    keywords_child = db.Column(db.String(512))
+    keywords_therapist = db.Column(db.String(512))
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User')
@@ -95,11 +96,12 @@ class Annotation(db.Model):
     video_id = db.Column(db.Integer, db.ForeignKey('videos.id'))
     video = db.relationship('Video')
 
-    def __init__(self, description, start_frame, end_frame, keywords, user, video):
+    def __init__(self, description, start_frame, end_frame, keywords_child, keywords_therapist, user, video):
         self.description = description
         self.start_frame = start_frame
         self.end_frame = end_frame
-        self.keywords = keywords
+        self.keywords_child = keywords_child
+        self.keywords_therapist	 = keywords_therapist
         self.user = user
         self.video = video
 

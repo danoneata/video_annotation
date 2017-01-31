@@ -154,17 +154,27 @@ def get_videos_json():
     )
 
 
-with open('vocabulary.txt', 'r') as f:
-    VOCABULARY = f.readlines()
+with open('vocabulary_child.txt', 'r') as f:
+    VOCABULARY_CHILD = f.readlines()
 
-ID_TO_WORD = {i: word.strip() for i, word in enumerate(VOCABULARY, 1)}
-WORD_TO_ID = {word: i for i, word in ID_TO_WORD.items()}
+with open('vocabulary_therapist.txt', 'r') as f:
+    VOCABULARY_THERAPIST = f.readlines()    
 
+ID_TO_WORD_CHILD = {i: word.strip() for i, word in enumerate(VOCABULARY_CHILD, 1)}
+WORD_TO_ID_CHILD = {word: i for i, word in ID_TO_WORD_CHILD.items()}
+ID_TO_WORD_THERAPIST = {i: word.strip() for i, word in enumerate(VOCABULARY_THERAPIST, 1)}
+WORD_TO_ID_THERAPIST = {word: i for i, word in ID_TO_WORD_THERAPIST.items()}
 
-@app.route('/vocabulary', methods=['GET'])
-def get_vocabulary():
-    data = [{'id': i, 'text': w} for i, w in ID_TO_WORD.items()]
+@app.route('/vocabulary_child', methods=['GET'])
+def get_vocabulary_child():
+    data = [{'id': i, 'text': w} for i, w in ID_TO_WORD_CHILD.items()]
     return jsonify(data)
+  
+@app.route('/vocabulary_therapist', methods=['GET'])
+def get_vocabulary_therapist():
+    data = [{'id': i, 'text': w} for i, w in ID_TO_WORD_THERAPIST.items()]
+    return jsonify(data)
+
 
 
 @app.route('/js/<path:path>')
@@ -213,7 +223,8 @@ def save_annotation():
         description=request.form['description'],
         start_frame=start_frame,
         end_frame=end_frame,
-        keywords=request.form['select_vocab'],
+        keywords_child=request.form['select_vocab_child'],
+        keywords_therapist=request.form['select_vocab_therapist'],
         user=current_user,
         video=Video.query.filter(Video.name == video_name).first(),
     )
@@ -226,7 +237,7 @@ def save_annotation():
             Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
     else:
         upd = (db.session.query(Annotation).filter(Annotation.id == ann_number).update(
-            {"description": annotation.description, "start_frame": annotation.start_frame, "end_frame": annotation.end_frame, "keywords": annotation.keywords}))
+            {"description": annotation.description, "start_frame": annotation.start_frame, "end_frame": annotation.end_frame, "keywords_child": annotation.keywords_child, "keywords_therapist": annotation.keywords_therapist}))
         print("# of updated rows = {}".format(upd))
         db.session.commit()
         #last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
@@ -247,7 +258,8 @@ def get_annotation():
         "t_start": annotation.start_frame / FPS,
         "t_end": annotation.end_frame / FPS,
         "description": annotation.description,
-        "selected_vocab": [str(WORD_TO_ID[k]) for k in annotation.keywords.split(",")],
+        "selected_vocab_child": [str(WORD_TO_ID_CHILD[k]) for k in annotation.keywords_child.split(",")],
+        "selected_vocab_therapist": [str(WORD_TO_ID_THERAPIST[k]) for k in annotation.keywords_therapist.split(",")],
     })
 
 
@@ -282,7 +294,8 @@ def get_all_annotations():
             'selected_video': video.name,
             'time_start': row.start_frame,
             'time_end': row.end_frame,
-            'select_vocab': row.keywords,
+            'select_vocab_child': row.keywords_child,
+            'select_vocab_therapist': row.keywords_therapist,
             'description': row.description,
             'ann_number': row.id,
         }

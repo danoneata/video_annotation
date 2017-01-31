@@ -19,7 +19,8 @@ $(document).ready(function() {
         function resetForm (p) {
            
             $("#description").val("");
-            $("#select-vocab select").val(null).trigger("change");
+            $("#select-vocab_child select").val(null).trigger("change");
+	    $("#select-vocab_therapist select").val(null).trigger("change");
             $("#add-ann").html("Add annotation");
             $("#view_all-ann").html("View all annotations");
             $("#pick-time").html("Pick start time");
@@ -49,10 +50,18 @@ $(document).ready(function() {
         $("#pick-time").html("Pick start time");
 
        $.ajax({
-            url: "vocabulary",
+            url: "vocabulary_child",
             method: "GET",
             success: function (data) {
-                $("#select-vocab select").select2({data: data});
+                $("#select-vocab_child select").select2({data: data});
+            }
+        });
+       
+       $.ajax({
+            url: "vocabulary_therapist",
+            method: "GET",
+            success: function (data) {
+                $("#select-vocab_therapist select").select2({data: data});
             }
         });
 
@@ -91,15 +100,18 @@ $(document).ready(function() {
                 alert('Incorrect time limits!')
                 return false;
             } else {
-                var selected_data = $("#select-vocab select").select2("data");
-                var selected_text = selected_data.map(function(x) {return x.text});
+                var selected_data_child = $("#select-vocab_child select").select2("data");
+		var selected_data_therapist = $("#select-vocab_therapist select").select2("data");
+                var selected_text_child = selected_data_child.map(function(x) {return x.text});
+		var selected_text_therapist = selected_data_therapist.map(function(x) {return x.text});
                 video_list = videojs("video-player").playlist();
 
                 var newAnnotation = {
                     selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
                     time_start: parseFloat($("#start-time").data("frame-nr")),
                     time_end: parseFloat($("#end-time").data("frame-nr")),
-                    select_vocab: selected_text.join(","),
+                    select_vocab_child: selected_text_child.join(","),
+	            select_vocab_therapist: selected_text_therapist.join(","),
                     description: document.getElementById("description").value,
                     ann_number: $("#ann_number").text()
                 };
@@ -151,7 +163,8 @@ $(document).ready(function() {
                         $("#start-time").data("frame-nr", result.t_start.toFixed(2));
                         $("#end-time").data("frame-nr", result.t_end.toFixed(2));
                         $("#description").val(result.description);
-                        $("#select-vocab select").val(result.selected_vocab).trigger("change");
+                        $("#select-vocab_child select").val(result.selected_vocab_child).trigger("change");
+			$("#select-vocab_therapist select").val(result.selected_vocab_therapist).trigger("change");
                         $("#ann_number").html(annotation_id);
                         $("input[name='radio-time-limits'][value='start']").prop("checked", true);
                         $("#add-ann").html("Update annotation");
