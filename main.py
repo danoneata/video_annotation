@@ -188,7 +188,7 @@ def send_data_videos(path):
 
 
 def shorten(description):
-    MAX_LEN_DESCRIPTION = 15
+    MAX_LEN_DESCRIPTION = 40
     if len(description) > MAX_LEN_DESCRIPTION:
         return description[:MAX_LEN_DESCRIPTION] + ' [...]'
     else:
@@ -222,7 +222,7 @@ def save_annotation():
     if ann_number == 0:
         db.session.add(annotation)
         db.session.commit()
-        return_annotation = Annotation.query.filter((Annotation.user_id == current_user.id) & (
+        return_annotation = Annotation.query.filter((Annotation.user_id == current_user.id) and (
             Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
     else:
         upd = (db.session.query(Annotation).filter(Annotation.id == ann_number).update(
@@ -324,4 +324,4 @@ if __name__ == '__main__':
         port = int(sys.argv[1])
     else:
         port = 5152
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True, threaded = True)

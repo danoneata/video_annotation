@@ -141,8 +141,11 @@ $(document).ready(function() {
                         m_e = result.t_end / 60;
                         s_s = result.t_start % 60;
                         s_e = result.t_end % 60;
-                        res_start = m_s.toFixed(2) + 'm:' + s_s.toFixed(2) + 's';
-                        res_end = m_e.toFixed(2) + 'm:' + s_e.toFixed(2) + 's';
+                        //res_start = m_s.toFixed(2) + 'm:' + s_s.toFixed(2) + 's';
+                        //res_end = m_e.toFixed(2) + 'm:' + s_e.toFixed(2) + 's';
+                        res_start = (Math.floor(m_s)).zeroPad(10) +'m:'+(Math.floor(s_s)).zeroPad(10)+'s';
+
+                        res_end = (Math.floor(m_e)).zeroPad(10) +'m:'+(Math.floor(s_e)).zeroPad(10)+'s';
                         $("#start-time").html(res_start);
                         $("#end-time").html(res_end);
                         $("#start-time").data("frame-nr", result.t_start.toFixed(2));
@@ -212,10 +215,13 @@ $(document).ready(function() {
                 }
         });
         
+       
+
         function stop_video(t) {
             videoPlayer.on('timeupdate', function(e) {
                 if (videoPlayer.currentTime() >= t) {
                     videoPlayer.pause();
+		    t = Infinity;
                 }
             });
         }
@@ -279,7 +285,7 @@ $(document).ready(function() {
 
         document.addEventListener('keydown', function (evt) {
             var videoPlayer = videojs("video-player");
-            var frameTime = 1 / FPS; // assume 30 fps
+            var frameTime = (1 / FPS) * 5; // assume 30 fps
             var duration = videoPlayer.duration();
             var t = videoPlayer.currentTime();
             videoPlayer.pause()
