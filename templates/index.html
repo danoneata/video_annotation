@@ -79,19 +79,44 @@
 
                             <button class="btn btn-default btn-xs" id="pick-time"></button>
                             <hr>
-                            <div id='select-vocab' class="form-group">
-                                <label>2. Select characteristics</label>
+                            <div id='select-vocab_child' class="form-group">
+                                <label>2. Select actions for the child</label>
                                 <div>
                                     <select style="width:100%" multiple="multiple"></select>
                                 </div>
                             </div>
 
                             <hr>
+                            
+                             <div id='select-vocab_therapist' class="form-group">
+                                <label>2. Select actions for therapist</label>
+                                <div>
+                                  <select style="width:100%" multiple="multiple"></select>
+                                </div>
+                            </div>
+
+                            <hr>
+
 
                             <div class="form-group">
                                 <label for="description">3. Enter textual description</label>
                                 <textarea class='form-control' rows="3" id='description' placeholder="Please enter textual description here."></textarea>
                             </div>
+                            
+                            <label>4. The description refers to: </label>
+                            <div class="form-group">
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio-description_type" id="radio-child" value="1" checked> child
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio-description_type" id="radio-therapist" value="2"> therapist
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio-description_type" id="radio-both" value="3"> both child and therapist
+                                </label>
+                            </div>
+
+                            
 
                             <button class="btn btn-default" type="submit" id="add-ann"></button>
                              <hr>

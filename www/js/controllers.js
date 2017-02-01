@@ -25,6 +25,7 @@ $(document).ready(function() {
             $("#view_all-ann").html("View all annotations");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
+	     $("input[name='radio-time-limits'][value='1']").prop("checked", true);
             if (p == 0) {
                 setTime(0);
             }
@@ -113,6 +114,7 @@ $(document).ready(function() {
                     select_vocab_child: selected_text_child.join(","),
 	            select_vocab_therapist: selected_text_therapist.join(","),
                     description: document.getElementById("description").value,
+	            description_type:  Number($("input[name='radio-description_type']:checked").val()),
                     ann_number: $("#ann_number").text()
                 };
                 updateAnnotations(newAnnotation);
@@ -156,7 +158,7 @@ $(document).ready(function() {
                         //res_start = m_s.toFixed(2) + 'm:' + s_s.toFixed(2) + 's';
                         //res_end = m_e.toFixed(2) + 'm:' + s_e.toFixed(2) + 's';
                         res_start = (Math.floor(m_s)).zeroPad(10) +'m:'+(Math.floor(s_s)).zeroPad(10)+'s';
-
+                        description_type = result.description_type;
                         res_end = (Math.floor(m_e)).zeroPad(10) +'m:'+(Math.floor(s_e)).zeroPad(10)+'s';
                         $("#start-time").html(res_start);
                         $("#end-time").html(res_end);
@@ -167,6 +169,7 @@ $(document).ready(function() {
 			$("#select-vocab_therapist select").val(result.selected_vocab_therapist).trigger("change");
                         $("#ann_number").html(annotation_id);
                         $("input[name='radio-time-limits'][value='start']").prop("checked", true);
+		        $("input[name='radio-description_type'][value="+description_type.toString() +"]").prop("checked", true);
                         $("#add-ann").html("Update annotation");
                         $("#pick-time").html("Pick start time");
                         setTime(result.t_start);
