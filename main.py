@@ -6,6 +6,7 @@ import os
 import pdb
 import traceback
 import sys
+import math 
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -198,11 +199,19 @@ def send_data_videos(path):
 
 
 def shorten(description):
-    MAX_LEN_DESCRIPTION = 40
+    MAX_LEN_DESCRIPTION = 35
     if len(description) > MAX_LEN_DESCRIPTION:
         return description[:MAX_LEN_DESCRIPTION] + ' [...]'
     else:
         return description
+      
+def  format_time(start_frame, end_frame):
+   m_s = math.floor(start_frame/FPS/60)
+   s_s = math.floor(start_frame/FPS)
+   m_e = math.floor(end_frame/FPS/60)
+   s_e = math.floor(end_frame/FPS)
+   result = "["+str(m_s)+":"+str(s_s)+"-"+str(m_e)+":"+str(s_e)+"]"
+   return result
 
 
 @app.route('/save_annotation',  methods=['GET', 'POST'])
@@ -216,15 +225,16 @@ def save_annotation():
     except ValueError:
         start_frame = 0
         end_frame = 0
-
+    
+    description_type = int(request.form['description_type'])
     video_name = request.form["selected_video"]
-
     annotation = Annotation(
         description=request.form['description'],
         start_frame=start_frame,
         end_frame=end_frame,
         keywords_child=request.form['select_vocab_child'],
         keywords_therapist=request.form['select_vocab_therapist'],
+        description_type=description_type,
         user=current_user,
         video=Video.query.filter(Video.name == video_name).first(),
     )
@@ -237,7 +247,7 @@ def save_annotation():
             Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
     else:
         upd = (db.session.query(Annotation).filter(Annotation.id == ann_number).update(
-            {"description": annotation.description, "start_frame": annotation.start_frame, "end_frame": annotation.end_frame, "keywords_child": annotation.keywords_child, "keywords_therapist": annotation.keywords_therapist}))
+            {"description": annotation.description, "start_frame": annotation.start_frame, "end_frame": annotation.end_frame, "keywords_child": annotation.keywords_child, "keywords_therapist": annotation.keywords_therapist, "description_type": annotation.description_type}))
         print("# of updated rows = {}".format(upd))
         db.session.commit()
         #last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
@@ -247,6 +257,7 @@ def save_annotation():
     return jsonify({
         "id": return_annotation.id,
         "short_description": shorten(return_annotation.description),
+        "annotation_time": format_time(return_annotation.start_frame, return_annotation.end_frame)
     })
 
 
@@ -260,6 +271,7 @@ def get_annotation():
         "description": annotation.description,
         "selected_vocab_child": [str(WORD_TO_ID_CHILD[k]) for k in annotation.keywords_child.split(",")],
         "selected_vocab_therapist": [str(WORD_TO_ID_THERAPIST[k]) for k in annotation.keywords_therapist.split(",")],
+        "description_type":annotation.description_type,
     })
 
 
@@ -297,6 +309,7 @@ def get_all_annotations():
             'select_vocab_child': row.keywords_child,
             'select_vocab_therapist': row.keywords_therapist,
             'description': row.description,
+            'description_type': row.description_type,
             'ann_number': row.id,
         }
         for row in annotation_list
@@ -319,6 +332,7 @@ def get_annotations_list():
         {
             'id': row.id,
             'short_description': shorten(row.description),
+            'annotation_time': format_time(row.start_frame, row.end_frame)
         }
         for row in annotations_list
     ])

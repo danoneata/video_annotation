@@ -5,7 +5,9 @@
         <script type="text/html" id="template-annotations-row">
             <li class="list-group-item clearfix" data-id="{{id}}">
                 <span class="short-description">
-                    {{short_description}}
+                {{annotation_time}}
+                {{short_description}}
+                    
                 </span>
                 <div class="pull-right">
                     <button type="submit" class="edit" data-id="{{id}}">
@@ -26,7 +28,8 @@
 
         <script type="text/html" id="template-view-annotations-row">
             <li class="list-group-item clearfix">
-                {{select_vocab}}
+                <b>Child:</b> {{select_vocab_child}}
+                <b>Therapist:</b> {{select_vocab_therapist}}
             </li>
         </script>
 
