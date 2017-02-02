@@ -83,9 +83,24 @@ $(document).ready(function() {
         }
 
         updateAnnotationsList();
+	
+	 function get_current_annotations () {
+          $.get(
+            "get_all_annotations",
+            {
+                selected_video: getCurrentVideoName()
+            },
+            function (result) {
+                // var t = videoPlayer.currentTime();
+                // var current_frame = Math.floor(t * 30);
+                ANNOTATIONS = result;
+            }
+        );
+	}
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
+	    get_current_annotations();
             resetForm(false);
         });
 
@@ -293,6 +308,7 @@ $(document).ready(function() {
                 }
             }
         );
+	 get_current_annotations();
 
         $.get(
             "get_all_annotations",

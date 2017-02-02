@@ -310,7 +310,7 @@ def get_all_annotations():
     video = Video.query.filter(Video.name == video_name).first()
     user = current_user
     annotation_list = Annotation.query.filter(
-        (Annotation.user_id == current_user.id) and
+        (Annotation.user_id == current_user.id) &
         (Annotation.video_id == video.id)).order_by(sqlalchemy.asc(Annotation.id)).all()
     return jsonify([
         {
