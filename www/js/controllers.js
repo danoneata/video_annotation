@@ -16,8 +16,7 @@ $(document).ready(function() {
             videoPlayer.currentTime(t);
         }
 
-        function resetForm (p) {
-           
+        function resetForm(rewind) {
             $("#description").val("");
             $("#select-vocab_child select").val(null).trigger("change");
 	    $("#select-vocab_therapist select").val(null).trigger("change");
@@ -26,10 +25,9 @@ $(document).ready(function() {
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
 	     $("input[name='radio-time-limits'][value='1']").prop("checked", true);
-            if (p == 0) {
+            if (rewind) {
                 setTime(0);
             }
-            
             $("#start-time").html("00m:00s");
             $("#end-time").html("00m:00s");
             //$("#end-time").html(videoPlayer.duration().toFixed(2));
@@ -90,7 +88,7 @@ $(document).ready(function() {
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
-            resetForm(0);
+            resetForm(false);
         });
 
         $('#cancel-ann').click(function(ev) {
@@ -140,7 +138,7 @@ $(document).ready(function() {
                     }
                 );
             }
-            resetForm(1);
+            resetForm(true);
             videoPlayer.pause();
         });
 
