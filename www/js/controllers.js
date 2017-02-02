@@ -133,7 +133,12 @@ $(document).ready(function() {
                             ));
                         } else {
                             $("#ann_number").text(0);
-                            $("#annotations-list").find('[data-id="' + result.id + '"] .short-description').html(result.short_description);
+                            $("#annotations-list").find('[data-id="' + result.id + '"]').html(
+                                Mustache.render(
+                                    $("#template-annotations-row").html(),
+                                    result
+                                )
+                            );
                         }
                     }
                 );
