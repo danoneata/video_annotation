@@ -72,3 +72,8 @@ body {
 #ann_number {
     display: none;
 }
+
+.vjs-playlist {
+    height: 400px;
+    overflow-y: scroll;
+}
