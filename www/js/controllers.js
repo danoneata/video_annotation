@@ -113,10 +113,10 @@ $(document).ready(function() {
                     selected_video: video_list[videojs("video-player").playlist.currentItem()].name,
                     time_start: parseFloat($("#start-time").data("frame-nr")),
                     time_end: parseFloat($("#end-time").data("frame-nr")),
-                    select_vocab_child: selected_text_child.join(","),
-	            select_vocab_therapist: selected_text_therapist.join(","),
+                    select_vocab_child: selected_text_child.join(", "),
+                    select_vocab_therapist: selected_text_therapist.join(", "),
                     description: document.getElementById("description").value,
-	            description_type:  Number($("input[name='radio-description_type']:checked").val()),
+                    description_type:  Number($("input[name='radio-description_type']:checked").val()),
                     ann_number: $("#ann_number").text()
                 };
                 updateAnnotations(newAnnotation);

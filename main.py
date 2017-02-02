@@ -269,8 +269,8 @@ def get_annotation():
         "t_start": annotation.start_frame / FPS,
         "t_end": annotation.end_frame / FPS,
         "description": annotation.description,
-        "selected_vocab_child": [str(WORD_TO_ID_CHILD[k]) for k in annotation.keywords_child.split(",")],
-        "selected_vocab_therapist": [str(WORD_TO_ID_THERAPIST[k]) for k in annotation.keywords_therapist.split(",")],
+        "selected_vocab_child": [str(WORD_TO_ID_CHILD[k]) for k in annotation.keywords_child.split(", ")],
+        "selected_vocab_therapist": [str(WORD_TO_ID_THERAPIST[k]) for k in annotation.keywords_therapist.split(", ")],
         "description_type":annotation.description_type,
     })
 
