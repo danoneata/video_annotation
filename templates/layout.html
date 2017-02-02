@@ -26,7 +26,7 @@
 		<div class="collapse navbar-collapse">
 		    <ul class="nav navbar-nav navbar-right">
 			<li><p class="navbar-text">Signed in as {{ current_user.name }}</p></li>
-			<li><button class="btn btn-default navbar-btn" href="{{ url_for('logout') }}">Log out</button></li>
+			<li><a  href="{{ url_for('logout') }}">Log out</a></li>
 		    </ul>
 		</div>
                 {% endif %}
