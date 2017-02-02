@@ -210,7 +210,7 @@ def  format_time(start_frame, end_frame):
    s_s = math.floor(start_frame/FPS)
    m_e = math.floor(end_frame/FPS/60)
    s_e = math.floor(end_frame/FPS)
-   result = "["+str(m_s)+":"+str(s_s)+"-"+str(m_e)+":"+str(s_e)+"]"
+   result = "["+str(format(m_s,'02d'))+":"+str(format(s_s,'02d'))+"-"+str(format(m_e,'02d'))+":"+str(format(s_e,'02d'))+"]"
    return result
 
 

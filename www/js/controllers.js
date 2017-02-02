@@ -21,7 +21,6 @@ $(document).ready(function() {
             $("#select-vocab_child select").val(null).trigger("change");
 	    $("#select-vocab_therapist select").val(null).trigger("change");
             $("#add-ann").html("Add annotation");
-            $("#view_all-ann").html("View all annotations");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
 	     $("input[name='radio-time-limits'][value='1']").prop("checked", true);
@@ -45,7 +44,6 @@ $(document).ready(function() {
         $("#start-time").html("00m:00s");
         $("#end-time").text("00m:00s");
         $("#add-ann").html("Add annotation");
-        $("#view_all-ann").html("View all annotations");
         $("#pick-time").html("Pick start time");
 
        $.ajax({
@@ -133,7 +131,7 @@ $(document).ready(function() {
                             ));
                         } else {
                             $("#ann_number").text(0);
-                            $("#annotations-list").find('[data-id="' + result.id + '"]').html(
+                           $("#annotations-list").find('[data-id="' + result.id + '"]').replaceWith(
                                 Mustache.render(
                                     $("#template-annotations-row").html(),
                                     result
@@ -208,6 +206,16 @@ $(document).ready(function() {
                     });
                     $("#annotations-list").find('[data-id="' + annotation_id + '"]').remove();
             }
+            
+            var i = ANNOTATIONS.findIndex(function (elem) {
+                return elem.ann_number ==  annotation_id;
+            });
+            if (i == -1) {
+                
+            } else {
+                ANNOTATIONS.splice(i,1);
+            }
+            
         });
 
         $('#pick-time').on(
@@ -308,6 +316,7 @@ $(document).ready(function() {
         );
 
         document.addEventListener('keydown', function (evt) {
+	  if (document.activeElement.nodeName == "BODY" || document.activeElement.nodeName == "DIV" ){
             var videoPlayer = videojs("video-player");
             var frameTime = (1 / FPS) * 5; // assume 30 fps
             var duration = videoPlayer.duration();
@@ -326,6 +335,7 @@ $(document).ready(function() {
                 }
             }
             setTime(t);
+	  }
         });
     });
 });
