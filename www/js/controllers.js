@@ -93,6 +93,10 @@ $(document).ready(function() {
             resetForm(0);
         });
 
+        $('#cancel-ann').click(function(ev) {
+            resetForm(true);
+        });
+
         $('#add-ann').click( function(ev) {
             var t_start = parseFloat($("#start-time").data("frame-nr"));
             var t_end = parseFloat($("#end-time").data("frame-nr"));
