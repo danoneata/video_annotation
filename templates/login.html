@@ -4,10 +4,10 @@
     <div class="container">
         <form class="form-signin" method="post">
             <h2 class="form-signin-heading">Please sign in</h2>
-            {{ form.email.label(class_="sr-only") }}
-            {{ form.email(class_="form-control") }}
-            {{ form.password.label(class_="sr-only") }}
-            {{ form.password(class_="form-control") }}
+           {{ form.email.label(class_="sr-only") }}
+           <b> Email: </b>{{ form.email(class_="form-control") }}
+           {{ form.password.label(class_="sr-only") }}
+           <b> Password: </b> {{ form.password(class_="form-control") }}
             {{ form.submit(class_="btn btn-lg btn-primary btn-block") }}
         </form>
     </div> <!-- /container -->
