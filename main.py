@@ -304,8 +304,8 @@ def get_all_annotations():
     return jsonify([
         {
             'selected_video': video.name,
-            'time_start': row.start_frame,
-            'time_end': row.end_frame,
+            'time_start': row.start_frame / FPS,
+            'time_end': row.end_frame / FPS,
             'select_vocab_child': row.keywords_child,
             'select_vocab_therapist': row.keywords_therapist,
             'description': row.description,

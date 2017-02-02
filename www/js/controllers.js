@@ -173,10 +173,10 @@ $(document).ready(function() {
                         $("#end-time").data("frame-nr", result.t_end.toFixed(2));
                         $("#description").val(result.description);
                         $("#select-vocab_child select").val(result.selected_vocab_child).trigger("change");
-			$("#select-vocab_therapist select").val(result.selected_vocab_therapist).trigger("change");
+                        $("#select-vocab_therapist select").val(result.selected_vocab_therapist).trigger("change");
                         $("#ann_number").html(annotation_id);
                         $("input[name='radio-time-limits'][value='start']").prop("checked", true);
-		        $("input[name='radio-description_type'][value="+description_type.toString() +"]").prop("checked", true);
+                        $("input[name='radio-description_type'][value="+description_type.toString() +"]").prop("checked", true);
                         $("#add-ann").html("Update annotation");
                         $("#pick-time").html("Pick start time");
                         setTime(result.t_start);
@@ -261,9 +261,9 @@ $(document).ready(function() {
         }
 
         videoPlayer.on('timeupdate', function(e) {
-            var currFrame = videoPlayer.currentTime() * FPS;
+            var currTime = videoPlayer.currentTime();
             var annots =  ANNOTATIONS.filter(function (elem) {
-                return (elem.time_start <= currFrame) && (currFrame < elem.time_end);
+                return (elem.time_start <= currTime) && (currTime < elem.time_end);
             });
             overlayAnnotations(annots);
         });
