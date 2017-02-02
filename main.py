@@ -265,12 +265,23 @@ def save_annotation():
 def get_annotation():
     annotation_id = request.form["annotation_id"]
     annotation = Annotation.query.filter(Annotation.id == annotation_id).first()
+    #pdb.set_trace();
+    if annotation.keywords_therapist =='':
+       selected_therapist  = ''
+    else:
+       selected_therapist = [str(WORD_TO_ID_THERAPIST[k]) for k in annotation.keywords_therapist.split(", ")]
+       
+    if annotation.keywords_child =='':
+       selected_child  = ''
+    else:
+       selected_child = [str(WORD_TO_ID_CHILD[k]) for k in annotation.keywords_child.split(", ")]
+    	 
     return jsonify({
         "t_start": annotation.start_frame / FPS,
         "t_end": annotation.end_frame / FPS,
         "description": annotation.description,
-        "selected_vocab_child": [str(WORD_TO_ID_CHILD[k]) for k in annotation.keywords_child.split(", ")],
-        "selected_vocab_therapist": [str(WORD_TO_ID_THERAPIST[k]) for k in annotation.keywords_therapist.split(", ")],
+        "selected_vocab_child": selected_child,
+        "selected_vocab_therapist": selected_therapist,
         "description_type":annotation.description_type,
     })
 
