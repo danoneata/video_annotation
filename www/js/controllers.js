@@ -29,7 +29,6 @@ $(document).ready(function() {
             }
             $("#start-time").html("00m:00s");
             $("#end-time").html("00m:00s");
-	    $("#ann_number").text("0");
             //$("#end-time").html(videoPlayer.duration().toFixed(2));
         }
 
@@ -106,6 +105,7 @@ $(document).ready(function() {
         });
 
         $('#cancel-ann').click(function(ev) {
+	    $("#ann_number").text("0");
             resetForm(false);
         });
 
