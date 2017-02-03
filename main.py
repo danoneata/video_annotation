@@ -207,9 +207,9 @@ def shorten(description):
       
 def  format_time(start_frame, end_frame):
    m_s = math.floor(start_frame/FPS/60)
-   s_s = math.floor(start_frame/FPS)
+   s_s = math.floor(start_frame/FPS) - m_s*60
    m_e = math.floor(end_frame/FPS/60)
-   s_e = math.floor(end_frame/FPS)
+   s_e = math.floor(end_frame/FPS) - m_s* 60
    result = "["+str(format(m_s,'02d'))+":"+str(format(s_s,'02d'))+"-"+str(format(m_e,'02d'))+":"+str(format(s_e,'02d'))+"]"
    return result
 
