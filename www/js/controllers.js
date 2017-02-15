@@ -284,13 +284,14 @@ $(document).ready(function() {
             ));
         }
 
-        videoPlayer.on('timeupdate', function(e) {
+        /*videoPlayer.on('timeupdate', function(e) {
             var currTime = videoPlayer.currentTime();
             var annots =  ANNOTATIONS.filter(function (elem) {
                 return (elem.time_start <= currTime) && (currTime < elem.time_end);
             });
             overlayAnnotations(annots);
         });
+    */
         
         $('#play-curr').on(
             'click',
@@ -331,6 +332,33 @@ $(document).ready(function() {
                 setTime(t);
             }
         );
+	
+	function timeupdate_handler(e) 
+	  {
+            var currTime = videoPlayer.currentTime();
+            var annots =  ANNOTATIONS.filter(function (elem) 
+	    {
+                return (elem.time_start <= currTime) && (currTime < elem.time_end);
+            });
+	    
+            overlayAnnotations(annots);
+	  }
+	
+	$('#overlay-ann').on('change', function() 
+	{
+	  
+	  if (document.getElementById("overlay-ann").checked==true) 
+	  {
+	    videoPlayer.on('timeupdate', timeupdate_handler);
+          }
+	else
+	{
+	  videoPlayer.off('timeupdate', timeupdate_handler);
+	  overlayAnnotations('');
+	}
+	 
+	  
+	})
 
         document.addEventListener('keydown', function (evt) {
 	  if (document.activeElement.nodeName == "BODY" || document.activeElement.nodeName == "DIV" ){
@@ -350,8 +378,17 @@ $(document).ready(function() {
                     // one frame forward
                     t = Math.min(duration, t + frameTime);
                 }
+                
             }
             setTime(t);
+	  }
+	  if (evt.altKey && evt.keyCode === 65)
+	  {
+	      document.getElementById("add-ann").click();
+	  }
+	  else if (evt.altKey && evt.keyCode == 81)
+	  {
+	      document.getElementById("cancel-ann").click();
 	  }
         });
     });
