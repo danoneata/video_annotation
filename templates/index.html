@@ -140,7 +140,20 @@
                 </div>
 
                 <div class="panel panel-default">
-                <input type="checkbox" name="undefined-ann" value="true" id="undefined-ann">View only undefined annotations<br>
+               
+                <div id='select-vocab_therapist_filter' class="form-group">
+                                <label>Filter actions for therapist</label>
+                                <div>
+                                  <select style="width:100%" multiple="multiple"></select>
+                                </div>
+                            </div>
+                             <div id='select-vocab_child_filter' class="form-group">
+                                <label>Filter actions for child</label>
+                                <div>
+                                  <select style="width:100%" multiple="multiple"></select>
+                                </div>
+                            </div>
+                              <input type="checkbox" name="filter-ann" value="true" id="filter-ann">Apply filter<br>
                     <div class="panel-heading">Your annotations</div>
                     <ul id="annotations-list" class="list-group"></ul>
                 </div>

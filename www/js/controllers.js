@@ -61,7 +61,23 @@ $(document).ready(function() {
                 $("#select-vocab_therapist select").select2({data: data});
             }
         });
-
+       
+       
+         $.ajax({
+            url: "vocabulary_child",
+            method: "GET",
+            success: function (data) {
+                $("#select-vocab_child_filter select").select2({data: data});
+            }
+        });
+       
+       $.ajax({
+            url: "vocabulary_therapist",
+            method: "GET",
+            success: function (data) {
+                $("#select-vocab_therapist_filter select").select2({data: data});
+            }
+        });
         function updateAnnotationsList () {
             $.ajax({
                 url: "annotations_list",
@@ -121,6 +137,13 @@ $(document).ready(function() {
 		var selected_data_therapist = $("#select-vocab_therapist select").select2("data");
                 var selected_text_child = selected_data_child.map(function(x) {return x.text});
 		var selected_text_therapist = selected_data_therapist.map(function(x) {return x.text});
+		
+		
+		var selected_data_child_filter = $("#select-vocab_child_filter select").select2("data");
+		var selected_data_therapist_filter = $("#select-vocab_therapist_filter select").select2("data");
+                var selected_text_child_filter = selected_data_child_filter.map(function(x) {return x.text});
+		var selected_text_therapist_filter = selected_data_therapist_filter.map(function(x) {return x.text});
+		
                 video_list = videojs("video-player").playlist();
 
                 var newAnnotation = {
@@ -131,7 +154,9 @@ $(document).ready(function() {
                     select_vocab_therapist: selected_text_therapist.join(", "),
                     description: document.getElementById("description").value,
                     description_type:  Number($("input[name='radio-description_type']:checked").val()),
-                    ann_number: $("#ann_number").text()
+                    ann_number: $("#ann_number").text(),
+		    filter_child: selected_text_child_filter.join(", "),
+		    filter_therapist: selected_text_therapist_filter.join(", ")
                 };
                 updateAnnotations(newAnnotation);
 
@@ -142,7 +167,7 @@ $(document).ready(function() {
                         ann_number = $("#ann_number").text();
 			
                         if (ann_number == 0) {
-			  if  ($("#undefined-ann").is(":checked")== false || ( result.has_undefined == true &  $("#undefined-ann").is(":checked")== true)){
+			  if  ($("#filter-ann").is(":checked")== false || ( result.verify_filter == true && $("#filter-ann").is(":checked")== true)){
                             $("#annotations-list").append(Mustache.render(
                                 $("#template-annotations-row").html(),
                                 result
@@ -152,7 +177,7 @@ $(document).ready(function() {
 			}
 			else {
                             $("#ann_number").text(0);
-			    if ($("#undefined-ann").is(":checked")== true &  result.has_undefined == false)
+			    if ($("#filter-ann").is(":checked")== true && result.verify_filter == false)
 			    {
 			       $("#annotations-list").find('[data-id="' + result.id + '"]').remove();
 			    }
@@ -378,7 +403,7 @@ $(document).ready(function() {
 
 	
 
-        $('#undefined-ann').on('change', function() {
+       /* $('#undefined-ann').on('change', function() {
             $.get(
                 "annotations_list",
                 {
@@ -398,9 +423,53 @@ $(document).ready(function() {
                 }
             );
         })
+        */
+       
+       function updateFilteredAnnotations() {
+            var selected_data_child = $("#select-vocab_child_filter select").select2("data");
+            var selected_data_therapist = $("#select-vocab_therapist_filter select").select2("data");
+            var selected_text_child = selected_data_child.map(function(x) {return x.text});
+            var selected_text_therapist = selected_data_therapist.map(function(x) {return x.text});
+            $.get(
+                "annotations_list",
+                {
+                    selected_video: getCurrentVideoName(),
+                    filter_child: selected_text_child.join(", "),
+                    filter_therapist: selected_text_therapist.join(", "),
+                    to_filter: $("#filter-ann").is(":checked")
+                }, 
+                function (result) {
+                    var data = result;
+                    $("#annotations-list").html(Mustache.render(
 
+                        $("#template-annotations").html(),
+                        data,
+                        {
+                            "row": $("#template-annotations-row").html(),
+                        }
+                    ));
+                }
+            );
+        }
+        
+        $('#filter-ann').on('change', function() {
+            updateFilteredAnnotations();
+        })
+
+        $('#select-vocab_child_filter select').on('change', function () {
+            if ($("#filter-ann").is(":checked")) {
+                updateFilteredAnnotations();
+            }
+        })
+
+        $('#select-vocab_therapist_filter select').on('change', function () {
+            if ($("#filter-ann").is(":checked")) {
+                updateFilteredAnnotations();
+            }
+        })
+        
         document.addEventListener('keydown', function (evt) {
-	  if (document.activeElement.nodeName == "BODY" || document.activeElement.nodeName == "DIV" ){
+            if (document.activeElement.nodeName == "BODY" || document.activeElement.nodeName == "DIV" ){
             var videoPlayer = videojs("video-player");
             var frameTime = (1 / FPS) * 5; // assume 30 fps
             var duration = videoPlayer.duration();

@@ -227,7 +227,10 @@ def save_annotation():
         end_frame = 0
     
     description_type = int(request.form['description_type'])
+    
     video_name = request.form["selected_video"]
+    filter_child=request.form["filter_child"]
+    filter_therapist=request.form["filter_therapist"]
     annotation = Annotation(
         description=request.form['description'],
         start_frame=start_frame,
@@ -253,15 +256,24 @@ def save_annotation():
         #last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
         return_annotation = Annotation.query.filter((Annotation.id == ann_number) & (
             Annotation.video_id == annotation.video.id)).first()
-    has_undefined = False;
-    if 'Undefined' in return_annotation.keywords_child or 'Undefined' in return_annotation.keywords_therapist:
-            has_undefined = True
+    verify_filter = check_filter(return_annotation, filter_child, filter_therapist)
+    #pdb.set_trace()
     return jsonify({
         "id": return_annotation.id,
         "short_description": shorten(return_annotation.description),
         "annotation_time": format_time(return_annotation.start_frame, return_annotation.end_frame),
-        "has_undefined": has_undefined
+        "verify_filter": verify_filter
     })
+
+def check_filter(annot, filter_child, filter_therapist):
+    ok = False
+    for keyword_child in filter_child.split(", "):
+     if keyword_child in annot.keywords_child:
+        ok = True;
+    for keyword_therapist in filter_therapist.split(", "):
+     if keyword_therapist in annot.keywords_therapist:
+        ok = True;    
+    return ok
 
 
 @app.route('/get_annotation',  methods=['GET', 'POST'])
@@ -312,6 +324,7 @@ def get_all_annotations():
     video_name = request.args["selected_video"]
     video = Video.query.filter(Video.name == video_name).first()
     user = current_user
+    # pdb.set_trace()
     annotation_list = Annotation.query.filter(
         (Annotation.user_id == current_user.id) &
         (Annotation.video_id == video.id)).order_by(sqlalchemy.asc(Annotation.id)).all()
@@ -332,21 +345,54 @@ def get_all_annotations():
 
 @app.route('/annotations_list',  methods=['GET'])
 def get_annotations_list():
-
+    
     video_name = request.args.get("selected_video")
-    to_filter_undefined = request.args.get("to_filter_undefined", None)
-    to_filter_undefined = to_filter_undefined == "true"
-
-    def filter_undefined_annots(annots):
-        if not to_filter_undefined:
+    #to_filter_undefined = request.args.get("to_filter_undefined", None)
+    #to_filter_undefined = to_filter_undefined == "true"
+    
+    to_filter = request.args.get("to_filter", None)
+    to_filter = to_filter == "true"
+    #pdb.set_trace()
+    filter_child=request.args.get("filter_child")
+    filter_therapist=request.args.get("filter_therapist")
+    #pdb.set_trace()
+    #def filter_undefined_annots(annots):
+    #    if not to_filter_undefined:
+     #       return annots
+     #   else:
+      #      return (
+       #         annot
+        #        for annot in annots
+        #        if 'Undefined' in annot.keywords_child or 'Undefined' in annot.keywords_therapist
+         #   )
+   # pdb.set_trace()
+   
+    def filter_annots(annots):
+        if not to_filter or (filter_child == '' and filter_therapist== ''):
             return annots
         else:
-            return (
-                annot
-                for annot in annots
-                if 'Undefined' in annot.keywords_child or 'Undefined' in annot.keywords_therapist
-            )
-
+          return_annots = []
+          for annot in annots:
+              ok = 0
+              if filter_child:
+                for keyword in filter_child.split(", "):
+                    if keyword in annot.keywords_child:
+                        ok = 1
+              if filter_therapist:
+                for keyword in filter_therapist.split(", "):
+                    if keyword in annot.keywords_therapist:
+                        ok = 1
+              if ok==1:
+                 return_annots.append(annot)
+          return return_annots
+            #return (
+                #annot 
+                #for annot in annots
+                # for keyword in filter_child.split(", ")
+                 #  if keyword in annot.keywords_child
+                  # )
+            
+         
     video = Video.query.filter(Video.name == video_name).first()
 
     query = Annotation.query.filter(Annotation.user_id == current_user.id)
@@ -354,14 +400,14 @@ def get_annotations_list():
     query = query.order_by(sqlalchemy.asc(Annotation.id))
 
     annotations_list = query.all()
-
+    #pdb.set_trace()
     return jsonify([
         {
             'id': row.id,
             'short_description': shorten(row.description),
             'annotation_time': format_time(row.start_frame, row.end_frame)
         }
-        for row in filter_undefined_annots(annotations_list)
+        for row in filter_annots(annotations_list)
     ])
 
 
