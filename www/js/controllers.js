@@ -360,6 +360,39 @@ $(document).ready(function() {
 	  
 	})
 
+	
+	$('#undefined-ann').on('change', function() 
+	{ var data = {};
+	  
+	  if (document.getElementById("undefined-ann").checked==true) 
+	  {
+	     $.get(
+            "get_all_annotations",
+            {
+                selected_video: getCurrentVideoName()
+            }, 
+	    
+	    function (result) 
+	    {
+	      data = result;
+	      
+	    })
+	    
+          }
+	  else
+	  {
+	  }
+	
+          $("#annotations-list").html(Mustache.render(
+                        $("#template-annotations").html(),
+                        data,
+                        {
+                            "row": $("#template-annotations-row").html(),
+                        }
+                    ));
+	 
+	  
+	})
         document.addEventListener('keydown', function (evt) {
 	  if (document.activeElement.nodeName == "BODY" || document.activeElement.nodeName == "DIV" ){
             var videoPlayer = videojs("video-player");
