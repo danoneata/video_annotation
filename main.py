@@ -331,6 +331,19 @@ def get_all_annotations():
 def get_annotations_list():
 
     video_name = request.args.get("selected_video")
+    to_filter_undefined = request.args.get("to_filter_undefined", None)
+    to_filter_undefined = to_filter_undefined == "true"
+
+    def filter_undefined_annots(annots):
+        if not to_filter_undefined:
+            return annots
+        else:
+            return (
+                annot
+                for annot in annots
+                if 'Undefined' in annot.keywords_child or 'Undefined' in annot.keywords_therapist
+            )
+
     video = Video.query.filter(Video.name == video_name).first()
 
     query = Annotation.query.filter(Annotation.user_id == current_user.id)
@@ -345,7 +358,7 @@ def get_annotations_list():
             'short_description': shorten(row.description),
             'annotation_time': format_time(row.start_frame, row.end_frame)
         }
-        for row in annotations_list
+        for row in filter_undefined_annots(annotations_list)
     ])
 
 
