@@ -108,7 +108,7 @@ class Annotation(db.Model):
         self.video = video
 
     def __repr__(self):
-        return '<Annotation %d for "%s" by %s>' % (self.value, self.title, self.user.name)
+        return '<Description: "%s"  Class child: "%s" Class Therapist: %s>' % (self.description, self.keywords_child, self.keywords_therapist)
 
 
 def main():
