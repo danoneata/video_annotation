@@ -147,7 +147,8 @@ $(document).ready(function() {
                             ));
                         } else {
                             $("#ann_number").text(0);
-                           $("#annotations-list").find('[data-id="' + result.id + '"]').replaceWith(
+                           $("#annotations-list").find('[data-id="' + result.id + '"]').replaceWith(
+
                                 Mustache.render(
                                     $("#template-annotations-row").html(),
                                     result
@@ -361,6 +362,7 @@ $(document).ready(function() {
 	})
 
 	
+
         $('#undefined-ann').on('change', function() {
             $.get(
                 "annotations_list",
@@ -371,6 +373,7 @@ $(document).ready(function() {
                 function (result) {
                     var data = result;
                     $("#annotations-list").html(Mustache.render(
+
                         $("#template-annotations").html(),
                         data,
                         {
