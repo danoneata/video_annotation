@@ -253,11 +253,14 @@ def save_annotation():
         #last_annotation =  Annotation.query.filter((Annotation.user_id==current_user.id) & (Annotation.video_id == annotation.video.id)).order_by(sqlalchemy.desc(Annotation.id)).first()
         return_annotation = Annotation.query.filter((Annotation.id == ann_number) & (
             Annotation.video_id == annotation.video.id)).first()
-
+    has_undefined = False;
+    if 'Undefined' in return_annotation.keywords_child or 'Undefined' in return_annotation.keywords_therapist:
+            has_undefined = True
     return jsonify({
         "id": return_annotation.id,
         "short_description": shorten(return_annotation.description),
-        "annotation_time": format_time(return_annotation.start_frame, return_annotation.end_frame)
+        "annotation_time": format_time(return_annotation.start_frame, return_annotation.end_frame),
+        "has_undefined": has_undefined
     })
 
 

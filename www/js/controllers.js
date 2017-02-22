@@ -140,13 +140,24 @@ $(document).ready(function() {
                     newAnnotation,
                     function(result){
                         ann_number = $("#ann_number").text();
+			
                         if (ann_number == 0) {
+			  if  ($("#undefined-ann").is(":checked")== false || ( result.has_undefined == true &  $("#undefined-ann").is(":checked")== true)){
                             $("#annotations-list").append(Mustache.render(
                                 $("#template-annotations-row").html(),
                                 result
+			  
                             ));
-                        } else {
+                        } 
+			}
+			else {
                             $("#ann_number").text(0);
+			    if ($("#undefined-ann").is(":checked")== true &  result.has_undefined == false)
+			    {
+			       $("#annotations-list").find('[data-id="' + result.id + '"]').remove();
+			    }
+			    else 
+			    {
                            $("#annotations-list").find('[data-id="' + result.id + '"]').replaceWith(
 
                                 Mustache.render(
@@ -154,7 +165,11 @@ $(document).ready(function() {
                                     result
                                 )
                             );
-                        }
+			  }
+			    
+			}
+                        
+		    
                     }
                 );
             }
