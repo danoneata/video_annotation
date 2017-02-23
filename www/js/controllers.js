@@ -19,11 +19,11 @@ $(document).ready(function() {
         function resetForm(rewind) {
             $("#description").val("");
             $("#select-vocab_child select").val(null).trigger("change");
-	    $("#select-vocab_therapist select").val(null).trigger("change");
+            $("#select-vocab_therapist select").val(null).trigger("change");
             $("#add-ann").html("Add annotation");
             $("#pick-time").html("Pick start time");
             $("input[name='radio-time-limits'][value='start']").prop("checked", true);
-	     $("input[name='radio-time-limits'][value='1']").prop("checked", true);
+             $("input[name='radio-time-limits'][value='1']").prop("checked", true);
             if (rewind) {
                 setTime(0);
             }
@@ -99,8 +99,8 @@ $(document).ready(function() {
         }
 
         updateAnnotationsList();
-	
-	 function get_current_annotations () {
+        
+         function get_current_annotations () {
           $.get(
             "get_all_annotations",
             {
@@ -112,16 +112,16 @@ $(document).ready(function() {
                 ANNOTATIONS = result;
             }
         );
-	}
+        }
 
         $('.vjs-playlist').on('click', function() {
             updateAnnotationsList();
-	    get_current_annotations();
+            get_current_annotations();
             resetForm(false);
         });
 
         $('#cancel-ann').click(function(ev) {
-	    $("#ann_number").text("0");
+            $("#ann_number").text("0");
             resetForm(false);
         });
 
@@ -134,16 +134,16 @@ $(document).ready(function() {
                 return false;
             } else {
                 var selected_data_child = $("#select-vocab_child select").select2("data");
-		var selected_data_therapist = $("#select-vocab_therapist select").select2("data");
+                var selected_data_therapist = $("#select-vocab_therapist select").select2("data");
                 var selected_text_child = selected_data_child.map(function(x) {return x.text});
-		var selected_text_therapist = selected_data_therapist.map(function(x) {return x.text});
-		
-		
-		var selected_data_child_filter = $("#select-vocab_child_filter select").select2("data");
-		var selected_data_therapist_filter = $("#select-vocab_therapist_filter select").select2("data");
+                var selected_text_therapist = selected_data_therapist.map(function(x) {return x.text});
+                
+                
+                var selected_data_child_filter = $("#select-vocab_child_filter select").select2("data");
+                var selected_data_therapist_filter = $("#select-vocab_therapist_filter select").select2("data");
                 var selected_text_child_filter = selected_data_child_filter.map(function(x) {return x.text});
-		var selected_text_therapist_filter = selected_data_therapist_filter.map(function(x) {return x.text});
-		
+                var selected_text_therapist_filter = selected_data_therapist_filter.map(function(x) {return x.text});
+                
                 video_list = videojs("video-player").playlist();
 
                 var newAnnotation = {
@@ -155,46 +155,17 @@ $(document).ready(function() {
                     description: document.getElementById("description").value,
                     description_type:  Number($("input[name='radio-description_type']:checked").val()),
                     ann_number: $("#ann_number").text(),
-		    filter_child: selected_text_child_filter.join(", "),
-		    filter_therapist: selected_text_therapist_filter.join(", ")
+                    filter_child: selected_text_child_filter.join(", "),
+                    filter_therapist: selected_text_therapist_filter.join(", ")
                 };
                 updateAnnotations(newAnnotation);
 
                 $.post(
                     "save_annotation",
                     newAnnotation,
-                    function(result){
-                        ann_number = $("#ann_number").text();
-			
-                        if (ann_number == 0) {
-			  if  ($("#filter-ann").is(":checked")== false || ( result.verify_filter == true && $("#filter-ann").is(":checked")== true)){
-                            $("#annotations-list").append(Mustache.render(
-                                $("#template-annotations-row").html(),
-                                result
-			  
-                            ));
-                        } 
-			}
-			else {
-                            $("#ann_number").text(0);
-			    if ($("#filter-ann").is(":checked")== true && result.verify_filter == false)
-			    {
-			       $("#annotations-list").find('[data-id="' + result.id + '"]').remove();
-			    }
-			    else 
-			    {
-                           $("#annotations-list").find('[data-id="' + result.id + '"]').replaceWith(
-
-                                Mustache.render(
-                                    $("#template-annotations-row").html(),
-                                    result
-                                )
-                            );
-			  }
-			    
-			}
-                        
-		    
+                    function(result) {
+                        $("#ann_number").text(0);
+                        updateFilteredAnnotations();
                     }
                 );
             }
@@ -309,8 +280,8 @@ $(document).ready(function() {
             videoPlayer.on('timeupdate', function handler(e) {
                 if (videoPlayer.currentTime() >= t) {
                     videoPlayer.pause();
-		    //t = Infinity;
-		    videoPlayer.off('timeupdate', handler);
+                    //t = Infinity;
+                    videoPlayer.off('timeupdate', handler);
                 }
             });
         }
@@ -351,7 +322,7 @@ $(document).ready(function() {
                 }
             }
         );
-	 get_current_annotations();
+         get_current_annotations();
 
         $.get(
             "get_all_annotations",
@@ -373,35 +344,35 @@ $(document).ready(function() {
                 setTime(t);
             }
         );
-	
-	function timeupdate_handler(e) 
-	  {
+        
+        function timeupdate_handler(e) 
+          {
             var currTime = videoPlayer.currentTime();
             var annots =  ANNOTATIONS.filter(function (elem) 
-	    {
+            {
                 return (elem.time_start <= currTime) && (currTime < elem.time_end);
             });
-	    
+            
             overlayAnnotations(annots);
-	  }
-	
-	$('#overlay-ann').on('change', function() 
-	{
-	  
-	  if (document.getElementById("overlay-ann").checked==true) 
-	  {
-	    videoPlayer.on('timeupdate', timeupdate_handler);
           }
-	else
-	{
-	  videoPlayer.off('timeupdate', timeupdate_handler);
-	  overlayAnnotations('');
-	}
-	 
-	  
-	})
+        
+        $('#overlay-ann').on('change', function() 
+        {
+          
+          if (document.getElementById("overlay-ann").checked==true) 
+          {
+            videoPlayer.on('timeupdate', timeupdate_handler);
+          }
+        else
+        {
+          videoPlayer.off('timeupdate', timeupdate_handler);
+          overlayAnnotations('');
+        }
+         
+          
+        })
 
-	
+        
 
        /* $('#undefined-ann').on('change', function() {
             $.get(
@@ -441,7 +412,6 @@ $(document).ready(function() {
                 function (result) {
                     var data = result;
                     $("#annotations-list").html(Mustache.render(
-
                         $("#template-annotations").html(),
                         data,
                         {
@@ -489,15 +459,15 @@ $(document).ready(function() {
                 
             }
             setTime(t);
-	  }
-	  if (evt.altKey && evt.keyCode === 65)
-	  {
-	      document.getElementById("add-ann").click();
-	  }
-	  else if (evt.altKey && evt.keyCode == 81)
-	  {
-	      document.getElementById("cancel-ann").click();
-	  }
+          }
+          if (evt.altKey && evt.keyCode === 65)
+          {
+              document.getElementById("add-ann").click();
+          }
+          else if (evt.altKey && evt.keyCode == 81)
+          {
+              document.getElementById("cancel-ann").click();
+          }
         });
     });
 });
