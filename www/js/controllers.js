@@ -437,6 +437,20 @@ $(document).ready(function() {
                 updateFilteredAnnotations();
             }
         })
+
+         $('#export_annotations').click( function(ev) {
+           $.post(
+                "export",
+                  {
+                    button_pressed: 1
+                  },
+                 function (result) {
+                   }
+                 );
+                  }
+              );
+
+      
         
         document.addEventListener('keydown', function (evt) {
             if (document.activeElement.nodeName == "BODY" || document.activeElement.nodeName == "DIV" ){

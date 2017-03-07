@@ -62,6 +62,8 @@ from models import (
     Video,
 )
 
+import scipy.io 
+
 app = Flask(__name__)
 app.config.from_object('config.Config')
 db.init_app(app)
@@ -341,6 +343,46 @@ def get_all_annotations():
         }
         for row in annotation_list
     ])
+
+
+@app.route('/export',  methods=['GET', 'POST'])
+def export():
+    btn = request.form["button_pressed"]
+    if btn == '1':
+        video_list = Video.query.all();
+        for video in video_list:
+            annotation_list = Annotation.query.filter(Annotation.video_id == video.id).order_by(sqlalchemy.asc(Annotation.start_frame)).all()
+            split_list_child = [        annotation.keywords_child.split(', ')        for annotation in annotation_list    ]
+            no  = 0
+            classes_child = []
+            for list in split_list_child:
+                 
+                 temp = [WORD_TO_ID_CHILD.get(action,-1) for action in list]
+                 temp2= [[ 1 if i == xs - 1 else 0   for i in range(len(WORD_TO_ID_CHILD))   ]  for xs in temp]
+                 classes_child.append([sum(x) for x in zip(*temp2)])
+                 no=no+1
+
+            split_list_therapist = [        annotation.keywords_therapist.split(', ')        for annotation in annotation_list    ]
+            no  = 0
+            classes_therapist = []
+            for list in split_list_therapist:
+                 
+                 temp = [WORD_TO_ID_THERAPIST.get(action,-1) for action in list]
+                 temp2 = [[ 1 if i == xs - 1 else 0   for i in range(len(WORD_TO_ID_THERAPIST))   ]  for xs in temp]
+                 classes_therapist.append( [sum(x) for x in zip(*temp2)])
+                 no=no+1
+            
+            #pdb.set_trace()              
+            #classes_child = [ [ 1 if i == xs - 1 else 0   for i in range(len(WORD_TO_ID_CHILD))   ]  for xs in [        WORD_TO_ID_CHILD.get(annotation.keywords_child, -1)        for annotation in annotation_list    ] ]
+            #classes_therapist = [ [   1 if i == xs - 1 else 0     for i in range(len(WORD_TO_ID_THERAPIST))    ]    for xs in [  WORD_TO_ID_THERAPIST.get(annotation.keywords_therapist, -1)        for annotation in annotation_list    ] ]
+            #WORD_TO_ID_CHILD()
+            #pdb.set_trace()
+            scipy.io.savemat('/home/elisabeta/video_annotation/DataPerVideo/'+ video.name+'.mat', mdict={'start_frame': [annotation.start_frame for annotation in annotation_list], 'end_frame': [annotation.end_frame for annotation in annotation_list], 'description': [[annotation.description] for annotation in annotation_list], 'classes_child': classes_child, 'classes_therapist': classes_therapist, 'action_author': [annotation.description_type for annotation in annotation_list] })
+    return 'OK'
+            
+    
+
+
 
 
 @app.route('/annotations_list',  methods=['GET'])
