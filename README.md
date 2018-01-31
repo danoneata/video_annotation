@@ -84,6 +84,11 @@ Start the server:
 ```bash
 python main.py
 ```
+ IMAR:
+(need to be sudo) -I INPUT -p tcp --dport 5152 -PT
+start mysql onlyas sudo
+
+
 
 The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5152).
 
