@@ -48,6 +48,10 @@ export DATABASE_URL="postgresql://annotator@localhost/annotations_db"
 
 Create the database (MySQL):
 
+```bash
+mysql -u root -h localhost -p
+```
+
 From MySQL console:
 
 ```sql
@@ -84,11 +88,10 @@ Start the server:
 ```bash
 python main.py
 ```
- IMAR:
+
+IMAR:
 (need to be sudo) -I INPUT -p tcp --dport 5152 -PT
 start mysql onlyas sudo
-
-
 
 The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5152).
 
