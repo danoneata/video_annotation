@@ -59,6 +59,8 @@ From MySQL console:
 CREATE USER 'elisabeta'@'localhost' IDENTIFIED BY 'ann123'
 # Create a new database
 CREATE DATABASE annotations_db;
+# Grant privileges:
+GRANT ALL PRIVILEGES ON annotations_db_lnd.* TO elisabeta@localhost IDENTIFIED BY 'ann123';
 ```
 
 From command line:
@@ -66,6 +68,7 @@ From command line:
 ```bash
 # Set the URL to the database as a system variable
 export DATABASE_URL="mysql+pymysql://elisabeta:ann123@localhost/annotations_db";
+export DATABASE_URL="mysql+pymysql://elisabeta:ann123@localhost/annotations_db_lnd";
 ```
 
 Create the tables from Python:
