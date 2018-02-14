@@ -92,9 +92,12 @@ Start the server:
 python main.py
 ```
 
-IMAR:
-(need to be sudo) -I INPUT -p tcp --dport 5152 -PT
-start mysql onlyas sudo
+IMAR (needs to be root):
+
+```bash
+su
+iptables -I INPUT -p tcp --dport 5153 -j ACCEPT
+```
 
 The webpage is accesible on the localhost [http://0.0.0.0:5152](http://0.0.0.0:5152).
 
